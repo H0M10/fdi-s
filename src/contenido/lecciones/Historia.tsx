@@ -1,4 +1,4 @@
-import { Correccion, Ojo, Seccion, Tabla } from '../../componentes/Leccion';
+import { Agregado, Correccion, Ojo, Seccion, Tabla } from '../../componentes/Leccion';
 
 export default function Historia() {
   return (
@@ -35,7 +35,7 @@ export default function Historia() {
           filas={[
             ['1950', 'Test de Turing', 'Primera forma de medir si una máquina es inteligente: si en una conversación no se distingue de un humano'],
             ['1956', 'Se acuña «Inteligencia Artificial»', 'La IA nace como campo con nombre propio, en la conferencia de Dartmouth'],
-            ['1957', '«Razonar»', 'Quedó así en el apunte; confirma en clase a qué se refería'],
+            ['1957', '«Razonar»', 'Lo más probable: el General Problem Solver (Newell, Shaw y Simon), el primer programa pensado para razonar cualquier problema. Ese año Rosenblatt también presentó el perceptrón'],
             ['1966', 'ELIZA', 'El primer chatbot. Simulaba conversar sin entender nada'],
             ['1972', 'Shakey', 'Un robot que percibía, planeaba y actuaba'],
             ['1980', 'Sistemas expertos', 'El conocimiento de un experto se escribe como reglas. En la misma época: algoritmos evolutivos, lógica difusa y redes neuronales'],
@@ -44,11 +44,22 @@ export default function Historia() {
             ['2006', 'Deep learning', 'Redes profundas que aprenden solas las características'],
             ['2011', 'Watson', 'Entiende preguntas en lenguaje natural y gana Jeopardy!'],
             ['2015', 'AlphaGo', 'Gana en Go, donde la fuerza bruta no alcanza'],
-            ['2016', 'Chatbot', 'Quedó así en el apunte; confirma cuál'],
-            ['2020', 'GPT-3', 'Modelos de lenguaje que generan texto'],
-            ['2021', 'Biomedicina', 'Quedó así en el apunte; confirma a qué se refería'],
+            ['2016', 'Chatbot', 'Lo más probable: Tay, el chatbot de Microsoft que aprendía de los usuarios y en menos de un día publicaba mensajes ofensivos. Es un caso clásico de sesgo'],
+            ['2020', 'GPT-3', 'Modelos de lenguaje que generan texto. Es el antecesor de ChatGPT'],
+            ['2021', 'Biomedicina', 'Lo más probable: AlphaFold 2, que predice la forma de las proteínas, un problema que llevaba 50 años abierto'],
           ]}
         />
+        <Agregado>
+          <p>
+            1957, 2016 y 2021 quedaron en el cuaderno con una sola palabra. Cada año marca la primera vez que pasó algo
+            en IA; lo que aparece en la tabla es lo más probable para cada uno, no lo que dijo el profesor. Si en el
+            examen preguntan por esos años, confía en lo que él haya dicho.
+          </p>
+          <p>
+            Y una aclaración: <strong>ChatGPT es de noviembre de 2022</strong>, no de 2016. GPT-3, que sí está en la
+            línea en 2020, es el modelo del que salió.
+          </p>
+        </Agregado>
         <Ojo titulo="El patrón que conviene ver">
           <p>
             <strong>1980:</strong> el humano escribe las reglas (sistemas expertos). <strong>2006 en adelante:</strong>

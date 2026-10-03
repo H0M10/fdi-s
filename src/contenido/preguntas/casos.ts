@@ -276,6 +276,28 @@ export const PREGUNTAS_CASOS = [
     ],
   ),
   P.caso(
+    'Control de un aerogenerador',
+    'Un aerogenerador mantiene estable la velocidad de su rotor girando el ángulo de las aspas con un controlador PID. Cuando llegan ráfagas, el rotor se acelera antes de que el controlador alcance a corregir. La empresa agrega sensores de viento y un modelo de random forest que predice la ráfaga unos segundos antes.',
+    [
+      I.opcion('¿Qué componente del PID se calcula con una integral?', ['El integral', 'El proporcional', 'El derivativo', 'El de pitch'], 0,
+        'El integral acumula el error en el tiempo y elimina el que va quedando.'),
+      I.opcion('¿Por qué el PID solo no alcanza a corregir las ráfagas?', [
+        'Porque reacciona cuando el error ya apareció, y la ráfaga es más rápida que las aspas',
+        'Porque el PID no puede mover las aspas',
+        'Porque le falta el componente integral',
+        'Porque los sensores no miden la velocidad',
+      ], 0, 'El PID es reactivo. Para corregir antes hace falta predecir.'),
+      I.opcion('¿A qué rama pertenece el random forest que predice la ráfaga?', ...de(RAMAS, ['Aprendizaje automático', 'Percepción computacional', 'Robótica y sistemas autónomos', 'Sistemas cognitivos'], 'Aprendizaje automático'),
+        'Aprende de datos históricos del viento para predecir. Los sensores que le dan esos datos son percepción computacional.'),
+      I.opcion('¿Qué logra la empresa con la predicción?', [
+        'Llegar a la inferencia antes que en tiempo real, para corregir antes de que llegue la ráfaga',
+        'Eliminar el controlador PID',
+        'Que el aerogenerador ya no necesite sensores',
+        'Que las aspas giren más rápido',
+      ], 0, 'Es la idea del estado del arte que dio el profesor. El PID se queda: es quien ejecuta la corrección.'),
+    ],
+  ),
+  P.caso(
     'Mantenimiento de aerogeneradores',
     'Un parque eólico pone sensores de vibración en sus aerogeneradores y usa un modelo que combina las ecuaciones físicas del rotor con los datos históricos de fallas para anticipar cuándo se va a dañar una pieza.',
     [

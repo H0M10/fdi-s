@@ -11,12 +11,12 @@ clase, un banco de preguntas para practicar y un simulacro con el mismo formato 
 | Ramas de la IA | 39 |
 | Ética e implicaciones sociales | 33 |
 | Lógica y tablas de verdad | 86 (110 incisos) |
-| Casos tipo examen | 18 (72 incisos) |
+| Casos tipo examen | 19 (76 incisos) |
 | Conceptos base | 17 |
 | ¿Qué es la IA? | 9 |
-| Antecedentes e historia | 23 |
-| Aplicaciones y estado del arte | 11 |
-| **Total** | **268 preguntas · 346 incisos** |
+| Antecedentes e historia | 25 |
+| Aplicaciones y estado del arte | 25 |
+| **Total** | **285 preguntas · 366 incisos** |
 
 - **Lecciones** por tema, separando lo que dijo el profesor, los errores del apunte corregidos
   y lo que se agregó.
@@ -25,6 +25,8 @@ clase, un banco de preguntas para practicar y un simulacro con el mismo formato 
   los compañeros que ya presentaron el examen.
 - **Repaso** de lo que has fallado.
 - **Constructor de tablas** de verdad con todos los pasos intermedios.
+- **Simulador del controlador PID** en un aerogenerador: qué hace cada componente y por qué
+  hace falta anticipar.
 - Notación **V/F o 1/0**, y modo oscuro automático.
 
 El progreso se guarda en el navegador. No hay cuentas ni servidor.
@@ -64,7 +66,7 @@ Genera `dist-unico/index.html`, que tiene todo adentro: se abre con doble clic, 
 npm test
 ```
 
-**386 pruebas.** Verifican tres cosas:
+**412 pruebas.** Verifican cuatro cosas:
 
 - **El motor de lógica** (`src/logica/motor.test.ts`): los cinco conectores, el orden de los
   renglones, De Morgan, la contrapositiva, las reglas de inferencia y sus falacias.
@@ -72,7 +74,9 @@ npm test
   opciones duplicadas, que cada fórmula se pueda leer, que cada respuesta de simbolizar use
   exactamente las proposiciones dadas, y que cada pregunta de conclusiones tenga **una sola**
   respuesta válida.
-- **Que todo se dibuje** (`src/render.test.ts`): las 9 lecciones y las 268 preguntas.
+- **El simulador PID** (`src/logica/pid.test.ts`): que muestre lo que dice la lección (solo P
+  deja error, la integral lo quita, la predicción baja el pico a menos de un tercio).
+- **Que todo se dibuje** (`src/render.test.ts`): las 9 lecciones y las 285 preguntas.
 
 Las respuestas de tablas, clasificación y conclusiones **no están escritas a mano**: las calcula
 el motor a partir de la fórmula. Así es imposible que el banco tenga una de esas respuestas mal.

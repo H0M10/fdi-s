@@ -304,6 +304,16 @@ export const PREGUNTAS_HISTORIA = [
     'El Go tiene tantas posibilidades que la fuerza bruta no alcanza.'),
   H.opcion('¿En qué año aparece GPT-3?', ['2015', '2016', '2020', '2021'], 2,
     'En 2020. En el cuaderno el año quedó encimado («202?»).'),
+  H.vf(
+    'ChatGPT apareció en 2016.',
+    false,
+    'ChatGPT es de **noviembre de 2022**. GPT-3, que está en la línea del tiempo en 2020, es el modelo del que salió.',
+  ),
+  H.vf(
+    'Cada año de la línea del tiempo marca la primera vez que ocurrió algo importante para la IA.',
+    true,
+    'Por eso conviene recordar **qué cambió** en cada fecha, no solo el nombre: 1966 el primer chatbot, 1997 la primera vez que una máquina vence al campeón de ajedrez, 2002 la IA entra a la casa.',
+  ),
   H.opcion(
     '¿Cuál es el orden cronológico correcto?',
     [
@@ -399,5 +409,111 @@ export const PREGUNTAS_APLICACIONES = [
     ['Mantenimiento predictivo', 'Mantenimiento correctivo', 'Control de pitch', 'Frontera del conocimiento'],
     0,
     'Del apunte: «si está vibrando… se enfoca a cuándo puede fallar o va a fallar».',
+  ),
+
+  // ---------------------------------------------------------------
+  // El controlador PID y el caso del aerogenerador
+  // ---------------------------------------------------------------
+  A.opcion(
+    '¿Cuántos componentes tiene el controlador PID?',
+    ['2', '3', '4', '5'],
+    1,
+    'Tres: **P**roporcional, **I**ntegral y **D**erivativo. Cada uno con su constante K.',
+  ),
+  A.opcion(
+    '¿Qué componente del PID se calcula con una integral?',
+    ['El proporcional', 'El integral', 'El derivativo', 'Ninguno'],
+    1,
+    'El integral **acumula el error a lo largo del tiempo**. Mientras siga habiendo error, la integral sigue creciendo y la corrección también.',
+  ),
+  A.opcion(
+    'En un sistema de control, ¿qué es el error?',
+    [
+      'La diferencia entre el valor que se quiere y el que se mide',
+      'Una falla del sensor',
+      'El tiempo que tarda en responder',
+      'La constante K del controlador',
+    ],
+    0,
+    'Es lo que el controlador intenta llevar a cero.',
+  ),
+  A.opcion(
+    '¿Qué mira el componente **proporcional**?',
+    ['El error de ahora', 'El error acumulado en el pasado', 'Qué tan rápido cambia el error', 'La predicción del viento'],
+    0,
+    'Corrige más cuanto más lejos estás en este momento.',
+  ),
+  A.opcion(
+    '¿Qué mira el componente **derivativo**?',
+    ['Qué tan rápido cambia el error', 'El error de ahora', 'El error acumulado', 'El valor deseado'],
+    0,
+    'Si el error está cambiando muy rápido, frena la corrección antes de pasarse. Es lo que hace que llegue suave.',
+  ),
+  A.opcion(
+    'Un controlador que usa **solo** el componente proporcional, ¿qué problema tiene?',
+    [
+      'Siempre queda un error que no alcanza a quitar',
+      'Oscila sin parar',
+      'No reacciona al error',
+      'Necesita una predicción para funcionar',
+    ],
+    0,
+    'En el simulador se ve: con solo P la velocidad mejora pero nunca regresa del todo. Para quitar ese error que queda está la **integral**.',
+  ),
+  A.opcion(
+    '¿Qué componente elimina el error que queda cuando solo se usa el proporcional?',
+    ['El integral', 'El derivativo', 'El proporcional con una K más grande', 'La anticipación'],
+    0,
+    'Como acumula el error en el tiempo, mientras quede aunque sea un poco de error sigue corrigiendo, hasta que llega a cero.',
+  ),
+  A.opcion(
+    '¿Qué es un controlador PI?',
+    ['Un PID sin el componente derivativo', 'Un PID sin el componente integral', 'Un controlador con inteligencia artificial', 'Un controlador de pitch'],
+    0,
+    'Proporcional + Integral. Es el que aparece en «optimización de PI» en el estado del arte.',
+  ),
+  A.opcion(
+    'En el aerogenerador, ¿qué mueve el controlador para regular la velocidad?',
+    ['El ángulo de las aspas', 'La altura de la torre', 'La dirección del viento', 'El generador eléctrico'],
+    0,
+    'Eso es el **control de pitch**.',
+  ),
+  A.opcion(
+    '¿Por qué un PID solo no alcanza para controlar bien un aerogenerador?',
+    [
+      'Porque reacciona después de que aparece el error, y el viento cambia más rápido de lo que las aspas alcanzan a girar',
+      'Porque el PID no funciona con electricidad',
+      'Porque el PID solo sirve para temperatura',
+      'Porque el PID necesita imágenes',
+    ],
+    0,
+    'El PID es **reactivo**. Cuando se entera de la ráfaga, la ráfaga ya aceleró el rotor. Además hay muchos factores a la vez y unas K fijas no sirven igual en todas las condiciones.',
+  ),
+  A.opcion(
+    'Según el profesor, ¿qué buscaba el estado del arte en el control de aerogeneradores?',
+    [
+      'Llegar a la inferencia mucho antes que en tiempo real',
+      'Quitar el controlador PID',
+      'Hacer las aspas más grandes',
+      'Reaccionar más rápido después del cambio',
+    ],
+    0,
+    'Porque en tiempo real ya hubo cambios. Si se predice la ráfaga, las aspas empiezan a girar antes de que llegue.',
+  ),
+  A.vf(
+    'El PID es un control reactivo: corrige cuando el error ya apareció.',
+    true,
+    'Por eso el estado del arte le agrega predicción: para corregir antes.',
+  ),
+  A.vf(
+    'En el caso del aerogenerador se usa un solo enfoque: el controlador PID.',
+    false,
+    'Es un sistema **híbrido**: sensores (percepción), random forest (aprendizaje automático), optimización de las K, control difuso, PINN y el PID para ejecutar la corrección.',
+  ),
+  A.opcion(
+    'En el aerogenerador, ¿qué aporta el random forest?',
+    ['Predecir el viento o la carga antes de que llegue', 'Girar las aspas', 'Medir la vibración', 'Ajustar la altura de la torre'],
+    0,
+    'Es un modelo de aprendizaje automático. Su papel es la predicción que permite anticiparse.',
   ),
 ];

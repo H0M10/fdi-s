@@ -53,7 +53,7 @@ reinicia su progreso, y está bien.
 npx tsc --noEmit && npm test && npm run build
 ```
 
-Las 386 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
+Las 412 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
 que tiene dos respuestas válidas, es que una de las opciones «incorrectas» en realidad también
 se sigue de las premisas (pasa mucho con ¬p ∨ ¬q cuando la correcta es ¬p ∧ ¬q). Hay que
 cambiar esa opción, no la prueba.
@@ -67,7 +67,13 @@ archivos, no `cat <<EOF`.
 ## Pendientes que dependen de la clase
 
 Están marcados con ❓ en las notas del vault:
-- 1957 «Razonar», 2016 «Chatbot» y 2021 «Biomedicina» en la línea del tiempo
+- 1957 «Razonar», 2016 «Chatbot» y 2021 «Biomedicina»: cada año marca la primera vez que
+  pasó algo (lo aclaró Hanniel), pero no recuerda qué. En la app van como interpretación
+  probable (GPS, Tay, AlphaFold 2) y **sin preguntas**, para no evaluar algo no confirmado
 - La quinta habilidad de la inteligencia
-- La fórmula «Ktd» de teoría de control (se reconstruyó como PID, sin confirmar)
 - La definición cortada de la rama 1
+
+Resuelto: «Ktd» **sí era el PID** (Hanniel confirmó: tres componentes, uno con integral). El
+profesor lo usó para el caso del aerogenerador: el PID reacciona tarde ante ráfagas, y el
+estado del arte usa IA para llegar a la inferencia antes que en tiempo real. El simulador
+`src/logica/pid.ts` lo ilustra; sus afirmaciones están probadas en `pid.test.ts`.
