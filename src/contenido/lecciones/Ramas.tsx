@@ -1,0 +1,237 @@
+import { Agregado, Correccion, Ejemplo, Flujo, Ojo, Profe, Seccion, Tabla } from '../../componentes/Leccion';
+
+export default function Ramas() {
+  return (
+    <>
+      <Seccion titulo="Once ramas, cada una con su flujo">
+        <p>
+          El profesor dio cada rama con una <strong>definición</strong> y un <strong>flujo de flechas</strong>.
+          El flujo es lo más útil para el examen: cuando te pongan un caso, la manera más rápida de reconocer
+          la rama es preguntarte qué entra al sistema y qué sale.
+        </p>
+        <Correccion>
+          <p>
+            En el apunte quedó «procesamiento de lenguaje <strong>corporal</strong>». Es procesamiento de
+            lenguaje <strong>natural</strong>: se procesa texto y voz, no gestos. Escribirlo como quedó en el
+            apunte sería un error en el examen.
+          </p>
+        </Correccion>
+      </Seccion>
+
+      <Seccion titulo="1 · Representación del conocimiento y razonamiento">
+        <p>
+          Estudia cómo representar el conocimiento para que una máquina pueda <strong>consultarlo y razonar
+          con él</strong>.
+        </p>
+        <Flujo pasos={['Hechos + Reglas', 'Motor de inferencia', 'Conclusiones']} clave={[0]} />
+        <p>
+          La señal es que alguien <strong>ya sabe</strong> las reglas y se las escribe a la máquina. El sistema
+          no aprende nada: aplica lo que le dijeron.
+        </p>
+        <Ejemplo>
+          <p>
+            Un médico escribe «si el paciente tiene fiebre y dolor de garganta, sospechar infección». Los
+            síntomas del paciente son los <strong>hechos</strong>, la frase del médico es la <strong>regla</strong>,
+            y el motor de inferencia junta las dos para llegar al diagnóstico.
+          </p>
+        </Ejemplo>
+      </Seccion>
+
+      <Seccion titulo="2 · Búsqueda y planificación">
+        <p>
+          Estudia cómo explorar alternativas y elegir acciones para pasar de un <strong>estado inicial</strong> a
+          un <strong>estado objetivo</strong>, considerando costos, restricciones e incertidumbre.
+        </p>
+        <Flujo pasos={['Estado inicial', 'Búsqueda y planificación', 'Acciones', 'Meta']} clave={[0, 3]} />
+        <Profe>
+          <p>
+            Aquí la búsqueda también abarca la <strong>optimización</strong>, porque «en optimización estamos
+            haciendo una búsqueda de mínimo o de máximo». Por eso entran también los <strong>algoritmos
+            evolutivos</strong>.
+          </p>
+        </Profe>
+        <Ejemplo titulo="Ejemplo del profesor">
+          <p>
+            Encontrar el horario para que los profesores no se traslapen en salón, materia y horario. Se resuelve
+            con un algoritmo de optimización.
+          </p>
+        </Ejemplo>
+      </Seccion>
+
+      <Seccion titulo="3 · Aprendizaje automático">
+        <p>
+          Desarrolla métodos capaces de <strong>mejorar su desempeño a partir de datos</strong>, construyendo
+          modelos que <strong>generalizan a casos nuevos</strong>. Es <em>machine learning</em>, e incluye al
+          <em> deep learning</em> como subrama.
+        </p>
+        <Flujo titulo="Entrenamiento" pasos={['Datos históricos', 'Algoritmos', 'Modelo']} clave={[0]} />
+        <Flujo titulo="Uso" pasos={['Datos nuevos', 'Modelo', 'Predicción (inferencia)']} clave={[2]} />
+        <p>
+          La señal: hay <strong>datos del pasado</strong> y se quiere <strong>predecir</strong> algo del futuro.
+        </p>
+      </Seccion>
+
+      <Seccion titulo="4 · Percepción computacional">
+        <p>
+          Busca que una máquina <strong>interprete información de sensores</strong> para construir una
+          representación útil de su entorno.
+        </p>
+        <Flujo pasos={['Mundo físico', 'Sensores', 'Percepción', 'Representación']} clave={[1]} />
+        <Profe>
+          <p>
+            «Ojo: cuando definamos qué rama utilizar, una palabra muy importante es <strong>sensores</strong>.
+            ¿Por qué? Porque viene la siguiente.»
+          </p>
+        </Profe>
+        <p>
+          Sensores de temperatura, humedad, movimiento, distancia, vibración: todo eso es percepción. Si en lugar
+          de sensores hay <strong>imágenes</strong>, es la siguiente rama.
+        </p>
+      </Seccion>
+
+      <Seccion titulo="5 · Visión por computadora">
+        <p>
+          <strong>Hace lo mismo que la percepción, pero con imágenes.</strong> Permite analizar imágenes y video
+          para reconocer, segmentar o seguir objetos y escenas.
+        </p>
+        <Flujo pasos={['Video / Imagen', 'Modelo de visión', 'Información']} clave={[0]} />
+        <h3>Las cuatro tareas, en orden</h3>
+        <Tabla
+          cabeza={['Tarea', 'Qué hace', 'Ejemplo de clase']}
+          filas={[
+            ['Clasificar', 'Dice qué hay en la imagen', 'Muchas fotos de perros y gatos; le pasas una nueva y dice cuál es'],
+            ['Detectar', 'Dice dónde está', 'Cámaras que mandan alarma al ver a una persona'],
+            ['Segmentar', 'Recorta la parte que importa', 'En la foto de la carretera, aislar solo la placa'],
+            ['Seguimiento', 'Sigue el objeto en el video', 'La cámara sigue la placa hasta terminar de leerla'],
+          ]}
+        />
+        <Ejemplo titulo="El ejemplo de la placa">
+          <p>
+            En la imagen de una carretera hay árboles, postes, anuncios y el auto en su carril. Lo único que
+            importa es la placa. La cámara rastrea qué se parece a una placa, <strong>segmenta</strong> esa
+            parte, y ahí empieza otro proceso para leer los números mientras le da <strong>seguimiento</strong>
+            hasta terminar.
+          </p>
+        </Ejemplo>
+        <Profe>
+          <p>
+            Hoy muchas cámaras detectan personas con visión en lugar de con sensores, porque <strong>es más
+            exacto</strong>. Un sensor de movimiento se activa con un gato o una rama.
+          </p>
+        </Profe>
+      </Seccion>
+
+      <Seccion titulo="6 · Procesamiento de lenguaje natural">
+        <p>Se dedica a <strong>interpretar y generar lenguaje escrito o hablado</strong>.</p>
+        <Flujo pasos={['Texto / Voz', 'Procesamiento', 'Significado · Clasificación · Respuesta']} clave={[0]} />
+        <Ojo titulo="La que siempre se olvida">
+          <p>
+            El profesor insistió en esto: si el sistema <strong>recibe una instrucción por texto o voz</strong>,
+            esa instrucción <strong>primero tiene que pasar por PLN</strong>, porque la máquina tiene que entender
+            qué le pidieron.
+          </p>
+          <p>
+            Ejemplo de clase: «avísame si hay un perro en el patio». Detectar el perro es visión, pero entender
+            la orden es PLN. Las dos ramas están en el caso, y casi todos olvidan la segunda.
+          </p>
+        </Ojo>
+      </Seccion>
+
+      <Seccion titulo="7 · Robótica y sistemas autónomos">
+        <p>
+          Rama interdisciplinaria que combina computación, ingeniería y control. Con IA, permite que los robots
+          <strong> perciban</strong> el entorno, <strong>planifiquen</strong> y se <strong>adapten</strong> a
+          situaciones no programadas.
+        </p>
+        <Flujo pasos={['Percepción', 'Localizar / Entender', 'Planificar', 'Actuar']} clave={[3]} />
+        <Profe>
+          <p>
+            En las demás ramas el resultado es información; en robótica hay una <strong>interacción
+            física</strong>. Por lo general se piensa en algo humanoide, pero puede ser un carrito: cualquier cosa
+            que tenga movimiento.
+          </p>
+        </Profe>
+      </Seccion>
+
+      <Seccion titulo="8 · Sistemas multiagente">
+        <p>
+          Sistemas formados por <strong>varios agentes</strong> capaces de percibir y actuar, donde
+          <strong> las acciones de uno afectan a los demás</strong>.
+        </p>
+        <Flujo pasos={['Agente A', 'Agente B', 'Agente C', '…']} />
+        <p>Los agentes pueden <strong>cooperar, competir, coordinarse e incluso negociar</strong>.</p>
+        <Ejemplo titulo="Ejemplo del profesor">
+          <p>
+            En un almacén moderno hay robots que van entre los pasillos. No se programa cada uno con «ve a tal
+            estante y tráeme esto»: se programan como un sistema donde cada uno sabe dónde están los demás, y así
+            no chocan.
+          </p>
+        </Ejemplo>
+      </Seccion>
+
+      <Seccion titulo="9 · IA generativa">
+        <p>
+          Rama contemporánea de modelos capaces de <strong>generar contenido sintético</strong> a partir de
+          patrones aprendidos en datos: texto, imágenes, audio, video o código.
+        </p>
+        <p>La señal: el sistema <strong>crea algo nuevo</strong> en lugar de clasificar o predecir.</p>
+      </Seccion>
+
+      <Seccion titulo="10 · Computación afectiva">
+        <p>
+          Sistemas capaces de <strong>reconocer, modelar o responder a emociones</strong> y otros fenómenos
+          afectivos.
+        </p>
+        <p>
+          Palabra clave: <strong>señales</strong>. La expresión del rostro, el tono de voz, el ritmo cardíaco.
+        </p>
+      </Seccion>
+
+      <Seccion titulo="11 · Sistemas cognitivos">
+        <p>
+          También llamada <strong>cognición computacional</strong>. Usa modelos computacionales para estudiar o
+          construir capacidades como percepción, aprendizaje, memoria, razonamiento, lenguaje, decisión y
+          conocimiento de sentido común.
+        </p>
+        <Flujo pasos={['Percibir', 'Memoria', 'Razonar', 'Decidir', 'Actuar']} />
+        <p>
+          Se distingue de la robótica en que no tiene que moverse: lo que busca es reproducir el
+          <strong> proceso mental completo</strong>, en orden.
+        </p>
+      </Seccion>
+
+      <Seccion titulo="Cómo identificar la rama en un caso">
+        <Tabla
+          cabeza={['Si el caso dice…', 'Rama']}
+          filas={[
+            ['hechos, reglas, «si… entonces» escritas por un experto', 'Representación del conocimiento'],
+            ['ruta, horario, estado inicial y meta, minimizar o maximizar', 'Búsqueda y planificación'],
+            ['datos históricos, predecir, entrenar', 'Aprendizaje automático'],
+            ['sensores', 'Percepción computacional'],
+            ['cámara, imagen, video', 'Visión por computadora'],
+            ['texto, voz, instrucción, chat', 'Procesamiento de lenguaje natural'],
+            ['se mueve, interacción física', 'Robótica'],
+            ['varios robots o agentes que se coordinan', 'Sistemas multiagente'],
+            ['genera contenido nuevo', 'IA generativa'],
+            ['emociones', 'Computación afectiva'],
+            ['percibir, recordar, razonar y decidir como una persona', 'Sistemas cognitivos'],
+          ]}
+        />
+        <Ojo titulo="Un caso real casi nunca es una sola rama">
+          <p>
+            Un robot de almacén que recibe órdenes por voz y esquiva cajas con una cámara usa PLN, visión,
+            robótica y multiagente. Si te piden <strong>la</strong> rama, elige la que define el propósito del
+            sistema. Si te piden <strong>las</strong> ramas, enlístalas todas.
+          </p>
+        </Ojo>
+        <Agregado>
+          <p>
+            Un truco para decidir la rama principal: pregúntate qué perdería el sistema si le quitaras esa parte.
+            Al robot de almacén sin cámara le cuesta más esquivar; sin la coordinación entre robots, chocan y el
+            almacén deja de funcionar. Esa es la que define el caso.
+          </p>
+        </Agregado>
+      </Seccion>
+    </>
+  );
+}

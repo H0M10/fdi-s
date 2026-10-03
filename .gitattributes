@@ -1,0 +1,4 @@
+# Finales de linea LF en el repositorio, sin importar el sistema.
+* text=auto eol=lf
+*.png binary
+*.jpg binary

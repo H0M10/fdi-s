@@ -1,0 +1,51 @@
+# Publica la app en GitHub Pages cada vez que se sube algo a main.
+#
+# Antes de publicar corre las pruebas: si una pregunta quedó mal
+# construida o el motor de lógica da una respuesta equivocada, NO se
+# publica. Así nunca estudias con una versión rota.
+#
+# Para activarlo: en el repositorio, Settings → Pages → Source:
+# "GitHub Actions". Solo se hace una vez.
+
+name: Desplegar
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Pruebas (motor de lógica, banco de preguntas y lecciones)
+        run: npm test
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@v4

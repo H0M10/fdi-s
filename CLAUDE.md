@@ -1,0 +1,73 @@
+# FDI Estudio — notas para Claude
+
+App de estudio para el examen de Fundamentos de IA de Hanniel (UTEQ, LITIID003-C3).
+Vite + React 18 + TypeScript. Sin librería de UI ni de rutas.
+
+## De dónde sale el contenido
+
+Del vault de Obsidian en `Desktop/IAWHTS`:
+
+- `01-Materias/Fundamentos de IA/Temas/` — una nota por tema, ya procesada
+- `01-Materias/Fundamentos de IA/Apuntes/` — los apuntes originales, literales
+- `01-Materias/Fundamentos de IA/Examen Unidad 1.md` — el formato del examen según los compañeros
+- `_Adjuntos/IMG-20260930-WA0074.jpg` y `WA0076.jpg` — fotos del cuaderno (antecedentes y línea del tiempo)
+
+**Regla del vault que también aplica aquí:** lo que dijo el profesor no se cambia. Si el apunte
+tiene un error, se anota aparte como corrección. En las lecciones eso se marca con los bloques
+`<Profe>`, `<Correccion>` y `<Agregado>` de `src/componentes/Leccion.tsx`.
+
+Correcciones importantes que ya están marcadas:
+- «procesamiento de lenguaje **corporal**» → es **natural**
+- ARCO: el apunte dice «accesibilidad» y le falta la R → **Acceso, Rectificación**, Cancelación, Oposición
+- ML contra DL: el apunte dice que la diferencia es etiquetado/no etiquetado → eso es supervisado/no supervisado
+- Modelo: no es «un conjunto de algoritmos»; motor de inferencia: no produce el modelo
+- Nombres del cuaderno: Hacks → Hobbes, Lock → Locke, Bolt → Boole
+
+## Arquitectura
+
+- `src/tipos.ts` — los tipos de pregunta. Leer primero.
+- `src/logica/motor.ts` — parser y evaluador de lógica proposicional
+- `src/contenido/preguntas/*.ts` — el banco, un archivo por tema
+- `src/contenido/lecciones/*.tsx` — una lección por tema
+- `src/componentes/Pregunta.tsx` — cómo se contesta cada tipo
+- `src/rutas.ts` — navegación por hash (`#tema-ramas`, `#simulacro`…)
+
+### La decisión que más importa
+
+Las preguntas de tipo `tabla`, `clasificar` y `conclusion` **no llevan la respuesta escrita**.
+La calcula el motor. Para `conclusion`, la correcta es la única opción que se sigue de las
+premisas (`opcionQueSeSigue`); una opción con `formula: null` significa «ninguna se sigue».
+
+No cambiar eso por respuestas escritas a mano. Es lo que garantiza que el banco de lógica no
+tenga errores.
+
+### Ids de las preguntas
+
+Se derivan con un hash del enunciado (`src/contenido/fabrica.ts`), no de la posición. Se pueden
+reordenar preguntas sin perder el progreso guardado. Cambiar el texto de una pregunta le
+reinicia su progreso, y está bien.
+
+## Antes de dar algo por terminado
+
+```bash
+npx tsc --noEmit && npm test && npm run build
+```
+
+Las 386 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
+que tiene dos respuestas válidas, es que una de las opciones «incorrectas» en realidad también
+se sigue de las premisas (pasa mucho con ¬p ∨ ¬q cuando la correcta es ¬p ∧ ¬q). Hay que
+cambiar esa opción, no la prueba.
+
+## Cuidado al escribir archivos
+
+En esta máquina el Bash de las herramientas colapsa `\\` en `\` dentro de heredocs. Para
+cualquier archivo con barras invertidas (regex, LaTeX) usar la herramienta de escritura de
+archivos, no `cat <<EOF`.
+
+## Pendientes que dependen de la clase
+
+Están marcados con ❓ en las notas del vault:
+- 1957 «Razonar», 2016 «Chatbot» y 2021 «Biomedicina» en la línea del tiempo
+- La quinta habilidad de la inteligencia
+- La fórmula «Ktd» de teoría de control (se reconstruyó como PID, sin confirmar)
+- La definición cortada de la rama 1
