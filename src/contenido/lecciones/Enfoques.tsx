@@ -9,6 +9,20 @@ export default function Enfoques() {
           <strong> enfoque técnico</strong>, que pregunta con qué herramienta se construye. En los casos del
           examen, cuando preguntan «¿cuál es su enfoque?», normalmente se refieren al técnico.
         </p>
+        <Ojo titulo="Lo que te van a preguntar">
+          <p>
+            El profesor no pregunta qué algoritmo exacto es. Te da un caso y pregunta <strong>qué enfoque</strong>:
+            reglas, búsqueda, optimización, machine learning… Para contestar, hazte estas preguntas en orden:
+          </p>
+          <ol style={{ margin: '6px 0 0', paddingLeft: '1.3em' }}>
+            <li>¿La regla <strong>la escribió una persona</strong>? → <strong>Reglas</strong></li>
+            <li>¿Hay un <strong>punto de partida y una meta</strong>, un camino que encontrar? → <strong>Búsqueda</strong></li>
+            <li>¿Hay algo que <strong>maximizar o minimizar</strong>? → <strong>Optimización</strong></li>
+            <li>¿Se <strong>aprende de datos</strong> con su respuesta para predecir? → <strong>Machine learning</strong></li>
+            <li>¿Son <strong>muchísimos datos crudos</strong>: imágenes, audio, texto? → <strong>Deep learning</strong></li>
+            <li>¿Hay <strong>varias de las anteriores</strong> encadenadas? → <strong>Híbrido</strong></li>
+          </ol>
+        </Ojo>
       </Seccion>
 
       <Seccion titulo="El enfoque clásico: cuatro cuadrantes">
@@ -51,6 +65,31 @@ export default function Enfoques() {
             'Nadie puede escribir la regla a mano. Nadie sabe convertir «martes + semana de exámenes + pozole» en un número de porciones.',
           ]]}
         />
+        <h3>¿Reglas es lo mismo que programación tradicional?</h3>
+        <p>
+          Son de la <strong>misma familia</strong>: en las dos <strong>la lógica la escribe una persona</strong>. Eso
+          es justo lo que las separa de machine learning, donde la lógica sale de los datos.
+        </p>
+        <Tabla
+          cabeza={['', 'Programación tradicional', 'Enfoque de reglas']}
+          filas={[
+            ['Quién escribe la lógica', 'El programador', 'Un experto, como reglas'],
+            ['Cómo se ve', 'Un procedimiento paso a paso', 'Muchas condiciones «si… entonces…»'],
+            ['Quién decide qué se ejecuta', 'El orden que escribió el programador', 'El motor de inferencia, que busca qué reglas se cumplen'],
+            ['Ejemplo', 'Calcular el promedio de calificaciones', '«Si tiene fiebre y tos, sospechar gripe»'],
+          ]}
+        />
+        <p>
+          El enfoque de reglas es <strong>la forma que toma la programación tradicional dentro de la IA</strong>. En un
+          caso del examen, si la lógica la escribió una persona como condiciones, la respuesta es <strong>reglas</strong>.
+        </p>
+        <Agregado>
+          <p>
+            No está confirmado si el profesor pone «reglas» y «programación tradicional» como opciones separadas. Si
+            aparecen las dos en la misma pregunta: <strong>reglas</strong> cuando hay conocimiento de un experto en forma
+            de «si… entonces»; <strong>programación tradicional</strong> cuando es un cálculo o procedimiento fijo.
+          </p>
+        </Agregado>
       </Seccion>
 
       <Seccion titulo="Enfoque técnico 2 · Búsqueda">
@@ -58,6 +97,13 @@ export default function Enfoques() {
           Hay un <strong>estado inicial</strong>, una <strong>meta</strong> y acciones que llevan de uno a otro.
           Los cuatro algoritmos que se vieron se diferencian en <strong>en qué orden exploran</strong>.
         </p>
+        <Ojo titulo="Para entender, no para memorizar">
+          <p>
+            En el examen no te preguntan si es BFS o UCS: te preguntan si el enfoque es <strong>búsqueda</strong>. Lo
+            que tienes que reconocer es que hay un punto de partida y una meta. La tabla es para que entiendas qué
+            hace cada uno.
+          </p>
+        </Ojo>
         <Tabla
           cabeza={['Algoritmo', 'Cómo explora', 'Qué garantiza']}
           filas={[

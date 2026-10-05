@@ -70,34 +70,45 @@ export const PREGUNTAS_ENFOQUES = [
     'Ese patrón existe en los datos, pero no está en la cabeza de nadie de forma que se pueda redactar. Por eso esa parte va con machine learning.',
   ),
   P.opcion(
-    '¿Qué algoritmo de búsqueda revisa todos los vecinos de un nivel antes de avanzar al siguiente, y así encuentra el camino con menos pasos?',
-    ['BFS', 'DFS', 'UCS', 'Greedy'],
+    'BFS, DFS, UCS y Greedy, que se vieron en clase, son algoritmos de qué enfoque?',
+    ...de(ENFOQUES, ['Búsqueda', 'Optimización', 'Machine learning', 'Reglas'], 'Búsqueda'),
+    'Los cuatro parten de un **estado inicial** y buscan llegar a una **meta**; solo cambia el orden en que exploran. En el examen se pregunta el enfoque, no cuál de los cuatro es.',
+  ),
+  P.opcion(
+    'El algoritmo evolutivo que se vio en clase es un ejemplo de qué enfoque?',
+    ...de(ENFOQUES, ['Optimización', 'Búsqueda', 'Machine learning', 'Reglas'], 'Optimización'),
+    'Se usó para **maximizar** o **minimizar** una ecuación: descartar los peores, generar nuevos y repetir.',
+  ),
+  P.vf(
+    'En el enfoque de reglas, igual que en la programación tradicional, la lógica la escribe una persona.',
+    true,
+    'Son de la misma familia. El enfoque de reglas es la forma que toma la programación tradicional dentro de la IA: un experto escribe condiciones «si… entonces» y un motor de inferencia las aplica.',
+  ),
+  P.vf(
+    'En machine learning, la lógica que decide la respuesta la escribe el programador.',
+    false,
+    'Es al revés: en machine learning la lógica **sale de los datos**. Eso es lo que lo separa de las reglas y de la programación tradicional.',
+  ),
+  P.opcion(
+    '¿Qué tienen en común el enfoque de reglas y la programación tradicional, y qué los separa de machine learning?',
+    [
+      'En los dos la lógica la escribe una persona; en machine learning sale de los datos',
+      'Los dos necesitan millones de datos; machine learning no',
+      'Los dos usan redes neuronales; machine learning no',
+      'Los dos buscan un camino hacia una meta; machine learning no',
+    ],
     0,
-    '**BFS** es búsqueda en anchura: avanza nivel por nivel. Por eso el primer camino que encuentra es el de menos pasos.',
+    'Esa es la pregunta que hay que hacerse ante un caso: **¿la regla la escribió alguien, o se aprendió de los datos?**',
   ),
   P.opcion(
-    '¿Qué algoritmo se va hasta el fondo de un camino y regresa solo si no sirve?',
-    ['BFS', 'DFS', 'UCS', 'Greedy'],
-    1,
-    '**DFS** es búsqueda en profundidad. Gasta poca memoria, pero el camino que encuentra puede no ser el más corto.',
+    'Según el profesor, si buscas **una** solución a un problema, ¿qué enfoque usas?',
+    ...de(ENFOQUES, ['Búsqueda', 'Optimización', 'Reglas', 'Machine learning'], 'Búsqueda'),
+    'Es la regla que dio en clase: buscar una solución → búsqueda; buscar **mejorar** una solución → optimización.',
   ),
   P.opcion(
-    'Los pasos de un problema cuestan distinto entre sí, y se quiere el camino de menor costo total. ¿Qué algoritmo conviene?',
-    ['BFS', 'DFS', 'UCS', 'Greedy'],
-    2,
-    '**UCS** (costo uniforme) expande siempre el camino más barato acumulado. BFS minimiza el número de pasos, no su costo.',
-  ),
-  P.opcion(
-    '¿Qué algoritmo avanza siempre hacia lo que parece más cerca de la meta, y por eso puede equivocarse?',
-    ['BFS', 'DFS', 'UCS', 'Greedy'],
-    3,
-    '**Greedy** (el mejor primero) solo mira hacia adelante. Es rápido, pero puede meterse en un camino que parecía bueno y no lo era.',
-  ),
-  P.opcion(
-    'Para ir de tu casa a la escuela quieres la ruta que tarde menos tiempo, aunque tenga más cuadras. ¿Qué algoritmo la encuentra?',
-    ['BFS', 'DFS', 'UCS', 'Greedy'],
-    2,
-    'El criterio es el **costo** (el tiempo), no el número de cuadras. Eso es UCS. BFS te daría la de menos cuadras.',
+    'Según el profesor, si buscas **mejorar** una solución que ya tienes, ¿qué enfoque usas?',
+    ...de(ENFOQUES, ['Optimización', 'Búsqueda', 'Reglas', 'Deep learning'], 'Optimización'),
+    'Mejorar es buscar el mejor valor: el máximo o el mínimo.',
   ),
   P.opcion(
     '¿Cuáles son las dos direcciones de la optimización?',
@@ -231,5 +242,92 @@ export const PREGUNTAS_ENFOQUES = [
     'Un GPS encuentra cómo llegar de un punto A a un punto B en un mapa de calles. ¿Qué enfoque es?',
     ...de(ENFOQUES, ['Búsqueda', 'Machine learning', 'Reglas', 'Deep learning'], 'Búsqueda'),
     'Estado inicial (A), meta (B) y acciones (tomar una calle). Es el problema típico de búsqueda.',
+  ),
+
+  // ---------------------------------------------------------------
+  // Más casos de «¿qué enfoque es?», que es como pregunta el profesor.
+  // La pregunta clave para cada uno: ¿la regla la escribió alguien, hay
+  // un camino que encontrar, algo que maximizar o minimizar, o se
+  // aprende de los datos?
+  // ---------------------------------------------------------------
+  P.opcion(
+    'Un banco aprueba créditos con su reglamento: si el cliente gana más de $15,000 al mes y no tiene deudas vencidas, se aprueba. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Reglas', 'Machine learning', 'Optimización', 'Búsqueda'], 'Reglas'),
+    'El banco ya sabe la regla y la escribió. No aprende nada de clientes anteriores: solo aplica la condición.',
+  ),
+  P.opcion(
+    'Un termostato enciende la calefacción si la temperatura baja de 20 °C y la apaga si pasa de 23 °C. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Reglas', 'Deep learning', 'Optimización', 'Machine learning'], 'Reglas'),
+    'Dos condiciones «si… entonces» escritas por una persona.',
+  ),
+  P.opcion(
+    'Un sistema de tránsito registra una infracción si el semáforo está en rojo y un auto cruza la línea. ¿Qué enfoque decide la infracción?',
+    ...de(ENFOQUES, ['Reglas', 'Búsqueda', 'Optimización', 'Machine learning'], 'Reglas'),
+    'La decisión sigue una regla del reglamento de tránsito. Ojo: detectar el auto en la cámara sí usaría deep learning; la pregunta es sobre quién **decide** la infracción.',
+  ),
+  P.opcion(
+    'En un videojuego, el personaje tiene que encontrar la salida de un laberinto desde la entrada. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Búsqueda', 'Optimización', 'Reglas', 'Machine learning'], 'Búsqueda'),
+    'Estado inicial (la entrada), meta (la salida) y acciones (avanzar por un pasillo). Hay un **camino** que encontrar.',
+  ),
+  P.opcion(
+    'Un programa de ajedrez revisa las jugadas posibles para encontrar una secuencia que lleve al jaque mate. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Búsqueda', 'Reglas', 'Optimización', 'Deep learning'], 'Búsqueda'),
+    'Parte de la posición actual y explora jugadas hasta llegar a una meta: el jaque mate.',
+  ),
+  P.opcion(
+    'Una app del metro te dice qué trenes tomar para ir de una estación a otra con menos transbordos. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Búsqueda', 'Machine learning', 'Reglas', 'Deep learning'], 'Búsqueda'),
+    'De una estación (estado inicial) a otra (meta), eligiendo acciones (qué tren tomar).',
+  ),
+  P.opcion(
+    'Una fábrica decide cuántas piezas producir de cada modelo para ganar lo más posible con el material que tiene. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Optimización', 'Búsqueda', 'Machine learning', 'Reglas'], 'Optimización'),
+    'No hay un camino que encontrar: hay una **cantidad** que elegir para **maximizar** la ganancia.',
+  ),
+  P.opcion(
+    'Una empresa de alimento para ganado busca la mezcla de ingredientes que cumpla los nutrientes necesarios al menor costo. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Optimización', 'Reglas', 'Deep learning', 'Búsqueda'], 'Optimización'),
+    '**Minimizar** el costo cumpliendo restricciones: es optimización.',
+  ),
+  P.opcion(
+    'Una paquetería quiere acomodar las cajas dentro del camión para que quepa la mayor cantidad posible. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Optimización', 'Búsqueda', 'Machine learning', 'Reglas'], 'Optimización'),
+    'Se busca el **mejor acomodo**, el que maximiza lo que cabe.',
+  ),
+  P.opcion(
+    'Una aseguradora predice qué clientes van a cancelar su póliza, usando el historial de 5,000 clientes anteriores de los que ya sabe si cancelaron o no. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Machine learning', 'Reglas', 'Búsqueda', 'Optimización'], 'Machine learning'),
+    'Datos históricos **con su respuesta** (canceló o no) para predecir: aprendizaje supervisado.',
+  ),
+  P.opcion(
+    'Una inmobiliaria estima el precio de una casa según sus metros, su colonia y sus recámaras, a partir de las ventas de los últimos años. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Machine learning', 'Reglas', 'Optimización', 'Búsqueda'], 'Machine learning'),
+    'Aprende la relación entre las características y el precio de los datos. Como predice un número, es regresión.',
+  ),
+  P.opcion(
+    'Una tienda en línea te recomienda productos según lo que compraron clientes con gustos parecidos a los tuyos. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Machine learning', 'Reglas', 'Búsqueda', 'Optimización'], 'Machine learning'),
+    'Nadie escribió la regla de qué recomendar: sale de los patrones de compra de miles de clientes.',
+  ),
+  P.opcion(
+    'Una app escucha unos segundos de una canción y te dice cuál es; se entrenó con millones de canciones grabadas. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Deep learning', 'Reglas', 'Búsqueda', 'Optimización'], 'Deep learning'),
+    'Audio crudo y millones de ejemplos: la red aprende sola qué rasgos del sonido importan.',
+  ),
+  P.opcion(
+    'Un sistema convierte lo que hablas en texto, entrenado con miles de horas de grabaciones de voz. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Deep learning', 'Reglas', 'Optimización', 'Búsqueda'], 'Deep learning'),
+    'Datos crudos (audio) en enormes cantidades. Nadie podría escribir a mano las reglas del habla.',
+  ),
+  P.opcion(
+    'Una app de comida predice cuántos pedidos habrá cada hora con datos de meses anteriores, decide cuántos repartidores llamar para gastar lo menos posible, y nunca programa a alguien más de 8 horas. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Híbrido', 'Machine learning', 'Optimización', 'Reglas'], 'Híbrido'),
+    'Son tres enfoques encadenados: **machine learning** predice los pedidos, **optimización** decide cuántos repartidores, y una **regla** limita las horas. Igual que el comedor.',
+  ),
+  P.opcion(
+    'Un hospital programa las cirugías: predice cuánto va a durar cada una con datos de cirugías anteriores, acomoda los quirófanos para atender al mayor número de pacientes, y nunca programa una cirugía sin anestesiólogo. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Híbrido', 'Optimización', 'Machine learning', 'Búsqueda'], 'Híbrido'),
+    'Predecir la duración es machine learning, acomodar para atender a más es optimización, y lo del anestesiólogo es una regla. Tres enfoques juntos: híbrido.',
   ),
 ];
