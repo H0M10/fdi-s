@@ -30,7 +30,9 @@ Correcciones importantes que ya están marcadas:
 - `src/contenido/preguntas/*.ts` — el banco, un archivo por tema
 - `src/contenido/lecciones/*.tsx` — una lección por tema
 - `src/componentes/Pregunta.tsx` — cómo se contesta cada tipo
-- `src/rutas.ts` — navegación por hash (`#tema-ramas`, `#simulacro`…)
+- `src/componentes/ResolverTabla.tsx` — resolver una tabla columna por columna (sección Tablas, preguntas de clasificar y lección)
+- `src/paginas/Tablas.tsx` y `src/contenido/problemasTablas.ts` — la sección Tablas y sus problemas
+- `src/rutas.ts` — navegación por hash (`#tema-ramas`, `#simulacro`, `#tablas-resolver-<id>`…)
 
 ### La decisión que más importa
 
@@ -68,7 +70,7 @@ reinicia su progreso, y está bien.
 npx tsc --noEmit && npm test && npm run build
 ```
 
-Las 515 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
+Las 526 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
 que tiene dos respuestas válidas, es que una de las opciones «incorrectas» en realidad también
 se sigue de las premisas (pasa mucho con ¬p ∨ ¬q cuando la correcta es ¬p ∧ ¬q). Hay que
 cambiar esa opción, no la prueba.

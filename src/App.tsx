@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { cambiarNotacion, useNotacion } from './notacion';
-import { Constructor, Inicio, PaginaTema, Repaso } from './paginas/Paginas';
+import { Inicio, PaginaTema, Repaso } from './paginas/Paginas';
 import { Simulacro } from './paginas/Simulacro';
+import { Tablas } from './paginas/Tablas';
 import { ir, useRuta } from './rutas';
 
 const NAV = [
@@ -15,7 +16,8 @@ export default function App() {
   const ruta = useRuta();
   const { modo } = useNotacion();
 
-  useEffect(() => { window.scrollTo({ top: 0 }); }, [ruta.pagina, ruta.pagina === 'tema' ? ruta.tema : '']);
+  const sub = ruta.pagina === 'tema' ? ruta.tema : ruta.pagina === 'tablas' ? `${ruta.vista}-${ruta.problema ?? ''}` : '';
+  useEffect(() => { window.scrollTo({ top: 0 }); }, [ruta.pagina, sub]);
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function App() {
         {ruta.pagina === 'tema' && <PaginaTema key={ruta.tema} id={ruta.tema} practicar={ruta.practicar} />}
         {ruta.pagina === 'simulacro' && <Simulacro />}
         {ruta.pagina === 'repaso' && <Repaso />}
-        {ruta.pagina === 'tablas' && <Constructor />}
+        {ruta.pagina === 'tablas' && <Tablas vista={ruta.vista} problema={ruta.problema} />}
       </main>
     </>
   );

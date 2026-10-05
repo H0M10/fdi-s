@@ -1,6 +1,6 @@
-// Navegación por el hash de la URL (#inicio, #tema-ramas, #simulacro…).
+// Navegación por el hash de la URL (#inicio, #tema-ramas, #simulacro, #tablas-resolver…).
 //
-// Sin librería: son seis rutas. El hash funciona igual en GitHub Pages,
+// Sin librería: son pocas rutas. El hash funciona igual en GitHub Pages,
 // en Vercel y abriendo el archivo directo, porque no le pide nada al
 // servidor. Los nombres solo usan letras, números y guiones.
 
@@ -13,7 +13,7 @@ export type Ruta =
   | { pagina: 'tema'; tema: IdTema; practicar: boolean }
   | { pagina: 'simulacro' }
   | { pagina: 'repaso' }
-  | { pagina: 'tablas' };
+  | { pagina: 'tablas'; vista: 'conectores' | 'resolver' | 'comprobar'; problema?: string };
 
 const IDS = new Set(TEMAS.map((t) => t.id));
 let actual = location.hash.slice(1) || 'inicio';
@@ -32,7 +32,12 @@ export function ir(destino: string) {
 export function interpretar(h: string): Ruta {
   if (h.startsWith('tema-') && IDS.has(h.slice(5) as IdTema)) return { pagina: 'tema', tema: h.slice(5) as IdTema, practicar: false };
   if (h.startsWith('practica-') && IDS.has(h.slice(9) as IdTema)) return { pagina: 'tema', tema: h.slice(9) as IdTema, practicar: true };
-  if (h === 'simulacro' || h === 'repaso' || h === 'tablas') return { pagina: h };
+  if (h === 'simulacro' || h === 'repaso') return { pagina: h };
+  // Tablas: #tablas (conectores), #tablas-resolver, #tablas-resolver-<id>, #tablas-comprobar.
+  if (h === 'tablas') return { pagina: 'tablas', vista: 'conectores' };
+  if (h === 'tablas-comprobar') return { pagina: 'tablas', vista: 'comprobar' };
+  if (h === 'tablas-resolver') return { pagina: 'tablas', vista: 'resolver' };
+  if (h.startsWith('tablas-resolver-')) return { pagina: 'tablas', vista: 'resolver', problema: h.slice('tablas-resolver-'.length) };
   return { pagina: 'inicio' };
 }
 

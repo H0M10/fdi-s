@@ -15,6 +15,7 @@ import type {
   Clase, Inciso, PCaso, PClasificar, PConclusion, PMulti, POpcion,
   Pregunta as TPregunta, PSimbolizar, PTabla, PVF,
 } from '../tipos';
+import { ResolverTabla } from './ResolverTabla';
 import { TablaVerdad } from './TablaVerdad';
 import { Texto } from './Texto';
 
@@ -342,6 +343,8 @@ function Clasificar({ p, onListo }: { p: PClasificar; onListo: AlTerminar }) {
   const correcta = clasificar(arbol);
   const [elegida, setElegida] = useState<Clase | null>(null);
   const [verTabla, setVerTabla] = useState(false);
+  const [armar, setArmar] = useState(false);
+  const [armada, setArmada] = useState(false);
   const listo = elegida !== null;
   const clases: Clase[] = ['tautologia', 'contradiccion', 'contingencia'];
 
@@ -351,6 +354,17 @@ function Clasificar({ p, onListo }: { p: PClasificar; onListo: AlTerminar }) {
         ¿<code className="simb">{aTexto(arbol)}</code> es tautología, contradicción o contingencia?
         {p.enunciado && <> <Texto>{p.enunciado}</Texto></>}
       </p>
+      {!listo && !armar && (
+        <div className="fila" style={{ margin: '-4px 0 14px' }}>
+          <button className="boton sec chico" onClick={() => setArmar(true)}>Armar la tabla aquí, paso a paso</button>
+        </div>
+      )}
+      {armar && (
+        <div style={{ marginBottom: 16 }}>
+          <ResolverTabla formula={p.formula} final="ninguno" alTerminar={() => setArmada(true)} />
+          {armada && !listo && <p style={{ fontSize: 14, margin: '4px 0 0' }}>Con la tabla completa, contesta:</p>}
+        </div>
+      )}
       <div className="opciones">
         {clases.map((c, pos) => {
           let clase = 'opcion';
@@ -365,9 +379,9 @@ function Clasificar({ p, onListo }: { p: PClasificar; onListo: AlTerminar }) {
           );
         })}
       </div>
-      {!listo && (
+      {!listo && !armar && (
         <p style={{ fontSize: 13, color: 'var(--tinta-3)', margin: '12px 0 0' }}>
-          Haz la tabla en tu cuaderno antes de contestar: en el examen te piden justificarlo.
+          Haz la tabla antes de contestar, aquí o en tu cuaderno: en el examen te piden justificarlo.
         </p>
       )}
       {listo && (
@@ -375,7 +389,7 @@ function Clasificar({ p, onListo }: { p: PClasificar; onListo: AlTerminar }) {
           <p><strong>Justificación:</strong> {justificar(arbol)}</p>
         </Retro>
       )}
-      {listo && verTabla && <div style={{ marginTop: 12 }}><TablaVerdad formula={p.formula} /></div>}
+      {listo && verTabla && !armar && <div style={{ marginTop: 12 }}><TablaVerdad formula={p.formula} /></div>}
     </>
   );
 }

@@ -1,13 +1,9 @@
-// Inicio, página de tema, repaso y constructor de tablas.
+// Inicio, página de tema y repaso.
 
 import { useState } from 'react';
-import { Agregado } from '../componentes/Leccion';
-import { Teclado } from '../componentes/Pregunta';
-import { TablaVerdad } from '../componentes/TablaVerdad';
 import { LECCIONES } from '../contenido/lecciones';
 import { deTema, porId, TODAS } from '../contenido/preguntas';
 import { anterior, BLOQUES, numero, siguiente, tema, TEMAS } from '../contenido/temas';
-import { analizar, aTexto, clasificar, ErrorFormula, justificar, NOMBRE_CLASE, variables } from '../logica/motor';
 import { reiniciar, resumen, useProgreso } from '../progreso';
 import { ir } from '../rutas';
 import type { IdTema } from '../tipos';
@@ -52,6 +48,7 @@ export function Inicio() {
         </div>
         <div className="fila">
           <button className="boton examen" onClick={() => ir('simulacro')}>Hacer un simulacro</button>
+          <button className="boton sec" onClick={() => ir('tablas')}>Practicar tablas a mano</button>
           {fallidas > 0 && <button className="boton sec" onClick={() => ir('repaso')}>Repasar {fallidas} falladas</button>}
         </div>
       </section>
@@ -207,74 +204,6 @@ export function Repaso() {
           <Practica preguntas={preguntas} />
         )}
       </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Constructor de tablas                                              */
-/* ------------------------------------------------------------------ */
-const EJEMPLOS = [
-  ['motor', '(p ∧ q) → r'],
-  ['incendios', '((p ∨ q) ∧ ¬r) → s'],
-  ['De Morgan', '¬(p ∧ q) ↔ (¬p ∨ ¬q)'],
-  ['contrapositiva', '(p → q) ↔ (¬q → ¬p)'],
-  ['modus ponens', '((p → q) ∧ p) → q'],
-  ['tautología', 'p ∨ ¬p'],
-  ['contradicción', 'p ∧ ¬p'],
-];
-
-export function Constructor() {
-  const [texto, setTexto] = useState('(p ∧ q) → r');
-  let error = '';
-  let arbol = null;
-  try {
-    if (texto.trim()) {
-      arbol = analizar(texto);
-      if (variables(arbol).length > 5) { error = 'Con más de 5 letras la tabla pasa de 32 renglones. Divídela en partes.'; arbol = null; }
-    }
-  } catch (e) {
-    error = e instanceof ErrorFormula ? e.message : 'No se pudo leer la fórmula.';
-  }
-
-  return (
-    <div className="pagina angosta">
-      <p className="rotulo">Herramienta</p>
-      <h1>Constructor de tablas</h1>
-      <p className="entrada">
-        Escribe una fórmula y la resuelve con todas las columnas intermedias. Úsalo para comprobar las tablas que
-        hagas en tu cuaderno.
-      </p>
-      <div className="pregunta" style={{ marginTop: 22 }}>
-        <input className="campo" value={texto} onChange={(e) => setTexto(e.target.value)} aria-label="Fórmula"
-          spellCheck={false} autoCapitalize="off" autoComplete="off" />
-        <Teclado letras={['p', 'q', 'r', 's']} alInsertar={(s) => setTexto((t) => t + s)} />
-        <div className="fila" style={{ marginBottom: 14 }}>
-          <span style={{ fontSize: 12, color: 'var(--tinta-3)' }}>Ejemplos:</span>
-          {EJEMPLOS.map(([n, f]) => <button key={n} className="boton fant chico" onClick={() => setTexto(f)}>{n}</button>)}
-          <button className="boton fant chico" onClick={() => setTexto('')}>borrar</button>
-        </div>
-        <p style={{ fontSize: 13, color: 'var(--tinta-3)', margin: '0 0 14px' }}>
-          Atajos: <code className="simb">~</code> o <code className="simb">!</code> para ¬,
-          <code className="simb">^</code> para ∧, <code className="simb">v</code> para ∨,
-          <code className="simb">-&gt;</code> para →, <code className="simb">&lt;-&gt;</code> para ↔.
-        </p>
-        {error && <p className="aviso error">{error}</p>}
-        {arbol && (
-          <>
-            <p className="aviso info">Leída así: <strong>{aTexto(arbol)}</strong> · {NOMBRE_CLASE[clasificar(arbol)]}</p>
-            <TablaVerdad formula={texto} />
-            <p style={{ fontSize: 14.5 }}><strong>Justificación:</strong> {justificar(arbol)}</p>
-          </>
-        )}
-      </div>
-      <Agregado>
-        <p>
-          Para comprobar si dos fórmulas son equivalentes, únelas con ↔. Si sale tautología, lo son. Para comprobar una
-          conclusión, escribe <code className="simb">(premisa1 ∧ premisa2) → conclusión</code>: si es tautología, la
-          conclusión es válida.
-        </p>
-      </Agregado>
     </div>
   );
 }

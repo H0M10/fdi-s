@@ -24,7 +24,12 @@ clase, un banco de preguntas para practicar y un simulacro con el mismo formato 
 - **Simulacro** de 18 preguntas: 8 de opción múltiple y 10 casos con incisos, como reportaron
   los compañeros que ya presentaron el examen.
 - **Repaso** de lo que has fallado.
-- **Constructor de tablas** de verdad con todos los pasos intermedios.
+- **Tablas**, una sección aparte de las preguntas para trabajar las tablas a mano:
+  - memorizar los cinco conectores (taparlos y llenarlos de memoria, ronda rápida, columnas que
+    conviene reconocer y atajos para razonar);
+  - resolver 41 tablas columna por columna, con la regla de cada conector a la vista y los
+    renglones mal marcados para corregirlos (incluye las leyes, que se comprueban con ↔);
+  - comprobar cualquier fórmula con todos sus pasos intermedios.
 - **Simulador del controlador PID** en un aerogenerador: qué hace cada componente y por qué
   hace falta anticipar.
 - Notación **V/F o 1/0**, y modo oscuro automático.
@@ -66,7 +71,7 @@ Genera `dist-unico/index.html`, que tiene todo adentro: se abre con doble clic, 
 npm test
 ```
 
-**515 pruebas.** Verifican cinco cosas:
+**526 pruebas.** Verifican sobre todo esto:
 
 - **El motor de lógica** (`src/logica/motor.test.ts`): los cinco conectores, el orden de los
   renglones, De Morgan, la contrapositiva, las reglas de inferencia y sus falacias.
@@ -78,6 +83,9 @@ npm test
 - **El simulador PID** (`src/logica/pid.test.ts`): que muestre lo que dice la lección (solo P
   deja error, la integral lo quita, la predicción baja el pico a menos de un tercio).
 - **Que todo se dibuje** (`src/render.test.ts`): las 9 lecciones y las 326 preguntas.
+- **La sección de tablas** (`src/paginas/tablas.test.tsx`): llenar una columna, equivocarse y
+  corregir, que cada uno de los problemas abra, y que las leyes verdaderas den tautología y las
+  trampas (recíproca, inversa, De Morgan mal recordada) no.
 
 Las respuestas de tablas, clasificación y conclusiones **no están escritas a mano**: las calcula
 el motor a partir de la fórmula. Así es imposible que el banco tenga una de esas respuestas mal.

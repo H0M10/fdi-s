@@ -460,6 +460,104 @@ table.tv thead .final { color: var(--examen); }
 .celda:disabled { cursor: default; }
 
 /* ------------------------------------------------------------------ */
+/* Resolver una tabla columna por columna                             */
+/* ------------------------------------------------------------------ */
+.resolver { font-family: var(--sans); font-size: 14.5px; line-height: 1.55; }
+.resolver p { font-family: var(--sans); }
+.resolver-plan { color: var(--tinta-2); margin: 0 0 12px; }
+.resolver-ok { color: var(--bien); font-weight: 600; margin: 0 0 10px; }
+.pista-col {
+  background: var(--acento-suave);
+  border-left: 3px solid var(--acento);
+  border-radius: 0 8px 8px 0;
+  padding: 11px 14px;
+  margin: 0 0 14px;
+}
+.pista-col .etiqueta {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--acento);
+  margin-bottom: 4px;
+}
+.pista-col p { margin: 0 0 6px; max-width: none; }
+.pista-col p:last-child { margin-bottom: 0; }
+.pista-formula { font-size: 16px; }
+.pista-fuentes, .pista-truco { font-size: 13.5px; color: var(--tinta-2); }
+table.tv th.activa { color: var(--acento); box-shadow: inset 0 -3px 0 var(--acento); }
+table.tv td.activa { background: var(--acento-suave); }
+table.tv .fuente { background: var(--superficie-2); }
+table.tv thead .fuente { color: var(--tinta); text-decoration: underline; text-underline-offset: 3px; }
+table.tv th.futura { color: var(--tinta-3); font-weight: 500; }
+table.tv td.futura { background: transparent; }
+.resolver-final { margin-top: 6px; }
+.resolver-final .fila .opcion { flex: 1 1 200px; }
+.hazla { margin: 4px 0 20px; }
+
+/* ------------------------------------------------------------------ */
+/* Sección Tablas                                                     */
+/* ------------------------------------------------------------------ */
+.texto-seccion { font-size: 15px; color: var(--tinta-2); max-width: 66ch; margin: 0 0 14px; line-height: 1.6; }
+.conectores { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.conector {
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: var(--sombra);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.conector-cabeza { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
+.conector-cabeza h3 { margin: 0; font-size: 15px; }
+.conector-simbolo {
+  font-family: var(--mono);
+  font-size: 22px;
+  color: var(--acento);
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--acento-suave);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.conector-lee { font-size: 12.5px; color: var(--tinta-3); }
+.conector-regla { margin: 0 0 10px; color: var(--tinta-2); }
+.conector table.tv { border: 1px solid var(--linea); border-radius: 6px; }
+.conector table.tv th, .conector table.tv td { padding: 4px 8px; }
+.conector .celda { width: 34px; height: 28px; font-size: 13px; }
+.conector-raro { margin: 10px 0 0; font-size: 12.5px; color: var(--tinta-2); }
+.ronda-boton { min-width: 72px; font-family: var(--mono); font-size: 18px; }
+.boton.bien { background: var(--bien); border-color: var(--bien); color: #fff; opacity: 1; }
+.boton.mal { background: var(--mal); border-color: var(--mal); color: #fff; opacity: 1; }
+.atajos { font-size: 15px; line-height: 1.6; padding-left: 1.3em; max-width: 66ch; margin: 0 0 16px; }
+.atajos li { margin-bottom: 8px; }
+.grupo-problemas { font-size: 15px; margin: 0 0 10px; }
+.problemas { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; }
+.problema {
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--linea-fuerte);
+  background: var(--superficie);
+  color: var(--tinta);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  cursor: pointer;
+}
+.problema:hover { border-color: var(--acento); background: var(--acento-suave); }
+.problema small { display: block; font-family: var(--sans); font-size: 12px; color: var(--tinta-3); margin-bottom: 2px; }
+.problema .hecho { color: var(--bien); font-family: var(--sans); font-weight: 700; }
+.leccion a, .texto-seccion a { color: var(--acento); }
+
+/* ------------------------------------------------------------------ */
 /* Preguntas                                                          */
 /* ------------------------------------------------------------------ */
 .pregunta {

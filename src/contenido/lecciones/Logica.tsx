@@ -1,4 +1,5 @@
 import { Agregado, Correccion, Ejemplo, Ojo, Profe, S, Seccion, Tabla } from '../../componentes/Leccion';
+import { HazlaTu } from '../../componentes/ResolverTabla';
 import { TablaVerdad } from '../../componentes/TablaVerdad';
 
 export default function Logica() {
@@ -126,6 +127,10 @@ export default function Logica() {
           columna. Esta es la del ejemplo de incendios, con sus cuatro pasos:
         </p>
         <TablaVerdad formula="((p ∨ q) ∧ ¬r) → s" />
+        <p>
+          Para practicar esto a mano, columna por columna y con la regla a la vista, está la sección{' '}
+          <a href="#tablas-resolver">Tablas → Resolver paso a paso</a>. Ahí también puedes memorizar los conectores.
+        </p>
       </Seccion>
 
       <Seccion titulo="Tautología, contradicción y contingencia">
@@ -213,8 +218,13 @@ export default function Logica() {
           <TablaVerdad formula="¬(p ∧ q) ↔ (¬p ∧ ¬q)" />
         </Ojo>
 
-        <p>Compruébalo con la ley correcta: si dos fórmulas son equivalentes, unidas con ↔ dan tautología.</p>
-        <TablaVerdad formula="¬(p ∧ q) ↔ (¬p ∨ ¬q)" />
+        <h3>Cómo se comprueba una ley</h3>
+        <p>
+          Dos fórmulas son equivalentes si valen lo mismo en todos los renglones. Para comprobarlo se unen con ↔ y se
+          hace la tabla: como ↔ es verdadero cuando las dos partes valen lo mismo, si la columna final sale toda
+          verdadera (tautología), son equivalentes. Basta un renglón falso para que no lo sean.
+        </p>
+        <HazlaTu formula="¬(p ∧ q) ↔ (¬p ∨ ¬q)" final="equivalencia" />
         <p>
           En el examen aparece al sacar conclusiones: el modus tollens te deja algo como <S>¬(p ∧ q)</S>, y De Morgan
           lo convierte en «falta al menos una». También al simbolizar «ni… ni…», que es <S>¬p ∧ ¬q</S>.
