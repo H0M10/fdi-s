@@ -368,6 +368,53 @@ export const PREGUNTAS_ENFOQUES = [
     'Predecir con ventas anteriores es **machine learning**. Decidir cuánto comprar para gastar lo menos es **optimización**. Es la misma pareja que en el comedor: el modelo predice, la optimización decide. **Híbrido**.',
   ),
 
+  // ---------------------------------------------------------------
+  // «Decide» no dice el enfoque. Mismo verbo, enfoques distintos: lo que
+  // cambia es si alguien ya fijó la respuesta (reglas) o si el sistema
+  // compara opciones y elige la mejor (optimización).
+  // ---------------------------------------------------------------
+  P.vf(
+    'Si un caso dice que el sistema «decide» algo, el enfoque es reglas.',
+    false,
+    'Todos los enfoques terminan decidiendo algo. Lo que importa es **cómo** decide: si revisa una condición que alguien escribió, es reglas; si compara opciones para quedarse con la mejor, es optimización.',
+  ),
+  P.opcion(
+    '¿Qué parte de un caso te dice que el enfoque es optimización?',
+    ['«para gastar lo menos posible»', '«decide»', '«si hay más de 50 pedidos»', '«con datos de meses anteriores»'],
+    0,
+    '«Lo menos posible», «lo más posible», «el mejor», «al menor costo»: eso es optimización. «Decide» aparece con cualquier enfoque; «si hay más de…» es una regla; «con datos anteriores» es machine learning.',
+  ),
+  P.opcion(
+    'Una app de comida decide llamar a 10 repartidores si hay más de 50 pedidos, y a 5 si hay menos. ¿Qué enfoque decide cuántos llamar?',
+    ...de(ENFOQUES, ['Reglas', 'Optimización', 'Machine learning', 'Búsqueda'], 'Reglas'),
+    'Los números 10 y 5 ya los fijó una persona. El sistema no compara opciones: solo revisa si hay más de 50. Eso es **reglas**.',
+  ),
+  P.opcion(
+    'Una app de comida decide cuántos repartidores llamar para gastar lo menos posible sin dejar pedidos sin entregar. ¿Qué enfoque decide cuántos llamar?',
+    ...de(ENFOQUES, ['Optimización', 'Reglas', 'Machine learning', 'Búsqueda'], 'Optimización'),
+    'Nadie fijó el número. El sistema compara: ¿con 5 alcanza?, ¿con 6?… y elige el que cuesta menos. «**Lo menos posible**» es la señal de optimización.',
+  ),
+  P.opcion(
+    'Un almacén decide volver a pedir un producto cuando le quedan menos de 20 piezas. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Reglas', 'Optimización', 'Machine learning', 'Búsqueda'], 'Reglas'),
+    '«Cuando queden menos de 20» es una condición fija que escribió alguien.',
+  ),
+  P.opcion(
+    'Un almacén decide cuántas piezas pedir de cada producto para gastar lo menos posible sin quedarse sin inventario. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Optimización', 'Reglas', 'Machine learning', 'Búsqueda'], 'Optimización'),
+    'El mismo almacén, pero ahora busca **la mejor cantidad**. Nadie sabe la respuesta de antemano: el sistema la calcula comparando opciones.',
+  ),
+  P.opcion(
+    'Un banco decide no prestarle a nadie que tenga deudas vencidas. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Reglas', 'Optimización', 'Machine learning', 'Deep learning'], 'Reglas'),
+    'Es una condición del reglamento: «si tiene deudas vencidas, no se presta».',
+  ),
+  P.opcion(
+    'Un banco decide a qué clientes prestarles para ganar lo más posible con el dinero que tiene disponible. ¿Qué enfoque es?',
+    ...de(ENFOQUES, ['Optimización', 'Reglas', 'Machine learning', 'Búsqueda'], 'Optimización'),
+    '«**Lo más posible**» con un recurso limitado: optimización. Compara combinaciones de clientes y elige la que más gana.',
+  ),
+
   // Casos de UN solo enfoque: aquí no es híbrido.
   P.multi(
     'Un GPS encuentra cómo llegar de tu casa a la escuela. Selecciona **todos** los enfoques que usa.',

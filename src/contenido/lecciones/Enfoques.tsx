@@ -27,6 +27,32 @@ export default function Enfoques() {
             «Híbrido» es el nombre de la combinación; lo que demuestra que entendiste el caso son las piezas.
           </p>
         </Ojo>
+
+        <h3>Las palabras que delatan el enfoque</h3>
+        <Tabla
+          cabeza={['Si el caso dice…', 'Es…']}
+          filas={[
+            ['«si…», «cuando pase…», «nunca», «siempre», «no más de…»', 'Reglas'],
+            ['«llegar de A a B», «encontrar el camino», «la salida»', 'Búsqueda'],
+            ['«lo menos posible», «lo más posible», «el mejor», «al menor costo»', 'Optimización'],
+            ['«con datos de antes», «predice», «aprende»', 'Machine learning'],
+            ['«millones de imágenes», «audio», «reconoce rostros»', 'Deep learning'],
+          ]}
+        />
+        <Ojo titulo="Cuidado con «decide»">
+          <p>
+            La palabra <strong>«decide» no te dice el enfoque</strong>: todos terminan decidiendo algo. Lo que importa es
+            <strong> cómo</strong> decide.
+          </p>
+          <p>
+            «Decide llamar a 10 repartidores <strong>si</strong> hay más de 50 pedidos» → <strong>reglas</strong>: el 10
+            ya lo fijó alguien, el sistema solo revisa la condición.
+          </p>
+          <p>
+            «Decide cuántos repartidores llamar <strong>para gastar lo menos posible</strong>» →
+            <strong> optimización</strong>: nadie sabe el número, el sistema compara opciones y elige la mejor.
+          </p>
+        </Ojo>
       </Seccion>
 
       <Seccion titulo="El enfoque clásico: cuatro cuadrantes">
