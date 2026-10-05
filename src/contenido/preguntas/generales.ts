@@ -107,7 +107,7 @@ export const PREGUNTAS_CONCEPTOS = [
       'Le das un modelo; te devuelve datos',
     ],
     0,
-    'Las reglas se infieren de los datos. Por eso conviene cuando son difíciles de escribir a mano.',
+    'Las reglas se infieren de los datos, y **esas reglas son el modelo**. Le das horas de estudio con su calificación y te devuelve `calificación = 5 + 1 × horas`. Después usas esa regla con alumnos nuevos: eso es la inferencia. Por eso ML conviene cuando la regla es difícil de escribir a mano.',
   ),
   C.opcion(
     'Para detectar spam, escribes «si el correo contiene "premio" y "gratis", es spam». ¿Qué tipo de programación es?',
