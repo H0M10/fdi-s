@@ -169,8 +169,56 @@ export default function Logica() {
             [<S key="2">¬(p ∨ q) ≡ ¬p ∧ ¬q</S>, '«No hay humo ni fuego» = no hay ninguno de los dos'],
           ]}
         />
-        <p>Compruébalo: si dos fórmulas son equivalentes, unidas con ↔ dan tautología.</p>
+        <h3>Qué hace, paso a paso</h3>
+        <p>
+          De Morgan sirve para una sola situación: hay una <strong>negación afuera de un paréntesis</strong> con ∧ o ∨,
+          y quieres meterla. La negación le toca a <strong>todo</strong> lo de adentro:
+        </p>
+        <ol>
+          <li>A <strong>cada letra</strong> le pones ¬.</li>
+          <li>Al <strong>conector</strong> lo volteas: ∧ se vuelve ∨, y ∨ se vuelve ∧. Esa es la forma de «negar» el conector.</li>
+          <li>Si una letra ya traía ¬, se cancelan: <S>¬¬p</S> es <S>p</S>.</li>
+        </ol>
+        <Ejemplo titulo="Ejemplo con una letra ya negada">
+          <p>
+            <S>¬(¬p ∧ q)</S> → <S>¬¬p ∨ ¬q</S> → <S>p ∨ ¬q</S>
+          </p>
+        </Ejemplo>
+
+        <h3>Por qué el conector se voltea</h3>
+        <Tabla
+          cabeza={['Original', 'Cuándo es verdadera', 'Negarla significa…', 'Fórmula']}
+          filas={[
+            [<S key="1">p ∧ q</S>, 'Solo si las dos son verdaderas', 'Que falla al menos una', <S key="2">¬p ∨ ¬q</S>],
+            [<S key="3">p ∨ q</S>, 'Si al menos una es verdadera', 'Que no hay ninguna', <S key="4">¬p ∧ ¬q</S>],
+          ]}
+        />
+        <Ejemplo titulo="Con la mochila">
+          <p>
+            «No es cierto que traje cuaderno <strong>y</strong> pluma» no dice que no traje ninguno. Dice que me falta
+            el cuaderno, <strong>o</strong> me falta la pluma, o los dos: <S>¬c ∨ ¬p</S>.
+          </p>
+          <p>
+            «No traje cuaderno <strong>ni</strong> pluma» sí dice que no traje ninguno: no traje cuaderno
+            <strong> y</strong> no traje pluma: <S>¬c ∧ ¬p</S>.
+          </p>
+        </Ejemplo>
+
+        <Ojo titulo="El error típico: negar las letras sin voltear el conector">
+          <p>
+            <S>¬(p ∧ q)</S> <strong>no</strong> es <S>¬p ∧ ¬q</S>. Basta un renglón para verlo: con p verdadera y q
+            falsa, <S>¬(p ∧ q)</S> da verdadero, pero <S>¬p ∧ ¬q</S> da falso. Si unes las dos con ↔ no sale
+            tautología:
+          </p>
+          <TablaVerdad formula="¬(p ∧ q) ↔ (¬p ∧ ¬q)" />
+        </Ojo>
+
+        <p>Compruébalo con la ley correcta: si dos fórmulas son equivalentes, unidas con ↔ dan tautología.</p>
         <TablaVerdad formula="¬(p ∧ q) ↔ (¬p ∨ ¬q)" />
+        <p>
+          En el examen aparece al sacar conclusiones: el modus tollens te deja algo como <S>¬(p ∧ q)</S>, y De Morgan
+          lo convierte en «falta al menos una». También al simbolizar «ni… ni…», que es <S>¬p ∧ ¬q</S>.
+        </p>
         <h3>Otras equivalencias útiles</h3>
         <Tabla
           cabeza={['Ley', 'Equivalencia']}

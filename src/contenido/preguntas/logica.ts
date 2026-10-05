@@ -108,6 +108,30 @@ export const PREGUNTAS_LOGICA = [
     false,
     'Es la confusión más común. Al meter la negación el conector se voltea: ¬(p ∧ q) ≡ ¬p **∨** ¬q. «No es cierto que esté actualizado y protegido» significa que le falta **al menos una** de las dos, no las dos.',
   ),
+  P.vf(
+    'Al aplicar De Morgan, la negación le toca a cada letra y también al conector, que se voltea.',
+    true,
+    'A cada letra le pones ¬, y el conector cambia: ∧ se vuelve ∨ y ∨ se vuelve ∧. Voltear el conector es la forma de «negarlo».',
+  ),
+  P.opcion(
+    '¿A qué es equivalente ¬(p ∨ q)?',
+    ['¬p ∧ ¬q', '¬p ∨ ¬q', 'p ∧ q', '¬p ∨ q'],
+    0,
+    'Segunda ley: se niega cada letra y el ∨ se vuelve ∧. «No hay humo ni fuego» = no hay humo **y** no hay fuego.',
+  ),
+  P.opcion(
+    'Aplica De Morgan a ¬(¬p ∧ q).',
+    ['p ∨ ¬q', '¬p ∨ ¬q', 'p ∧ ¬q', '¬p ∧ q'],
+    0,
+    'Se niega cada letra: ¬¬p y ¬q. El ∧ se vuelve ∨. Y ¬¬p se cancela: queda **p ∨ ¬q**. La segunda opción olvidó que p ya traía una negación.',
+  ),
+  P.opcion(
+    'Aplica De Morgan a ¬(p ∨ ¬q).',
+    ['¬p ∧ q', '¬p ∨ q', '¬p ∧ ¬q', 'p ∧ q'],
+    0,
+    'Se niega cada letra: ¬p y ¬¬q, que es q. El ∨ se vuelve ∧: queda **¬p ∧ q**.',
+  ),
+  P.clasificar('¬(p ∧ q) ↔ (¬p ∧ ¬q)', 'La versión mal recordada de De Morgan: negar las letras sin voltear el conector. ¿Sale tautología?'),
   P.opcion(
     '¿Cuál es la contrapositiva de p → q?',
     ['¬q → ¬p', 'q → p', '¬p → ¬q', 'p → ¬q'],
