@@ -47,6 +47,25 @@ describe('estructura del banco', () => {
   });
 });
 
+describe('orden de estudio', () => {
+  const pos = (id: string) => TEMAS.findIndex((t) => t.id === id);
+  // Cada par es [lo que se necesita antes, lo que lo usa].
+  const dependencias: [string, string][] = [
+    ['que-es', 'historia'],
+    ['conceptos', 'enfoques'],
+    ['enfoques', 'logica'],
+    ['ramas', 'aplicaciones'],
+    ['enfoques', 'aplicaciones'],
+    ['ramas', 'etica'],
+  ];
+  for (const [antes, despues] of dependencias) {
+    it(`${antes} va antes que ${despues}`, () => expect(pos(antes)).toBeLessThan(pos(despues)));
+  }
+  it('los casos tipo examen van al final, porque integran todo', () => {
+    expect(TEMAS[TEMAS.length - 1].id).toBe('casos');
+  });
+});
+
 describe('opción múltiple', () => {
   for (const [nombre, i] of INCISOS) {
     if (i.tipo !== 'opcion') continue;

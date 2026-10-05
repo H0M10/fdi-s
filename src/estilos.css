@@ -244,9 +244,9 @@ h3 { font-size: 16px; font-weight: 650; }
 
 .temas-rejilla {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 12px;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 .tema-tarjeta {
   text-align: left;
@@ -264,6 +264,54 @@ h3 { font-size: 16px; font-weight: 650; }
 .tema-tarjeta h3 { font-size: 16px; }
 .tema-tarjeta p { margin: 0; font-size: 13.5px; color: var(--tinta-2); line-height: 1.45; }
 .tema-tarjeta .en-examen { font-size: 12.5px; color: var(--examen); font-weight: 500; }
+
+/* Bloques de temas en el inicio: el número es el orden de estudio */
+.bloque-temas { margin-top: 26px; }
+.bloque-temas-cabeza { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--linea); padding-bottom: 8px; }
+.bloque-temas-cabeza h3 { font-size: 15px; }
+.bloque-temas-cabeza p { margin: 0; font-size: 13px; color: var(--tinta-3); }
+.tema-num {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--acento);
+  background: var(--acento-suave);
+  border-radius: 5px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Anterior / siguiente al final de cada tema */
+.vecinos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--linea);
+}
+.vecino {
+  text-align: left;
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  padding: 12px 14px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.vecino:hover { border-color: var(--acento); }
+.vecino.siguiente { text-align: right; }
+.vecino-rotulo { font-size: 12px; color: var(--tinta-3); font-weight: 500; }
+.vecino-titulo { font-size: 14.5px; font-weight: 600; color: var(--acento); }
+@media (max-width: 560px) {
+  .vecinos { grid-template-columns: 1fr; }
+  .vecinos > span:empty { display: none; }
+}
 
 .medidor { display: flex; align-items: center; gap: 10px; margin-top: auto; padding-top: 6px; }
 .medidor-barra { flex: 1; height: 6px; background: var(--superficie-2); border-radius: 3px; overflow: hidden; }

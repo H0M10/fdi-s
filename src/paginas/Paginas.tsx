@@ -6,7 +6,7 @@ import { Teclado } from '../componentes/Pregunta';
 import { TablaVerdad } from '../componentes/TablaVerdad';
 import { LECCIONES } from '../contenido/lecciones';
 import { deTema, porId, TODAS } from '../contenido/preguntas';
-import { tema, TEMAS } from '../contenido/temas';
+import { anterior, BLOQUES, numero, siguiente, tema, TEMAS } from '../contenido/temas';
 import { analizar, aTexto, clasificar, ErrorFormula, justificar, NOMBRE_CLASE, variables } from '../logica/motor';
 import { reiniciar, resumen, useProgreso } from '../progreso';
 import { ir } from '../rutas';
@@ -57,27 +57,40 @@ export function Inicio() {
       </section>
 
       <div className="fila" style={{ justifyContent: 'space-between', alignItems: 'baseline' }}>
-        <h2>Temas</h2>
+        <h2>Temas, en orden de estudio</h2>
         {global.vistas > 0 && (
           <span className="medidor-texto">{global.dominadas} de {global.total} dominadas</span>
         )}
       </div>
-      <div className="temas-rejilla">
-        {TEMAS.map((t) => {
-          const r = resumen(deTema(t.id).map((p) => p.id), progreso);
-          return (
-            <button key={t.id} className="tema-tarjeta" onClick={() => ir(`tema-${t.id}`)}>
-              <h3>{t.titulo}</h3>
-              <p>{t.resumen}</p>
-              <span className="en-examen">{t.enExamen}</span>
-              <div className="medidor">
-                <div className="medidor-barra"><div className="medidor-relleno" style={{ width: `${(r.dominadas / r.total) * 100}%` }} /></div>
-                <span className="medidor-texto">{r.dominadas}/{r.total}</span>
-              </div>
-            </button>
-          );
-        })}
-      </div>
+      <p style={{ fontSize: 14, color: 'var(--tinta-2)', margin: '6px 0 0', maxWidth: '62ch' }}>
+        Van en el orden en que se dieron en clase, que también es el orden en que se necesitan: cada uno usa lo
+        del anterior.
+      </p>
+      {BLOQUES.map((b) => (
+        <section key={b.id} className="bloque-temas" aria-labelledby={`bloque-${b.id}`}>
+          <div className="bloque-temas-cabeza">
+            <h3 id={`bloque-${b.id}`}>{b.titulo}</h3>
+            <p>{b.idea}</p>
+          </div>
+          <div className="temas-rejilla">
+            {TEMAS.filter((t) => t.bloque === b.id).map((t) => {
+              const r = resumen(deTema(t.id).map((p) => p.id), progreso);
+              return (
+                <button key={t.id} className="tema-tarjeta" onClick={() => ir(`tema-${t.id}`)}>
+                  <span className="tema-num">{numero(t.id)}</span>
+                  <h3>{t.titulo}</h3>
+                  <p>{t.resumen}</p>
+                  <span className="en-examen">{t.enExamen}</span>
+                  <div className="medidor">
+                    <div className="medidor-barra"><div className="medidor-relleno" style={{ width: `${(r.dominadas / r.total) * 100}%` }} /></div>
+                    <span className="medidor-texto">{r.dominadas}/{r.total}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      ))}
 
       <footer className="pie">
         <p>
@@ -105,11 +118,14 @@ export function PaginaTema({ id, practicar }: { id: IdTema; practicar: boolean }
   const preguntas = deTema(id);
   const progreso = useProgreso();
   const r = resumen(preguntas.map((p) => p.id), progreso);
+  const ant = anterior(id);
+  const sig = siguiente(id);
+  const bloque = BLOQUES.find((b) => b.id === t.bloque)!;
 
   return (
     <div className="pagina angosta">
       <div className="tema-cabecera">
-        <p className="rotulo">Tema</p>
+        <p className="rotulo">Tema {numero(id)} de {TEMAS.length} · {bloque.titulo}</p>
         <h1>{t.titulo}</h1>
         <p className="entrada">{t.resumen}</p>
         <div className="bloque ojo" style={{ marginTop: 16, marginBottom: 0 }}>
@@ -138,6 +154,26 @@ export function PaginaTema({ id, practicar }: { id: IdTema; practicar: boolean }
           </div>
         </>
       )}
+
+      <nav className="vecinos" aria-label="Orden de estudio">
+        {ant ? (
+          <button className="vecino" onClick={() => ir(`tema-${ant.id}`)}>
+            <span className="vecino-rotulo">← Anterior</span>
+            <span className="vecino-titulo">{numero(ant.id)}. {ant.titulo}</span>
+          </button>
+        ) : <span />}
+        {sig ? (
+          <button className="vecino siguiente" onClick={() => ir(`tema-${sig.id}`)}>
+            <span className="vecino-rotulo">Siguiente →</span>
+            <span className="vecino-titulo">{numero(sig.id)}. {sig.titulo}</span>
+          </button>
+        ) : (
+          <button className="vecino siguiente" onClick={() => ir('simulacro')}>
+            <span className="vecino-rotulo">Terminaste los temas →</span>
+            <span className="vecino-titulo">Haz un simulacro</span>
+          </button>
+        )}
+      </nav>
     </div>
   );
 }
