@@ -54,10 +54,16 @@ export const PREGUNTAS_CONCEPTOS = [
     'Está al revés, y así quedó en el apunte. El modelo lo produce el **entrenamiento**. El motor de inferencia **usa** el modelo ya entrenado para responder ante una entrada nueva.',
   ),
   C.opcion(
-    '¿Qué produce el modelo?',
-    ['El entrenamiento', 'La inferencia', 'El motor de inferencia', 'La predicción'],
+    '¿De qué proceso sale el modelo?',
+    ['Del entrenamiento', 'De la inferencia', 'Del motor de inferencia', 'De la predicción'],
     0,
-    'Datos + algoritmo → [entrenamiento] → modelo. Después: entrada nueva + modelo → [inferencia] → respuesta.',
+    'Algoritmo + datos → [**entrenamiento**] → modelo. La inferencia y la predicción vienen después, cuando el modelo ya existe.',
+  ),
+  C.opcion(
+    'Cuando al modelo ya entrenado le das un dato nuevo, ¿qué te devuelve?',
+    ['Una predicción', 'Un algoritmo', 'Un modelo nuevo', 'Los datos de entrenamiento'],
+    0,
+    'Modelo + dato nuevo → [inferencia] → **predicción**. Con el modelo `calificación = 5 + 1 × horas`, si le das 2.5 horas te devuelve 7.5. La fórmula es el modelo; el 7.5 es la predicción.',
   ),
   C.opcion(
     '¿Cómo se comparan el entrenamiento y la inferencia en costo y frecuencia?',
@@ -473,7 +479,7 @@ export const PREGUNTAS_APLICACIONES = [
     'Proporcional + Integral. Es el que aparece en «optimización de PI» en el estado del arte.',
   ),
   A.opcion(
-    'En el aerogenerador, ¿qué mueve el controlador para regular la velocidad?',
+    'En el aerogenerador, ¿sobre qué actúa el controlador para regular la velocidad?',
     ['El ángulo de las aspas', 'La altura de la torre', 'La dirección del viento', 'El generador eléctrico'],
     0,
     'Eso es el **control de pitch**.',
