@@ -26,6 +26,10 @@ export default function Enfoques() {
             Si te sale más de una, no contestes solo «híbrido»: <strong>di cuáles son y qué hace cada una</strong>.
             «Híbrido» es el nombre de la combinación; lo que demuestra que entendiste el caso son las piezas.
           </p>
+          <p style={{ marginTop: 8 }}>
+            En la práctica, todas las preguntas de enfoques te dejan marcar varios, aunque la respuesta sea uno
+            solo. Así tienes que decidir tú cuántos son.
+          </p>
         </Ojo>
 
         <h3>Las palabras que delatan el enfoque</h3>
@@ -51,6 +55,21 @@ export default function Enfoques() {
           <p>
             «Decide cuántos repartidores llamar <strong>para gastar lo menos posible</strong>» →
             <strong> optimización</strong>: nadie sabe el número, el sistema compara opciones y elige la mejor.
+          </p>
+          <p>
+            Si además el caso pone un <strong>límite fijo aparte</strong> («y nunca más de 8 horas»), ese límite es
+            <strong> reglas</strong>, junto con la optimización.
+          </p>
+        </Ojo>
+        <Ojo titulo="«Más corto» no siempre es optimización">
+          <p>
+            Un <strong>camino de A a B</strong>, aunque sea el más corto, es <strong>búsqueda</strong>: hay un punto de
+            partida, una meta y pasos en medio. UCS encuentra justo el más corto.
+          </p>
+          <p>
+            Es <strong>optimización</strong> cuando no hay un camino, sino una <strong>cantidad</strong>, un
+            <strong> orden</strong> o un <strong>acomodo</strong> que elegir: cuántas porciones, en qué orden entregar,
+            cómo acomodar las cajas.
           </p>
         </Ojo>
       </Seccion>

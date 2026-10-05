@@ -88,7 +88,8 @@ function Opcion({ p, onListo, semilla }: { p: POpcion; onListo: AlTerminar; semi
 function Multi({ p, onListo, semilla }: { p: PMulti; onListo: AlTerminar; semilla: string }) {
   const [marcadas, setMarcadas] = useState<Set<number>>(new Set());
   const [listo, setListo] = useState(false);
-  const orden = useOrden(p.opciones.length, semilla);
+  const barajado = useOrden(p.opciones.length, semilla);
+  const orden = p.fijo ? p.opciones.map((_, i) => i) : barajado;
   const correctas = new Set(p.correctas);
   const exacto = listo && marcadas.size === correctas.size && [...marcadas].every((i) => correctas.has(i));
 
@@ -125,7 +126,9 @@ function Multi({ p, onListo, semilla }: { p: PMulti; onListo: AlTerminar; semill
             }}>
             Revisar
           </button>
-          <span style={{ fontSize: 13, color: 'var(--tinta-3)' }}>Puede haber más de una correcta.</span>
+          <span style={{ fontSize: 13, color: 'var(--tinta-3)' }}>
+            <Texto>{p.pista ?? 'Marca todas las que apliquen: puede ser una sola o varias.'}</Texto>
+          </span>
         </div>
       )}
       {listo && (

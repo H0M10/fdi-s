@@ -43,6 +43,10 @@ export interface PMulti {
   opciones: string[];
   correctas: number[];
   explicacion: string;
+  /** Opciones siempre en el mismo orden, sin barajar. */
+  fijo?: boolean;
+  /** Texto junto al botón «Revisar». */
+  pista?: string;
 }
 
 export interface PVF {

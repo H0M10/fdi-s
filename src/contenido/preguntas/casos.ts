@@ -3,7 +3,7 @@
 // y daños éticos, la rama que se usa y el enfoque». Cada uno tiene cuatro
 // incisos en ese mismo orden.
 
-import { de, ENFOQUES, inciso as I, preguntasDe, RAMAS, RIESGOS } from '../fabrica';
+import { de, inciso as I, preguntasDe, RAMAS, RIESGOS } from '../fabrica';
 
 const P = preguntasDe('casos');
 const PRINCIPIOS = ['Finalidad', 'Proporcionalidad o minimización', 'Información', 'Seguridad', 'Derechos ARCO'];
@@ -15,8 +15,8 @@ export const PREGUNTAS_CASOS = [
     [
       I.opcion('¿Cuál es la rama principal?', ...de(RAMAS, ['Percepción computacional', 'Visión por computadora', 'Computación afectiva', 'Representación del conocimiento y razonamiento'], 'Visión por computadora'),
         'Reconocer rostros en **imágenes** de cámaras es visión por computadora. Si fueran sensores de presencia sería percepción.'),
-      I.opcion('¿Qué enfoque técnico usa el reconocimiento facial?', ...de(ENFOQUES, ['Reglas', 'Búsqueda', 'Deep learning', 'Optimización'], 'Deep learning'),
-        'Reconocer rostros con imágenes crudas y miles de ejemplos es la aplicación típica del deep learning.'),
+      I.enfoques(['Deep learning', 'Reglas'],
+        'Reconocer rostros con imágenes crudas y miles de ejemplos es **deep learning**. «Si registra 3 faltas, bloquea la inscripción» es una **regla** que escribió alguien, con un número fijo.'),
       I.opcion('El alumno bloqueado por error no tiene a quién reclamar, porque nadie revisa la decisión. ¿Qué riesgo describe mejor ese problema?', ...de(RIESGOS, ['Responsabilidad y gobernanza', 'Seguridad', 'Uso indebido', 'Sesgo y discriminación'], 'Responsabilidad y gobernanza'),
         'Es el **sistema cerrado** que se identificó en clase: no hay un responsable que revise ni un proceso de apelación.'),
       I.opcion('¿Cuál es la mitigación adecuada?', [
@@ -33,8 +33,8 @@ export const PREGUNTAS_CASOS = [
     [
       I.multi('Selecciona **todas** las ramas que intervienen.', ['Aprendizaje automático', 'Procesamiento de lenguaje natural', 'Robótica y sistemas autónomos', 'Visión por computadora'], [0, 1],
         'Aprende de **datos históricos** para predecir quién contratar (aprendizaje automático) y lee currículums escritos (PLN).'),
-      I.opcion('¿Qué enfoque es?', ...de(ENFOQUES, ['Reglas', 'Machine learning', 'Búsqueda', 'Optimización'], 'Machine learning'),
-        'Datos históricos con su resultado (contratado o no): aprendizaje supervisado.'),
+      I.enfoques(['Machine learning'],
+        'Datos históricos con su resultado (contratado o no): aprendizaje supervisado. Nadie escribió la regla de a quién filtrar: el modelo la sacó de los datos, y por eso heredó el sesgo.'),
       I.opcion('¿Cuál es el principal riesgo ético?', ...de(RIESGOS, ['Sesgo y discriminación', 'Seguridad', 'Error', 'Dependencia y pérdida de juicio'], 'Sesgo y discriminación'),
         'Es el ejemplo de clase. El modelo aprende que el puesto es «para hombres» porque así eran los datos de hace 20 años.'),
       I.opcion('¿Qué idea explica ese riesgo?', [
@@ -53,8 +53,9 @@ export const PREGUNTAS_CASOS = [
         'Es el ejemplo del profesor: no se programa cada robot por separado, sino como un sistema donde cada uno sabe dónde están los demás.'),
       I.multi('¿Qué otras ramas intervienen?', ['Robótica y sistemas autónomos', 'Búsqueda y planificación', 'IA generativa', 'Computación afectiva'], [0, 1],
         'Se mueven (robótica) y calculan rutas (búsqueda y planificación).'),
-      I.opcion('¿Qué enfoque usan para la ruta más corta?', ...de(ENFOQUES, ['Búsqueda', 'Reglas', 'Deep learning', 'Machine learning'], 'Búsqueda'),
-        'Hay un estado inicial, una meta y acciones: es un problema de búsqueda.'),
+      I.enfoques(['Búsqueda'],
+        'Hay un estado inicial, una meta y acciones: es un problema de búsqueda. «Más corta» no la vuelve optimización: sigue siendo encontrar un camino de un punto a otro, y UCS encuentra el más corto.',
+        '¿Con qué enfoque o enfoques calculan la ruta más corta?'),
       I.opcion('Un robot falla y golpea a un trabajador. Según lo visto, el riesgo es aproximadamente igual a…', [
         'La probabilidad de que ocurra por sus consecuencias',
         'El número de robots por el número de trabajadores',
@@ -83,8 +84,8 @@ export const PREGUNTAS_CASOS = [
     [
       I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Percepción computacional', 'Visión por computadora', 'Aprendizaje automático', 'Robótica y sistemas autónomos'], 'Percepción computacional'),
         'La palabra clave es **sensores**.'),
-      I.opcion('¿Qué enfoque usa la decisión de regar?', ...de(ENFOQUES, ['Reglas', 'Machine learning', 'Optimización', 'Deep learning'], 'Reglas'),
-        'La regla la escribió un experto y no se aprende de datos.'),
+      I.enfoques(['Reglas'],
+        'La regla la escribió un experto («si baja de 30 %, regar») y no se aprende de datos. Los sensores son la rama (percepción), no un enfoque.'),
       I.opcion('El sensor desconectado se lee como 0 % y el sistema riega de más. ¿Qué riesgo se materializó?', ...de(RIESGOS, ['Error', 'Privacidad', 'Uso indebido', 'Sesgo y discriminación'], 'Error'),
         'Un dato equivocado produce una decisión equivocada. Que no haya lectura no es lo mismo que una lectura de cero.'),
       I.opcion('¿Qué mitigación es la adecuada?', [
@@ -115,8 +116,9 @@ export const PREGUNTAS_CASOS = [
     [
       I.multi('Selecciona **todas** las ramas que intervienen.', ['Procesamiento de lenguaje natural', 'IA generativa', 'Visión por computadora', 'Robótica y sistemas autónomos'], [0, 1],
         'Entiende lo que escribe el cliente (PLN) y redacta respuestas nuevas (generativa).'),
-      I.opcion('¿Qué enfoque usa el chatbot para redactar sus respuestas?', ...de(ENFOQUES, ['Deep learning', 'Reglas', 'Búsqueda', 'Optimización'], 'Deep learning'),
-        'Los modelos de lenguaje que generan texto son redes neuronales profundas.'),
+      I.enfoques(['Deep learning'],
+        'Los modelos de lenguaje que generan texto son redes neuronales profundas.',
+        '¿Con qué enfoque o enfoques redacta el chatbot sus respuestas?'),
       I.opcion('Un cliente pregunta por qué le negaron el adelanto y nadie puede explicárselo. ¿Qué riesgo es?', ...de(RIESGOS, ['Opacidad y explicabilidad', 'Privacidad', 'Seguridad', 'Uso indebido'], 'Opacidad y explicabilidad'),
         'No se puede recorrer el camino de vuelta desde la decisión hasta las variables que la produjeron.'),
       I.vf('Que el chatbot decida solo un adelanto de nómina es un tratamiento automatizado que produce una consecuencia importante para una persona.', true,
@@ -129,8 +131,8 @@ export const PREGUNTAS_CASOS = [
     [
       I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Búsqueda y planificación', 'Aprendizaje automático', 'Sistemas multiagente', 'Robótica y sistemas autónomos'], 'Búsqueda y planificación'),
         'Estado inicial, meta y algo que minimizar.'),
-      I.opcion('¿Qué enfoque es?', ...de(ENFOQUES, ['Optimización', 'Reglas', 'Deep learning', 'Machine learning'], 'Optimización'),
-        'Se busca **minimizar** la distancia: optimización.'),
+      I.enfoques(['Optimización'],
+        'Lo que elige es un **orden** de entregas que **minimiza** la distancia: optimización. Si solo fuera ir de un punto a otro, sería búsqueda. La rama sí es búsqueda y planificación, porque ahí entra la optimización.'),
       I.opcion('¿Qué cuadrante del enfoque clásico corresponde?', ['Actuar racionalmente', 'Actuar como humano', 'Pensar como humano', 'Pensar racionalmente'], 0,
         'Elige la acción con el mejor resultado según un criterio (la distancia), sin imitar a una persona.'),
       I.opcion('Que los repartidores ya no sepan moverse sin el sistema, ¿qué riesgo es?', ...de(RIESGOS, ['Dependencia y pérdida de juicio', 'Error', 'Privacidad', 'Uso indebido'], 'Dependencia y pérdida de juicio'),
@@ -143,8 +145,8 @@ export const PREGUNTAS_CASOS = [
     [
       I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Visión por computadora', 'Percepción computacional', 'Sistemas cognitivos', 'Representación del conocimiento y razonamiento'], 'Visión por computadora'),
         'Analiza **imágenes** médicas.'),
-      I.opcion('¿Qué enfoque es?', ...de(ENFOQUES, ['Deep learning', 'Reglas', 'Búsqueda', 'Optimización'], 'Deep learning'),
-        'Muchísimas imágenes crudas y la red aprende sola qué buscar.'),
+      I.enfoques(['Deep learning'],
+        'Muchísimas imágenes crudas (100,000) y la red aprende sola qué buscar.'),
       I.opcion('El médico necesita saber por qué el sistema marcó una radiografía antes de tratar al paciente. ¿Qué riesgo atiende esa necesidad?', ...de(RIESGOS, ['Opacidad y explicabilidad', 'Seguridad', 'Uso indebido', 'Dependencia y pérdida de juicio'], 'Opacidad y explicabilidad'),
         'El deep learning es una caja negra. En salud, «porque la red lo dijo» no basta.'),
       I.opcion('El hospital usa esas mismas radiografías para venderlas a una farmacéutica. ¿Qué principio de la ley se viola?', PRINCIPIOS, 0,
@@ -157,8 +159,8 @@ export const PREGUNTAS_CASOS = [
     [
       I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Representación del conocimiento y razonamiento', 'Aprendizaje automático', 'Sistemas cognitivos', 'Búsqueda y planificación'], 'Representación del conocimiento y razonamiento'),
         'Hechos más reglas que pasan por un motor de inferencia.'),
-      I.opcion('¿Qué enfoque es?', ...de(ENFOQUES, ['Reglas', 'Machine learning', 'Deep learning', 'Optimización'], 'Reglas'),
-        'El conocimiento lo escribió un experto.'),
+      I.enfoques(['Reglas'],
+        'El conocimiento lo escribieron los técnicos: «si no enciende y la luz parpadea, revisar la fuente».'),
       I.opcion('¿Cuál es el flujo de esta rama?', [
         'Hechos + Reglas → Motor de inferencia → Conclusiones',
         'Datos históricos → Algoritmos → Modelo',
@@ -175,7 +177,7 @@ export const PREGUNTAS_CASOS = [
     [
       I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['IA generativa', 'Visión por computadora', 'Computación afectiva', 'Aprendizaje automático'], 'IA generativa'),
         'Crea contenido sintético nuevo.'),
-      I.opcion('¿Qué enfoque es?', ...de(ENFOQUES, ['Deep learning', 'Reglas', 'Búsqueda', 'Optimización'], 'Deep learning'),
+      I.enfoques(['Deep learning'],
         'Los generadores de imágenes son redes neuronales profundas entrenadas con millones de imágenes.'),
       I.opcion('Usar la herramienta para fabricar la foto falsa, ¿qué riesgo es?', ...de(RIESGOS, ['Uso indebido', 'Error', 'Sesgo y discriminación', 'Opacidad y explicabilidad'], 'Uso indebido'),
         'La herramienta se usa para algo distinto y dañino respecto a su propósito.'),
@@ -203,8 +205,9 @@ export const PREGUNTAS_CASOS = [
     [
       I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Aprendizaje automático', 'Búsqueda y planificación', 'Sistemas cognitivos', 'Representación del conocimiento y razonamiento'], 'Aprendizaje automático'),
         'Datos históricos para predecir.'),
-      I.opcion('¿Qué enfoque usa para predecir quién abandonará la carrera?', ...de(ENFOQUES, ['Machine learning', 'Reglas', 'Búsqueda', 'Optimización'], 'Machine learning'),
-        'Se aprende de los alumnos que ya desertaron o no.'),
+      I.enfoques(['Machine learning'],
+        'Se aprende de los alumnos que ya desertaron o no.',
+        '¿Con qué enfoque o enfoques predice quién abandonará la carrera?'),
       I.opcion('Usar el nivel socioeconómico puede castigar a alumnos de menores recursos. ¿Qué riesgo es?', ...de(RIESGOS, ['Sesgo y discriminación', 'Seguridad', 'Error', 'Opacidad y explicabilidad'], 'Sesgo y discriminación'),
         'El modelo trata un factor social como predictor y perjudica a un grupo.'),
       I.opcion('¿Cuál es la mitigación adecuada?', [
@@ -221,8 +224,8 @@ export const PREGUNTAS_CASOS = [
     [
       I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Procesamiento de lenguaje natural', 'Computación afectiva', 'IA generativa', 'Visión por computadora'], 'Procesamiento de lenguaje natural'),
         'Interpreta texto escrito.'),
-      I.opcion('¿Qué enfoque es?', ...de(ENFOQUES, ['Machine learning', 'Reglas', 'Búsqueda', 'Optimización'], 'Machine learning'),
-        'Aprende de publicaciones ya etiquetadas como ofensivas o no.'),
+      I.enfoques(['Machine learning'],
+        'Aprende de publicaciones ya etiquetadas como ofensivas o no. Borrar lo que el modelo marca es la acción, no una regla aparte: nadie escribió una condición con un valor fijo.'),
       I.opcion('Que el modelo castigue la forma de hablar de una región, ¿qué riesgo es?', ...de(RIESGOS, ['Sesgo y discriminación', 'Error', 'Seguridad', 'Privacidad'], 'Sesgo y discriminación'),
         'Los datos de entrenamiento no representaban esa forma de hablar.'),
       I.opcion('¿Qué derecho ARCO ejerce un usuario que pide que corrijan la clasificación de su publicación?', ['Rectificación', 'Acceso', 'Cancelación', 'Oposición'], 0,
@@ -231,12 +234,12 @@ export const PREGUNTAS_CASOS = [
   ),
   P.caso(
     'Horario de la universidad',
-    'La universidad quiere un sistema que arme el horario de todos los grupos de forma que ningún profesor tenga dos clases a la misma hora y ningún salón se use dos veces al mismo tiempo.',
+    'La universidad quiere un sistema que pruebe miles de horarios para todos los grupos y se quede con el que deje menos horas libres entre clases a los alumnos. Nunca puede poner a un profesor en dos clases a la misma hora ni usar un salón dos veces al mismo tiempo.',
     [
       I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Búsqueda y planificación', 'Aprendizaje automático', 'Sistemas multiagente', 'Sistemas cognitivos'], 'Búsqueda y planificación'),
         'Es el ejemplo exacto del profesor.'),
-      I.opcion('¿Qué enfoque es?', ...de(ENFOQUES, ['Optimización', 'Machine learning', 'Deep learning', 'Reglas'], 'Optimización'),
-        'Se busca el mejor acomodo posible con restricciones.'),
+      I.enfoques(['Optimización', 'Reglas'],
+        'Quedarse con el horario que deje **menos** horas libres es **optimización**: se compara y se elige el mejor acomodo. «Nunca dos clases a la misma hora» son **reglas** que ponen límites, como los días inhábiles en el comedor. Dos enfoques: **híbrido**.'),
       I.opcion('¿Qué algoritmo de optimización se vio en clase?', ['Algoritmo evolutivo', 'Random forest', 'BFS', 'Red neuronal profunda'], 0,
         'Descarta los peores, genera nuevos y repite.'),
       I.vf('Según el profesor, como la optimización busca un mínimo o un máximo, se considera parte de la búsqueda.', true,

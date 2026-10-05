@@ -41,6 +41,21 @@ premisas (`opcionQueSeSigue`); una opción con `formula: null` significa «ningu
 No cambiar eso por respuestas escritas a mano. Es lo que garantiza que el banco de lógica no
 tenga errores.
 
+### Preguntas de identificar enfoques
+
+Todas van con `P.enfoques` (o `inciso.enfoques` dentro de un caso): selección múltiple, las
+mismas cinco opciones en el mismo orden y la pregunta «¿Qué enfoque o enfoques…?», sea uno
+o varios los correctos. Hanniel pidió que el formato no le diga cuántos marcar. Una prueba
+rechaza cualquier pregunta de una sola respuesta con enfoques como opciones.
+
+Convención para que la selección múltiple sea justa:
+- Un límite fijo aparte («nunca más de 8 horas», «no cocina en días inhábiles») cuenta como
+  **reglas**. Lo que se quiere lograr («lo menos posible», «el menor costo») es
+  **optimización**, y el recurso que se reparte («con el material que tiene») no es una regla.
+- Un camino de A a B, aunque sea el más corto, es **búsqueda**. Elegir una cantidad, un orden
+  o un acomodo es **optimización**.
+- Deep learning se marca sin machine learning.
+
 ### Ids de las preguntas
 
 Se derivan con un hash del enunciado (`src/contenido/fabrica.ts`), no de la posición. Se pueden
@@ -53,7 +68,7 @@ reinicia su progreso, y está bien.
 npx tsc --noEmit && npm test && npm run build
 ```
 
-Las 458 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
+Las 509 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
 que tiene dos respuestas válidas, es que una de las opciones «incorrectas» en realidad también
 se sigue de las premisas (pasa mucho con ¬p ∨ ¬q cuando la correcta es ¬p ∧ ¬q). Hay que
 cambiar esa opción, no la prueba.

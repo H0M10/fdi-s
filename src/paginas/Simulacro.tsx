@@ -13,8 +13,11 @@ const azar = <T,>(a: T[]) => a.map((x) => [Math.random(), x] as const).sort((x, 
 
 function armarExamen(): TPregunta[] {
   // Las 8 de opción múltiple: «generales, de ramas, enfoques, las leyes».
+  // Entra también la selección múltiple, que es como van todas las de
+  // identificar enfoques.
   const generales = azar(TODAS.filter((p) =>
-    (p.tipo === 'opcion' || p.tipo === 'vf') && ['ramas', 'enfoques', 'etica', 'historia', 'que-es', 'conceptos'].includes(p.tema),
+    (p.tipo === 'opcion' || p.tipo === 'vf' || p.tipo === 'multi')
+    && ['ramas', 'enfoques', 'etica', 'historia', 'que-es', 'conceptos'].includes(p.tema),
   ));
   // Los 10 casos: la mayoría de IA (rama, enfoque, ética) y algunos de lógica.
   const casosIA = azar(TODAS.filter((p) => p.tipo === 'caso' && p.tema === 'casos'));

@@ -8,6 +8,7 @@
 import { describe, expect, it } from 'vitest';
 import { analizar, opcionQueSeSigue, variables } from '../logica/motor';
 import type { Inciso, Pregunta } from '../tipos';
+import { COMPONENTES } from './fabrica';
 import { TEMAS } from './temas';
 import { TODAS, deTema } from './preguntas';
 
@@ -87,6 +88,27 @@ describe('selección múltiple', () => {
       expect(i.correctas.length, 'debe haber al menos una opción incorrecta').toBeLessThan(i.opciones.length);
       for (const c of i.correctas) expect(c).toBeLessThan(i.opciones.length);
       expect(new Set(i.opciones).size).toBe(i.opciones.length);
+    });
+  }
+});
+
+describe('identificar enfoques: siempre el mismo formato', () => {
+  const nombres: readonly string[] = COMPONENTES;
+  const esDeEnfoques = (opciones: string[]) => opciones.filter((o) => nombres.includes(o) || o === 'Híbrido').length >= 3;
+
+  it('ninguna pregunta de enfoques es de una sola respuesta, porque eso delata que es uno solo', () => {
+    const sueltas = INCISOS.filter(([, i]) => i.tipo === 'opcion' && esDeEnfoques(i.opciones)).map(([n]) => n);
+    expect(sueltas).toEqual([]);
+  });
+
+  for (const [nombre, i] of INCISOS) {
+    if (i.tipo !== 'multi' || !esDeEnfoques(i.opciones)) continue;
+    it(nombre, () => {
+      expect(i.opciones, 'las mismas cinco opciones').toEqual([...COMPONENTES]);
+      expect(i.fijo, 'en el mismo orden').toBe(true);
+      expect(i.enunciado, 'la misma pregunta').toMatch(/enfoque o enfoques/);
+      const dl = COMPONENTES.indexOf('Deep learning'), ml = COMPONENTES.indexOf('Machine learning');
+      expect(i.correctas.includes(dl) && i.correctas.includes(ml), 'deep learning se marca sin machine learning').toBe(false);
     });
   }
 });

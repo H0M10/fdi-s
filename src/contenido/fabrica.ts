@@ -16,8 +16,46 @@ function hash(s: string): string {
   return (h >>> 0).toString(36);
 }
 
+/**
+ * Los enfoques que pueden formar un sistema. «Híbrido» no va aquí: es el
+ * nombre de la combinación, no una pieza.
+ */
+export const COMPONENTES = ['Reglas', 'Búsqueda', 'Optimización', 'Machine learning', 'Deep learning'] as const;
+export type Componente = (typeof COMPONENTES)[number];
+
+/** La pregunta de siempre. Igual si la respuesta es uno o varios. */
+export const QUE_ENFOQUES = '¿Qué enfoque o enfoques usa?';
+
+/**
+ * Pregunta de identificar los enfoques de un caso. Siempre es selección
+ * múltiple con las mismas cinco opciones en el mismo orden, sea uno o
+ * varios los correctos, para que el formato no delate la respuesta.
+ *
+ * Si la pregunta es por el sistema completo, al final de la explicación se
+ * dice si es híbrido o no. Si es por una sola parte («¿con qué se decide
+ * cuánto cocinar?»), no: esa parte puede ser un solo enfoque dentro de un
+ * sistema híbrido.
+ */
+function preguntaDeEnfoques(enunciado: string, correctas: Componente[], explicacion: string, completo: boolean): PMulti {
+  const cierre = !completo || /h[ií]brido/i.test(explicacion) ? ''
+    : correctas.length === 1 ? ' Es un solo enfoque, así que **no es híbrido**.'
+      : ` Son ${correctas.length} enfoques juntos, así que es **híbrido**.`;
+  return {
+    tipo: 'multi',
+    enunciado,
+    opciones: [...COMPONENTES],
+    correctas: correctas.map((c) => COMPONENTES.indexOf(c)),
+    explicacion: explicacion + cierre,
+    fijo: true,
+    pista: 'Puede ser uno o varios. Si es deep learning, no marques también machine learning.',
+  };
+}
+
 /** Incisos sueltos, para armar casos. */
 export const inciso = {
+  /** Sin pregunta, usa «¿Qué enfoque o enfoques usa?». */
+  enfoques: (correctas: Componente[], explicacion: string, pregunta = QUE_ENFOQUES): PMulti =>
+    preguntaDeEnfoques(pregunta, correctas, explicacion, pregunta === QUE_ENFOQUES),
   opcion: (enunciado: string, opciones: string[], correcta: number, explicacion: string): POpcion =>
     ({ tipo: 'opcion', enunciado, opciones, correcta, explicacion }),
   multi: (enunciado: string, opciones: string[], correctas: number[], explicacion: string): PMulti =>
@@ -46,6 +84,11 @@ export function preguntasDe(tema: IdTema) {
     ({ id: `${tema}-${hash(clave)}`, tema, ...p }) as Pregunta;
 
   return {
+    /** Escenario + «¿Qué enfoque o enfoques usa?», o la pregunta que se le pase. */
+    enfoques: (escenario: string, correctas: Componente[], explicacion: string, pregunta = QUE_ENFOQUES) => {
+      const enunciado = `${escenario} ${pregunta}`;
+      return con(enunciado, preguntaDeEnfoques(enunciado, correctas, explicacion, pregunta === QUE_ENFOQUES));
+    },
     opcion: (...a: Parameters<typeof inciso.opcion>) => con(a[0], inciso.opcion(...a)),
     multi: (...a: Parameters<typeof inciso.multi>) => con(a[0], inciso.multi(...a)),
     vf: (...a: Parameters<typeof inciso.vf>) => con(a[0], inciso.vf(...a)),
@@ -82,15 +125,6 @@ export const RIESGOS = [
   'Responsabilidad y gobernanza',
   'Uso indebido',
   'Dependencia y pérdida de juicio',
-] as const;
-
-export const ENFOQUES = [
-  'Reglas',
-  'Búsqueda',
-  'Optimización',
-  'Machine learning',
-  'Deep learning',
-  'Híbrido',
 ] as const;
 
 /** Elige opciones de una lista fija por nombre y devuelve el índice correcto. */
