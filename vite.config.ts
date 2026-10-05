@@ -9,6 +9,6 @@ export default defineConfig({
   plugins: [react()],
   test: {
     globals: true,
-    include: ['src/**/*.test.ts'],
+    include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
   },
 });

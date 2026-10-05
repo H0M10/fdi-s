@@ -5,7 +5,7 @@
 // onListo(fraccion), donde 1 es todo bien y 0 todo mal. Un caso reporta
 // la fracción de incisos acertados.
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   analizar, aTexto, clasificar, equivalentes, ErrorFormula, evaluar, filas,
   justificar, NOMBRE_CLASE, opcionQueSeSigue, pasos, variables,
@@ -447,6 +447,15 @@ function Caso({ p, onListo, id }: { p: PCaso; onListo: AlTerminar; id: string })
   const visibles = resultados.findIndex((r) => r === null);
   const hasta = visibles === -1 ? p.incisos.length : visibles + 1;
 
+  // Cuando aparece el siguiente inciso, se lleva a la vista. Sin esto
+  // quedaba abajo de la explicación del anterior y no se notaba.
+  const refNuevo = useRef<HTMLDivElement>(null);
+  const hastaPrevio = useRef(hasta);
+  useEffect(() => {
+    if (hasta > hastaPrevio.current) refNuevo.current?.scrollIntoView?.({ behavior: 'smooth', block: 'start' });
+    hastaPrevio.current = hasta;
+  }, [hasta]);
+
   const alTerminarInciso = (k: number, f: number) => {
     const r = [...resultados];
     r[k] = f;
@@ -462,8 +471,8 @@ function Caso({ p, onListo, id }: { p: PCaso; onListo: AlTerminar; id: string })
       <h3 style={{ fontSize: 18, marginBottom: 10 }}>{p.titulo}</h3>
       <div className="escenario"><Texto>{p.escenario}</Texto></div>
       {p.incisos.slice(0, hasta).map((inc, k) => (
-        <div className="inciso" key={k}>
-          <div className="inciso-num">Inciso {String.fromCharCode(97 + k)})</div>
+        <div className="inciso" key={k} ref={k === hasta - 1 ? refNuevo : undefined}>
+          <div className="inciso-num">Inciso {String.fromCharCode(97 + k)}) · {k + 1} de {p.incisos.length}</div>
           <UnInciso p={inc} semilla={`${id}-${k}`} onListo={(f) => alTerminarInciso(k, f)} />
         </div>
       ))}

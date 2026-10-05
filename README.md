@@ -66,7 +66,7 @@ Genera `dist-unico/index.html`, que tiene todo adentro: se abre con doble clic, 
 npm test
 ```
 
-**412 pruebas.** Verifican cuatro cosas:
+**426 pruebas.** Verifican cinco cosas:
 
 - **El motor de lógica** (`src/logica/motor.test.ts`): los cinco conectores, el orden de los
   renglones, De Morgan, la contrapositiva, las reglas de inferencia y sus falacias.

@@ -145,7 +145,7 @@ export function Simulacro() {
         }}
       />
 
-      <div className="fila" style={{ justifyContent: 'flex-end' }}>
+      <div className="accion-fija">
         {respondida && !esUltima && (
           <button className="boton" onClick={() => { setIndice(indice + 1); setRespondida(false); window.scrollTo({ top: 0 }); }}>
             Siguiente →

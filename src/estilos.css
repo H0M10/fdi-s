@@ -576,6 +576,40 @@ table.tv thead .final { color: var(--examen); }
 .inciso:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
 .inciso-num { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--acento); margin-bottom: 6px; }
 
+/* El botón de avanzar se queda visible abajo de la pantalla mientras se
+   lee la explicación. Sin esto, en el celular quedaba escondido abajo de
+   la respuesta y parecía que la práctica no avanzaba. */
+.accion-fija {
+  position: sticky;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  justify-content: flex-end;
+  z-index: 20;
+  pointer-events: none;
+}
+.accion-fija .boton {
+  pointer-events: auto;
+  box-shadow: 0 4px 16px rgba(21, 26, 33, 0.18);
+}
+.accion-fija .boton.fant { background: var(--superficie); }
+
+/* Resultado al terminar una ronda */
+.resultado-ronda {
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: 10px;
+  padding: 22px;
+  box-shadow: var(--sombra);
+}
+.resultado-pct {
+  font-family: var(--mono);
+  font-size: 46px;
+  font-weight: 600;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+.resultado-detalle { margin: 6px 0 0; font-size: 15px; color: var(--tinta-2); }
+
 /* Barra de progreso de una sesión */
 .sesion { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; font-size: 13px; color: var(--tinta-2); }
 .sesion .medidor-barra { height: 5px; }

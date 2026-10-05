@@ -143,7 +143,11 @@ export function PaginaTema({ id, practicar }: { id: IdTema; practicar: boolean }
       </div>
 
       {practicar ? (
-        <Practica preguntas={preguntas} />
+        <Practica
+          preguntas={preguntas}
+          siguienteTema={sig ? { numero: numero(sig.id), titulo: sig.titulo, ir: () => ir(`tema-${sig.id}`) } : undefined}
+          alVolverLeccion={() => ir(`tema-${id}`)}
+        />
       ) : (
         <>
           <article className="leccion"><Leccion /></article>
