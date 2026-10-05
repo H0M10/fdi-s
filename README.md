@@ -7,7 +7,7 @@ clase, un banco de preguntas para practicar y un simulacro con el mismo formato 
 
 | Tema | Preguntas |
 |---|---|
-| Enfoques de la IA | 65 |
+| Enfoques de la IA | 67 |
 | Ramas de la IA | 39 |
 | Ética e implicaciones sociales | 33 |
 | Lógica y tablas de verdad | 86 (110 incisos) |
@@ -16,7 +16,7 @@ clase, un banco de preguntas para practicar y un simulacro con el mismo formato 
 | ¿Qué es la IA? | 9 |
 | Antecedentes e historia | 25 |
 | Aplicaciones y estado del arte | 25 |
-| **Total** | **319 preguntas · 400 incisos** |
+| **Total** | **321 preguntas · 402 incisos** |
 
 - **Lecciones** por tema, separando lo que dijo el profesor, los errores del apunte corregidos
   y lo que se agregó.
@@ -66,7 +66,7 @@ Genera `dist-unico/index.html`, que tiene todo adentro: se abre con doble clic, 
 npm test
 ```
 
-**509 pruebas.** Verifican cinco cosas:
+**511 pruebas.** Verifican cinco cosas:
 
 - **El motor de lógica** (`src/logica/motor.test.ts`): los cinco conectores, el orden de los
   renglones, De Morgan, la contrapositiva, las reglas de inferencia y sus falacias.
@@ -77,7 +77,7 @@ npm test
   cinco opciones y la misma pregunta, para que el formato no delate si es uno o varios.
 - **El simulador PID** (`src/logica/pid.test.ts`): que muestre lo que dice la lección (solo P
   deja error, la integral lo quita, la predicción baja el pico a menos de un tercio).
-- **Que todo se dibuje** (`src/render.test.ts`): las 9 lecciones y las 319 preguntas.
+- **Que todo se dibuje** (`src/render.test.ts`): las 9 lecciones y las 321 preguntas.
 
 Las respuestas de tablas, clasificación y conclusiones **no están escritas a mano**: las calcula
 el motor a partir de la fórmula. Así es imposible que el banco tenga una de esas respuestas mal.

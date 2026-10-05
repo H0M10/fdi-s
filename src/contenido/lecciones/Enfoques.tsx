@@ -71,6 +71,11 @@ export default function Enfoques() {
             <strong> orden</strong> o un <strong>acomodo</strong> que elegir: cuántas porciones, en qué orden entregar,
             cómo acomodar las cajas.
           </p>
+          <p>
+            Y que el <strong>mapa ya esté fijo</strong> (estaciones, calles, pasillos) no lo vuelve reglas: en toda
+            búsqueda el mapa ya existe. La pregunta es <strong>quién encuentra el camino</strong>: si el sistema lo
+            explora, es búsqueda; si una persona ya escribió la respuesta para cada viaje, es reglas.
+          </p>
         </Ojo>
       </Seccion>
 

@@ -283,9 +283,19 @@ export const PREGUNTAS_ENFOQUES = [
     'Parte de la posición actual y explora jugadas hasta llegar a una meta: el jaque mate.',
   ),
   P.enfoques(
-    'Una app del metro te dice qué trenes tomar para ir de una estación a otra.',
+    'Le dices a una app del metro en qué estación estás y a cuál quieres llegar, y la app revisa el mapa de líneas para decirte qué trenes tomar y dónde transbordar.',
     ['Búsqueda'],
-    'De una estación (estado inicial) a otra (meta), eligiendo acciones (qué tren tomar).',
+    'Tu estación es el **estado inicial**, la otra es la **meta** y cada tren es una **acción**: la app recorre el mapa hasta encontrar el camino. Que las estaciones y las líneas ya estén fijas **no lo hace reglas**: el mapa es el terreno donde se busca, igual que las calles para un GPS o los pasillos en un laberinto. Sería reglas si alguien ya hubiera escrito la respuesta para cada viaje.',
+  ),
+  P.enfoques(
+    'El personal del metro escribió una tabla que dice, para cada par de estaciones, qué trenes tomar. La app solo busca tu viaje en esa tabla y te muestra lo que dice.',
+    ['Reglas'],
+    'Es el mismo viaje que la app que revisa el mapa, pero aquí **la respuesta ya la escribió una persona**: «si vas de A a B, toma la línea 1 y luego la 3». La app no explora nada, solo consulta. Por eso es **reglas** y no búsqueda.',
+  ),
+  P.vf(
+    'Si el mapa de un problema ya está fijo (las estaciones, las calles, los pasillos), el enfoque es reglas.',
+    false,
+    'En todo problema de búsqueda el mapa ya existe: es el terreno donde se busca. Lo que importa es **quién encuentra el camino**: si el sistema lo explora, es búsqueda; si una persona ya escribió la respuesta para cada caso, es reglas.',
   ),
   P.enfoques(
     'Una fábrica decide cuántas piezas producir de cada modelo para ganar lo más posible con el material que tiene.',
