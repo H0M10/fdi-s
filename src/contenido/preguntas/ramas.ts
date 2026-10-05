@@ -149,6 +149,23 @@ export const PREGUNTAS_RAMAS = [
     'Varios drones que se avisan y se reparten el trabajo → **multiagente**. Detectar plagas en fotos → **visión**. Vuelan solos → **robótica**. Repartir el campo es planear, así que búsqueda y planificación también se vale.',
     undefined, ['Búsqueda y planificación'],
   ),
+  // Las dos ramas de texto: PLN entiende, generativa crea.
+  P.ramas(
+    'Un filtro revisa los correos que llegan y manda a la carpeta de spam los que parecen fraude.',
+    ['Procesamiento de lenguaje natural'],
+    'Lee e interpreta el texto de cada correo para clasificarlo: **PLN**. No crea nada nuevo, así que no es generativa. Si pensaste que aprendió de correos anteriores, aprendizaje automático también se vale.',
+    undefined, ['Aprendizaje automático'],
+  ),
+  P.ramas(
+    'Le das a una app un capítulo de un libro y te escribe un resumen nuevo con sus propias palabras.',
+    ['Procesamiento de lenguaje natural', 'IA generativa'],
+    'Tiene que entender el capítulo: **PLN**. Y redacta un texto que no existía: **IA generativa**. Son las dos ramas de texto juntas, igual que un chatbot que redacta sus respuestas.',
+  ),
+  P.ramas(
+    'Eliges un estilo de una lista («jazz», «rock», «clásica») y una herramienta compone una canción nueva en ese estilo.',
+    ['IA generativa'],
+    'Crea contenido nuevo (música): **IA generativa**. No hay texto ni voz que entender, porque el estilo se elige de una lista: no es PLN.',
+  ),
   P.ramas(
     'Un juguete robot entiende lo que le dice el niño, nota por su tono de voz si está triste y se acerca a él para jugar.',
     ['Procesamiento de lenguaje natural', 'Computación afectiva', 'Robótica y sistemas autónomos'],

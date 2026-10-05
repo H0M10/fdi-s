@@ -193,6 +193,25 @@ export default function Ramas() {
           patrones aprendidos en datos: texto, imágenes, audio, video o código.
         </p>
         <p>La señal: el sistema <strong>crea algo nuevo</strong> en lugar de clasificar o predecir.</p>
+        <Ojo titulo="Las dos ramas de texto: PLN y generativa">
+          <p>
+            Las dos pueden trabajar con texto, y las definiciones del profesor se enciman: PLN es «interpretar y
+            generar lenguaje escrito u hablado», y generativa es «generar contenido sintético: textos, imágenes,
+            audio, video o código». Para separarlas, pregúntate qué hace el sistema con el texto:
+          </p>
+          <Tabla
+            cabeza={['El sistema…', 'Rama', 'Ejemplo']}
+            filas={[
+              ['Entiende o clasifica texto o voz, sin crear nada', 'PLN', 'Filtro de spam, moderar publicaciones, entender «pon una alarma»'],
+              ['Entiende lo que le escriben y redacta algo nuevo', 'PLN + generativa', 'Chatbot que redacta sus respuestas, app que escribe resúmenes'],
+              ['Crea contenido nuevo que no es lenguaje', 'Generativa', 'Fotos de personas que no existen, música nueva'],
+              ['Crea una imagen a partir de una descripción escrita', 'Generativa + PLN', 'El gato astronauta: PLN entiende la descripción'],
+            ]}
+          />
+          <p>
+            El traductor queda en medio: es PLN, y como redacta un texto nuevo, generativa también se vale.
+          </p>
+        </Ojo>
       </Seccion>
 
       <Seccion titulo="10 · Computación afectiva">
