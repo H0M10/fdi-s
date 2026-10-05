@@ -281,7 +281,7 @@ export const PREGUNTAS_CASOS = [
     'Una app de citas analiza el tono de voz de los usuarios en las videollamadas para medir si están interesados en la otra persona, y vende esos datos a anunciantes.',
     [
       I.ramas(['Computación afectiva'],
-        'Mide si están interesados (una **emoción**) a partir de **señales** como el tono de voz: **computación afectiva**. No es PLN: no analiza **qué** dicen, sino **cómo** lo dicen.'),
+        'Mide si están interesados (una **emoción**) a partir de **señales** como el tono de voz: **computación afectiva**. No es PLN: que haya voz no basta. PLN es para entender **qué** dicen (las palabras); aquí solo se analiza **cómo** lo dicen, igual que una expresión de la cara. Si el caso dijera que también analiza lo que platican, entonces sí llevaría PLN.'),
       I.opcion('¿Cuál es la palabra clave de la computación afectiva?', ['Señales', 'Sensores', 'Imágenes', 'Agentes'], 0,
         'Señales de emoción.'),
       I.opcion('Vender los datos a anunciantes, ¿qué principio de la ley viola?', PRINCIPIOS, 0,

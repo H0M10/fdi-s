@@ -71,7 +71,19 @@ export const PREGUNTAS_RAMAS = [
   P.ramas(
     'Un call center analiza el tono de voz de los clientes y, si detecta enojo, transfiere la llamada a un supervisor.',
     ['Computación afectiva'],
-    'Reconoce y responde a **emociones**. La palabra clave son las **señales** afectivas, como el tono de voz. No es PLN: no se analiza **qué** dice el cliente, sino **cómo** se siente.',
+    'Reconoce y responde a **emociones**. La palabra clave son las **señales** afectivas, como el tono de voz. No es PLN: que haya voz no basta; PLN es para entender **qué** dice el cliente, y aquí solo importa **cómo** lo dice. «Si detecta enojo, transfiere» es una regla: representación del conocimiento también se vale.',
+    undefined, ['Representación del conocimiento y razonamiento'],
+  ),
+  P.ramas(
+    'Un sistema escucha las llamadas de un call center y avisa al supervisor cuando el cliente dice la palabra «cancelar».',
+    ['Procesamiento de lenguaje natural'],
+    'Aquí sí tiene que entender **qué** dice el cliente (la palabra «cancelar»): **PLN**. Compáralo con el call center que escucha el **tono** para detectar enojo: ahí es **cómo** lo dice, y eso es computación afectiva. «Si dice cancelar, avisa» es una regla: representación del conocimiento también se vale.',
+    undefined, ['Representación del conocimiento y razonamiento'],
+  ),
+  P.ramas(
+    'Una app escucha tu clase y escribe palabra por palabra lo que dijo el profesor.',
+    ['Procesamiento de lenguaje natural'],
+    'Convertir voz en texto es entender las **palabras**: **PLN**. No importa cómo suena el profesor, sino qué dice. No es generativa: no inventa nada, copia lo que se dijo.',
   ),
   P.ramas(
     'Un proyecto de investigación construye un sistema que percibe su entorno, guarda lo que aprende en memoria, razona con eso y decide qué hacer, imitando cómo lo hace una persona.',

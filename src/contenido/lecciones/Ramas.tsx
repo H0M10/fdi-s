@@ -153,6 +153,25 @@ export default function Ramas() {
             la orden es PLN. Las dos ramas están en el caso, y casi todos olvidan la segunda.
           </p>
         </Ojo>
+        <Ojo titulo="Pero no todo lo que tiene voz es PLN">
+          <p>
+            PLN es para entender <strong>qué se dice</strong>: las palabras y su significado. Si el sistema solo
+            escucha <strong>cómo se dice</strong> (el tono, si grita, si suena triste), eso es una señal, igual que
+            la expresión de la cara, y es computación afectiva.
+          </p>
+          <Tabla
+            cabeza={['El sistema…', 'Rama', 'Ejemplo']}
+            filas={[
+              ['entiende las palabras: una orden, una pregunta, un texto', 'PLN', '«Pon una alarma a las 7», un chatbot, un filtro de spam'],
+              ['escucha el tono para saber cómo se siente la persona', 'Computación afectiva', 'El call center que detecta enojo; la app de citas que mide el interés'],
+              ['hace las dos cosas', 'PLN + afectiva', 'El juguete que entiende lo que dice el niño y nota por su tono que está triste'],
+            ]}
+          />
+          <p>
+            Y ojo con la sigla: es <strong>PLN</strong>, procesamiento de lenguaje natural. «PNL» es otra cosa
+            (programación neurolingüística).
+          </p>
+        </Ojo>
       </Seccion>
 
       <Seccion titulo="7 · Robótica y sistemas autónomos">
