@@ -115,7 +115,7 @@ export const PREGUNTAS_CASOS = [
     [
       I.multi('Selecciona **todas** las ramas que intervienen.', ['Procesamiento de lenguaje natural', 'IA generativa', 'Visión por computadora', 'Robótica y sistemas autónomos'], [0, 1],
         'Entiende lo que escribe el cliente (PLN) y redacta respuestas nuevas (generativa).'),
-      I.opcion('¿Qué enfoque es?', ...de(ENFOQUES, ['Deep learning', 'Reglas', 'Búsqueda', 'Optimización'], 'Deep learning'),
+      I.opcion('¿Qué enfoque usa el chatbot para redactar sus respuestas?', ...de(ENFOQUES, ['Deep learning', 'Reglas', 'Búsqueda', 'Optimización'], 'Deep learning'),
         'Los modelos de lenguaje que generan texto son redes neuronales profundas.'),
       I.opcion('Un cliente pregunta por qué le negaron el adelanto y nadie puede explicárselo. ¿Qué riesgo es?', ...de(RIESGOS, ['Opacidad y explicabilidad', 'Privacidad', 'Seguridad', 'Uso indebido'], 'Opacidad y explicabilidad'),
         'No se puede recorrer el camino de vuelta desde la decisión hasta las variables que la produjeron.'),
@@ -203,7 +203,7 @@ export const PREGUNTAS_CASOS = [
     [
       I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Aprendizaje automático', 'Búsqueda y planificación', 'Sistemas cognitivos', 'Representación del conocimiento y razonamiento'], 'Aprendizaje automático'),
         'Datos históricos para predecir.'),
-      I.opcion('¿Qué enfoque es?', ...de(ENFOQUES, ['Machine learning', 'Reglas', 'Búsqueda', 'Optimización'], 'Machine learning'),
+      I.opcion('¿Qué enfoque usa para predecir quién abandonará la carrera?', ...de(ENFOQUES, ['Machine learning', 'Reglas', 'Búsqueda', 'Optimización'], 'Machine learning'),
         'Se aprende de los alumnos que ya desertaron o no.'),
       I.opcion('Usar el nivel socioeconómico puede castigar a alumnos de menores recursos. ¿Qué riesgo es?', ...de(RIESGOS, ['Sesgo y discriminación', 'Seguridad', 'Error', 'Opacidad y explicabilidad'], 'Sesgo y discriminación'),
         'El modelo trata un factor social como predictor y perjudica a un grupo.'),

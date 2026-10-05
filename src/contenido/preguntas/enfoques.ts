@@ -3,6 +3,11 @@ import { de, ENFOQUES, preguntasDe } from '../fabrica';
 const P = preguntasDe('enfoques');
 const CUADRANTES = ['Pensar como humano', 'Actuar como humano', 'Pensar racionalmente', 'Actuar racionalmente'];
 
+/** Los enfoques que pueden formar un híbrido. «Híbrido» no va aquí: es el
+ *  nombre de la combinación, no una pieza. */
+const COMPONENTES = ['Reglas', 'Búsqueda', 'Optimización', 'Machine learning', 'Deep learning'] as const;
+const I_ = { reglas: 0, busqueda: 1, opt: 2, ml: 3, dl: 4 };
+
 export const PREGUNTAS_ENFOQUES = [
   // ---------------------------------------------------------------
   // Enfoque clásico: los cuatro cuadrantes
@@ -320,14 +325,63 @@ export const PREGUNTAS_ENFOQUES = [
     ...de(ENFOQUES, ['Deep learning', 'Reglas', 'Optimización', 'Búsqueda'], 'Deep learning'),
     'Datos crudos (audio) en enormes cantidades. Nadie podría escribir a mano las reglas del habla.',
   ),
-  P.opcion(
-    'Una app de comida predice cuántos pedidos habrá cada hora con datos de meses anteriores, decide cuántos repartidores llamar para gastar lo menos posible, y nunca programa a alguien más de 8 horas. ¿Qué enfoque es?',
-    ...de(ENFOQUES, ['Híbrido', 'Machine learning', 'Optimización', 'Reglas'], 'Híbrido'),
-    'Son tres enfoques encadenados: **machine learning** predice los pedidos, **optimización** decide cuántos repartidores, y una **regla** limita las horas. Igual que el comedor.',
+
+  // ---------------------------------------------------------------
+  // Identificar TODOS los enfoques de un caso. Marcar solo «híbrido» es
+  // demasiado general: lo que importa es saber cuáles lo forman. Si son
+  // dos o más, el sistema es híbrido; si es uno, no lo es. Por eso hay
+  // también casos de un solo enfoque: para no marcar de más.
+  // ---------------------------------------------------------------
+  P.multi(
+    'Una app de comida predice cuántos pedidos habrá cada hora con datos de meses anteriores, decide cuántos repartidores llamar para gastar lo menos posible, y nunca programa a alguien más de 8 horas. Selecciona **todos** los enfoques que usa.',
+    [...COMPONENTES], [I_.ml, I_.opt, I_.reglas],
+    '**Machine learning** predice los pedidos (datos de meses anteriores). **Optimización** decide cuántos repartidores (gastar lo menos posible). **Reglas** limita las horas (nunca más de 8). Como son tres enfoques juntos, el sistema es **híbrido**.',
   ),
-  P.opcion(
-    'Un hospital programa las cirugías: predice cuánto va a durar cada una con datos de cirugías anteriores, acomoda los quirófanos para atender al mayor número de pacientes, y nunca programa una cirugía sin anestesiólogo. ¿Qué enfoque es?',
-    ...de(ENFOQUES, ['Híbrido', 'Optimización', 'Machine learning', 'Búsqueda'], 'Híbrido'),
-    'Predecir la duración es machine learning, acomodar para atender a más es optimización, y lo del anestesiólogo es una regla. Tres enfoques juntos: híbrido.',
+  P.multi(
+    'Un hospital programa las cirugías: predice cuánto va a durar cada una con datos de cirugías anteriores, acomoda los quirófanos para atender al mayor número de pacientes, y nunca programa una cirugía sin anestesiólogo. Selecciona **todos** los enfoques que usa.',
+    [...COMPONENTES], [I_.ml, I_.opt, I_.reglas],
+    'Predecir la duración con cirugías anteriores es **machine learning**. Acomodar para atender a más pacientes es **optimización**. «Nunca sin anestesiólogo» es una **regla**. Tres enfoques: **híbrido**.',
+  ),
+  P.multi(
+    'El comedor universitario del caso de clase: predice cuánta gente va a venir con el registro de días anteriores, decide cuántas porciones cocinar según lo que cuesta que sobre y que falte, y no cocina en días inhábiles. Selecciona **todos** los enfoques que usa.',
+    [...COMPONENTES], [I_.ml, I_.opt, I_.reglas],
+    'Es el caso de tu exposición. **Machine learning** estima la demanda, **optimización** elige cuánto cocinar y **reglas** acotan (días inhábiles, capacidad). No hay **búsqueda** porque no hay un camino que encontrar, ni **deep learning** porque son pocos datos. Es **híbrido**.',
+  ),
+  P.multi(
+    'Una app de transporte calcula la ruta para llegar a tu destino, predice cuánto vas a tardar según el tráfico de los mismos días en semanas anteriores, y no acepta viajes de más de 100 km. Selecciona **todos** los enfoques que usa.',
+    [...COMPONENTES], [I_.busqueda, I_.ml, I_.reglas],
+    'La ruta es **búsqueda** (de donde estás a tu destino). Estimar el tiempo con el tráfico de otras semanas es **machine learning**. El límite de 100 km es una **regla**. Tres enfoques: **híbrido**.',
+  ),
+  P.multi(
+    'En la entrada de un edificio, una cámara reconoce el rostro de quien llega con una red entrenada con millones de fotos. Si la persona no está en la lista de empleados, la puerta no se abre. Selecciona **todos** los enfoques que usa.',
+    [...COMPONENTES], [I_.dl, I_.reglas],
+    'Reconocer rostros con millones de fotos es **deep learning**. «Si no está en la lista, no abrir» es una **regla**. Dos enfoques: **híbrido**.',
+  ),
+  P.multi(
+    'Un robot de almacén encuentra el camino entre los estantes para llegar a cada producto, y decide en qué orden recoger los pedidos para terminar lo más rápido posible. Selecciona **todos** los enfoques que usa.',
+    [...COMPONENTES], [I_.busqueda, I_.opt],
+    'Llegar a cada producto es **búsqueda** (punto de partida y meta). Elegir el orden para terminar lo antes posible es **optimización**. Dos enfoques: **híbrido**.',
+  ),
+  P.multi(
+    'Una tienda en línea predice qué productos se van a vender más el próximo mes con las ventas de años anteriores, y con esa predicción decide cuánto comprar de cada uno para gastar lo menos posible sin quedarse sin inventario. Selecciona **todos** los enfoques que usa.',
+    [...COMPONENTES], [I_.ml, I_.opt],
+    'Predecir con ventas anteriores es **machine learning**. Decidir cuánto comprar para gastar lo menos es **optimización**. Es la misma pareja que en el comedor: el modelo predice, la optimización decide. **Híbrido**.',
+  ),
+
+  // Casos de UN solo enfoque: aquí no es híbrido.
+  P.multi(
+    'Un GPS encuentra cómo llegar de tu casa a la escuela. Selecciona **todos** los enfoques que usa.',
+    [...COMPONENTES], [I_.busqueda],
+    'Solo **búsqueda**: punto de partida, meta y calles. No predice nada ni optimiza un valor. Como es un solo enfoque, **no es híbrido**.',
+  ),
+  P.multi(
+    'Un sistema escolar registra una falta cuando un alumno acumula 3 retardos. Selecciona **todos** los enfoques que usa.',
+    [...COMPONENTES], [I_.reglas],
+    'Solo **reglas**: la condición la escribió una persona. Un solo enfoque, **no es híbrido**.',
+  ),
+  P.multi(
+    'Una app identifica qué especie de pájaro es a partir de una foto, con una red entrenada con millones de imágenes. Selecciona **todos** los enfoques que usa.',
+    [...COMPONENTES], [I_.dl],
+    'Solo **deep learning**. Que sea muy potente no lo hace híbrido: híbrido es cuando se **combinan** enfoques distintos.',
   ),
 ];

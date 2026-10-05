@@ -22,6 +22,10 @@ export default function Enfoques() {
             <li>¿Son <strong>muchísimos datos crudos</strong>: imágenes, audio, texto? → <strong>Deep learning</strong></li>
             <li>¿Hay <strong>varias de las anteriores</strong> encadenadas? → <strong>Híbrido</strong></li>
           </ol>
+          <p style={{ marginTop: 8 }}>
+            Si te sale más de una, no contestes solo «híbrido»: <strong>di cuáles son y qué hace cada una</strong>.
+            «Híbrido» es el nombre de la combinación; lo que demuestra que entendiste el caso son las piezas.
+          </p>
         </Ojo>
       </Seccion>
 
@@ -190,6 +194,19 @@ export default function Enfoques() {
           <strong>No es un cuarto enfoque</strong>: es la combinación de varios, encadenados. Casi ningún sistema
           real es un solo modelo suelto.
         </p>
+        <p>
+          Para reconocerlo, <strong>separa el caso en partes</strong> y ponle enfoque a cada una. Si te salen dos o
+          más, es híbrido. Si te sale una sola, no lo es, por potente que sea el sistema.
+        </p>
+        <Tabla
+          cabeza={['Caso', 'Las piezas', '¿Híbrido?']}
+          filas={[
+            ['App de comida', 'Predice pedidos (ML) + decide cuántos repartidores (optimización) + máximo 8 horas (reglas)', 'Sí'],
+            ['Entrada de un edificio', 'Reconoce el rostro (deep learning) + si no es empleado, no abre (reglas)', 'Sí'],
+            ['GPS', 'Encuentra la ruta (búsqueda)', 'No'],
+            ['Reconocer pájaros en fotos', 'Deep learning', 'No'],
+          ]}
+        />
         <Ejemplo titulo="El caso del comedor universitario">
           <Flujo pasos={['ML predice cuánta gente viene', 'Optimización decide cuánto cocinar', 'Reglas verifican que quepa']} />
           <Tabla
