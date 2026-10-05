@@ -74,7 +74,7 @@ export const CRITERIOS: Record<string, string> = {
   // Ramas: la palabra clave de cada una.
   'Representación del conocimiento y razonamiento': 'hay hechos y reglas «si… entonces» con las que se llega a una conclusión',
   'Búsqueda y planificación': 'hay un estado inicial y una meta (una ruta, un horario, un plan) o algo que optimizar',
-  'Aprendizaje automático': 'aprende de datos (históricos, de entrenamiento) para predecir o clasificar',
+  'Aprendizaje automático': 'aprende de datos o de ejemplos (históricos, de entrenamiento) para predecir o reconocer',
   'Percepción computacional': 'usa sensores para saber qué pasa en su entorno',
   'Visión por computadora': 'interpreta imágenes o video de cámaras',
   'Procesamiento de lenguaje natural': 'entiende o produce texto o voz',
@@ -174,6 +174,26 @@ function preguntaDeEnfoques(enunciado: string, correctas: Componente[], explicac
 
 const PISTA_RAMAS = 'Puede ser una o varias. Marca cada rama que puedas señalar en el texto del caso.';
 
+/**
+ * Aprendizaje automático junto a visión, PLN, afectiva o generativa:
+ * - Si el caso dice que aprendió («se entrenó con», «datos históricos»), es
+ *   obligatoria: va en `correctas`.
+ * - Si no lo dice, también se vale: reconocer un perro, entender una voz o
+ *   generar una imagen se aprende de ejemplos (el profesor lo explicó con
+ *   las fotos de perros y gatos). Esta función la agrega sola, para que
+ *   todos los casos sigan la misma regla.
+ * Solo aplica a la pregunta por el sistema completo, no a definiciones.
+ */
+const APRENDEN: Rama[] = ['Visión por computadora', 'Procesamiento de lenguaje natural', 'Computación afectiva', 'IA generativa'];
+const AA: Rama = 'Aprendizaje automático';
+function preguntaDeRamas(enunciado: string, correctas: Rama[], explicacion: string, completo: boolean, tambien: Rama[]): PMulti {
+  if (completo && !correctas.includes(AA) && !tambien.includes(AA) && correctas.some((r) => APRENDEN.includes(r))) {
+    tambien = [...tambien, AA];
+    explicacion += ' Aprendizaje automático también se vale: el caso no dice que el sistema aprendió de datos, pero reconocer imágenes, entender voz o texto y generar contenido se aprende de ejemplos.';
+  }
+  return sobreLista(RAMAS, enunciado, correctas, explicacion, tambien, PISTA_RAMAS, conSigla);
+}
+
 /** Incisos sueltos, para armar casos. */
 export const inciso = {
   /** Sin pregunta, usa «¿Qué enfoque o enfoques usa?». */
@@ -181,7 +201,7 @@ export const inciso = {
     preguntaDeEnfoques(pregunta, correctas, explicacion, pregunta === QUE_ENFOQUES, tambien),
   /** Sin pregunta, usa «¿Qué rama o ramas intervienen?». */
   ramas: (correctas: Rama[], explicacion: string, pregunta = QUE_RAMAS, tambien: Rama[] = []): PMulti =>
-    sobreLista(RAMAS, pregunta, correctas, explicacion, tambien, PISTA_RAMAS, conSigla),
+    preguntaDeRamas(pregunta, correctas, explicacion, pregunta === QUE_RAMAS, tambien),
   opcion: (enunciado: string, opciones: string[], correcta: number, explicacion: string): POpcion =>
     ({ tipo: 'opcion', enunciado, opciones, correcta, explicacion }),
   multi: (enunciado: string, opciones: string[], correctas: number[], explicacion: string): PMulti =>
@@ -218,7 +238,7 @@ export function preguntasDe(tema: IdTema) {
     /** Escenario + «¿Qué rama o ramas intervienen?», o la pregunta que se le pase. */
     ramas: (escenario: string, correctas: Rama[], explicacion: string, pregunta = QUE_RAMAS, tambien: Rama[] = []) => {
       const enunciado = `${escenario} ${pregunta}`;
-      return con(enunciado, sobreLista(RAMAS, enunciado, correctas, explicacion, tambien, PISTA_RAMAS, conSigla));
+      return con(enunciado, preguntaDeRamas(enunciado, correctas, explicacion, pregunta === QUE_RAMAS, tambien));
     },
     opcion: (...a: Parameters<typeof inciso.opcion>) => con(a[0], inciso.opcion(...a)),
     multi: (...a: Parameters<typeof inciso.multi>) => con(a[0], inciso.multi(...a)),

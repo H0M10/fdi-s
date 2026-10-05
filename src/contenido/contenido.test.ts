@@ -133,6 +133,19 @@ describe('identificar ramas: siempre el mismo formato', () => {
   }
 });
 
+describe('visión, PLN, afectiva o generativa: aprendizaje automático nunca cuenta en contra', () => {
+  const aa = RAMAS.indexOf('Aprendizaje automático');
+  const aprenden = (['Visión por computadora', 'Procesamiento de lenguaje natural', 'Computación afectiva', 'IA generativa'] as const)
+    .map((r) => RAMAS.indexOf(r));
+  for (const [nombre, i] of INCISOS) {
+    if (i.tipo !== 'multi' || i.opciones.length !== RAMAS.length || !/rama o ramas intervienen/.test(i.enunciado)) continue;
+    if (!i.correctas.some((k) => aprenden.includes(k))) continue;
+    it(nombre, () => {
+      expect(i.correctas.includes(aa) || (i.aceptables ?? []).includes(aa), 'obligatoria o también se vale').toBe(true);
+    });
+  }
+});
+
 describe('«también se vale»', () => {
   for (const [nombre, i] of INCISOS) {
     if (i.tipo !== 'multi' || !i.aceptables) continue;

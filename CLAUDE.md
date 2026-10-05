@@ -66,7 +66,9 @@ Convención:
 - Se marca lo que se puede señalar en el texto del caso.
 - Si el sistema aplica una regla para decidir («si registra 3 faltas, bloquea»), es también
   representación del conocimiento y razonamiento.
-- Si dice que el modelo se entrenó con datos, también es aprendizaje automático.
+- Aprendizaje automático: obligatoria si el caso dice que aprendió («se entrenó con»); si no
+  lo dice pero hay visión, PLN, afectiva o generativa, `preguntaDeRamas` la agrega sola como
+  «también se vale». Una prueba lo exige.
 - Lo deducible pero no escrito va en `tambien` (se muestra en ámbar: marcarlo o no, da igual).
   La explicación tiene que decir «también se vale»; una prueba lo exige.
 
@@ -89,7 +91,7 @@ reinicia su progreso, y está bien.
 npx tsc --noEmit && npm test && npm run build
 ```
 
-Las 614 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
+Las 658 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
 que tiene dos respuestas válidas, es que una de las opciones «incorrectas» en realidad también
 se sigue de las premisas (pasa mucho con ¬p ∨ ¬q cuando la correcta es ¬p ∧ ¬q). Hay que
 cambiar esa opción, no la prueba.

@@ -277,14 +277,29 @@ export default function Ramas() {
             conclusión.
           </li>
           <li>
-            Si el caso dice que el modelo <strong>se entrenó</strong> con datos, también es
-            <strong> aprendizaje automático</strong>, aunque la tarea sea visión o PLN.
-          </li>
-          <li>
-            Lo que se puede deducir pero el caso no dice (un reconocimiento facial seguramente se entrenó con fotos)
-            aparece en ámbar como <strong>«también se vale»</strong>: marcarlo o no, no cuenta en contra.
+            Lo que se puede deducir pero el caso no dice aparece en ámbar como <strong>«también se vale»</strong>:
+            marcarlo o no, no cuenta en contra.
           </li>
         </ul>
+        <h3>Visión y aprendizaje automático: cuándo van juntas</h3>
+        <p>
+          Responden preguntas distintas. <strong>Visión</strong> dice <em>qué entra</em> al sistema: imágenes o video.{' '}
+          <strong>Aprendizaje automático</strong> dice <em>cómo aprendió</em> a reconocer lo que ve: con ejemplos. Por
+          eso casi siempre andan juntas. El profesor lo explicó así en visión: le pasas muchas fotos de perros y gatos,
+          y después, con una foto nueva, te dice cuál es.
+        </p>
+        <Tabla
+          cabeza={['El caso…', 'Aprendizaje automático', 'Ejemplo']}
+          filas={[
+            ['dice que aprendió: «se entrenó con», «datos históricos», «millones de fotos»', 'Obligatoria', 'Radiografías: «se entrenó con 100,000 radiografías»'],
+            ['reconoce algo en imágenes, pero no dice cómo aprendió', 'También se vale', 'La bocina que detecta al perro; la app que reconoce plantas'],
+            ['no reconoce ni predice nada: solo mide o sigue una regla', 'No va', 'Termostato con sensores; riego con la regla del agrónomo'],
+          ]}
+        />
+        <p>
+          Lo mismo pasa con PLN, computación afectiva e IA generativa: entender voz, reconocer emociones o crear
+          imágenes se aprende de ejemplos. Si el caso lo dice, marca aprendizaje automático; si no, también se vale.
+        </p>
         <h3>Cómo se justifica</h3>
         <p>
           En las preguntas avanzadas, cada rama que marcas se justifica. La forma es siempre la misma:{' '}
