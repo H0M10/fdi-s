@@ -8,7 +8,7 @@
 import { describe, expect, it } from 'vitest';
 import { analizar, opcionQueSeSigue, variables } from '../logica/motor';
 import type { Inciso, Pregunta } from '../tipos';
-import { COMPONENTES, CRITERIOS, RAMAS } from './fabrica';
+import { COMPONENTES, conSigla, CRITERIOS, RAMAS } from './fabrica';
 import { TEMAS } from './temas';
 import { TODAS, deTema } from './preguntas';
 
@@ -115,7 +115,8 @@ describe('identificar enfoques: siempre el mismo formato', () => {
 
 describe('identificar ramas: siempre el mismo formato', () => {
   const nombres: readonly string[] = RAMAS;
-  const esDeRamas = (opciones: string[]) => opciones.filter((o) => nombres.includes(o)).length >= 3;
+  const sinSigla = (o: string) => o.replace(/ \([^)]*\)$/, '');
+  const esDeRamas = (opciones: string[]) => opciones.filter((o) => nombres.includes(sinSigla(o))).length >= 3;
 
   it('ninguna pregunta de ramas es de una sola respuesta, porque eso delata que es una sola', () => {
     const sueltas = INCISOS.filter(([, i]) => i.tipo === 'opcion' && esDeRamas(i.opciones)).map(([n]) => n);
@@ -125,7 +126,7 @@ describe('identificar ramas: siempre el mismo formato', () => {
   for (const [nombre, i] of INCISOS) {
     if (i.tipo !== 'multi' || !esDeRamas(i.opciones)) continue;
     it(nombre, () => {
-      expect(i.opciones, 'las once ramas').toEqual([...RAMAS]);
+      expect(i.opciones, 'las once ramas, con su sigla si la tiene').toEqual(RAMAS.map(conSigla));
       expect(i.fijo, 'en el mismo orden').toBe(true);
       expect(i.enunciado, 'la misma pregunta').toMatch(/rama o ramas/);
     });

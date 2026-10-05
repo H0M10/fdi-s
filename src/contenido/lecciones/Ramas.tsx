@@ -16,6 +16,24 @@ export default function Ramas() {
             apunte sería un error en el examen.
           </p>
         </Correccion>
+        <Ojo titulo="Siglas: por confirmar">
+          <p>
+            El profesor dio siglas para las ramas y pidió usarlas en el examen, pero no quedaron en los apuntes.
+            Las que se tienen, como las recuerdas:
+          </p>
+          <Tabla
+            cabeza={['Rama', 'Sigla']}
+            filas={[
+              ['Percepción computacional', 'P.C.'],
+              ['Procesamiento de lenguaje natural', 'PLN'],
+              ['Sistemas multiagente', 'SMA'],
+            ]}
+          />
+          <p>
+            Confírmalas con tus compañeros o tu cuaderno, y consigue las de las demás ramas: no todas tenían, pero
+            aquí no se inventan. Mientras, en las preguntas aparecen junto al nombre.
+          </p>
+        </Ojo>
       </Seccion>
 
       <Seccion titulo="1 · Representación del conocimiento y razonamiento">
@@ -71,7 +89,7 @@ export default function Ramas() {
         </p>
       </Seccion>
 
-      <Seccion titulo="4 · Percepción computacional">
+      <Seccion titulo="4 · Percepción computacional (P.C.)">
         <p>
           Busca que una máquina <strong>interprete información de sensores</strong> para construir una
           representación útil de su entorno.
@@ -121,7 +139,7 @@ export default function Ramas() {
         </Profe>
       </Seccion>
 
-      <Seccion titulo="6 · Procesamiento de lenguaje natural">
+      <Seccion titulo="6 · Procesamiento de lenguaje natural (PLN)">
         <p>Se dedica a <strong>interpretar y generar lenguaje escrito o hablado</strong>.</p>
         <Flujo pasos={['Texto / Voz', 'Procesamiento', 'Significado · Clasificación · Respuesta']} clave={[0]} />
         <Ojo titulo="La que siempre se olvida">
@@ -153,7 +171,7 @@ export default function Ramas() {
         </Profe>
       </Seccion>
 
-      <Seccion titulo="8 · Sistemas multiagente">
+      <Seccion titulo="8 · Sistemas multiagente (SMA)">
         <p>
           Sistemas formados por <strong>varios agentes</strong> capaces de percibir y actuar, donde
           <strong> las acciones de uno afectan a los demás</strong>.

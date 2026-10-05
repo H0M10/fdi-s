@@ -40,7 +40,7 @@ describe('«también se vale»', () => {
     let nota = -1;
     render(<Pregunta p={comoPregunta(ramas)} onListo={(f) => { nota = f; }} />);
     clic('Visión por computadora');
-    clic('Percepción computacional');
+    clic('Percepción computacional (P.C.)');
     clic('Revisar');
     expect(nota).toBe(0);
   });

@@ -32,6 +32,21 @@ export const RAMAS = [
 ] as const;
 export type Rama = (typeof RAMAS)[number];
 
+/**
+ * Siglas de las ramas. El profesor dio siglas y pidió usarlas en el examen,
+ * pero no quedaron en los apuntes: P.C. y SMA son como las recuerda
+ * Hanniel, y PLN es la usual. Faltan confirmar y faltan las demás. No
+ * inventar siglas que el profesor no dio.
+ */
+export const SIGLAS: Partial<Record<Rama, string>> = {
+  'Percepción computacional': 'P.C.',
+  'Procesamiento de lenguaje natural': 'PLN',
+  'Sistemas multiagente': 'SMA',
+};
+
+/** «Sistemas multiagente (SMA)», como se muestra en las opciones. */
+export const conSigla = (r: Rama) => (SIGLAS[r] ? `${r} (${SIGLAS[r]})` : r);
+
 export const RIESGOS = [
   'Privacidad',
   'Sesgo y discriminación',
@@ -91,7 +106,10 @@ export const CRITERIOS: Record<string, string> = {
 
 /** «Visión por computadora → interpreta imágenes…», para cada respuesta que tenga criterio. */
 function guiaDe(respuestas: readonly string[]): string[] | undefined {
-  const g = respuestas.filter((r) => CRITERIOS[r]).map((r) => `**${r}** → ${CRITERIOS[r]}`);
+  const g = respuestas
+    .map((r) => r.replace(/ \([^)]*\)$/, '')) // sin la sigla, si la trae
+    .filter((r) => CRITERIOS[r])
+    .map((r) => `**${(RAMAS as readonly string[]).includes(r) ? conSigla(r as Rama) : r}** → ${CRITERIOS[r]}`);
   return g.length ? g : undefined;
 }
 
@@ -124,12 +142,13 @@ export const QUE_RAMAS = '¿Qué rama o ramas intervienen?';
  */
 function sobreLista<T extends string>(
   lista: readonly T[], enunciado: string, correctas: T[], explicacion: string, tambien: T[], pista: string,
+  etiqueta: (x: T) => string = (x) => x,
 ): PMulti {
   const idx = (xs: T[]) => xs.map((x) => lista.indexOf(x));
   return {
     tipo: 'multi',
     enunciado,
-    opciones: [...lista],
+    opciones: lista.map(etiqueta),
     correctas: idx(correctas),
     ...(tambien.length ? { aceptables: idx(tambien) } : {}),
     explicacion,
@@ -162,7 +181,7 @@ export const inciso = {
     preguntaDeEnfoques(pregunta, correctas, explicacion, pregunta === QUE_ENFOQUES, tambien),
   /** Sin pregunta, usa «¿Qué rama o ramas intervienen?». */
   ramas: (correctas: Rama[], explicacion: string, pregunta = QUE_RAMAS, tambien: Rama[] = []): PMulti =>
-    sobreLista(RAMAS, pregunta, correctas, explicacion, tambien, PISTA_RAMAS),
+    sobreLista(RAMAS, pregunta, correctas, explicacion, tambien, PISTA_RAMAS, conSigla),
   opcion: (enunciado: string, opciones: string[], correcta: number, explicacion: string): POpcion =>
     ({ tipo: 'opcion', enunciado, opciones, correcta, explicacion }),
   multi: (enunciado: string, opciones: string[], correctas: number[], explicacion: string): PMulti =>
@@ -199,7 +218,7 @@ export function preguntasDe(tema: IdTema) {
     /** Escenario + «¿Qué rama o ramas intervienen?», o la pregunta que se le pase. */
     ramas: (escenario: string, correctas: Rama[], explicacion: string, pregunta = QUE_RAMAS, tambien: Rama[] = []) => {
       const enunciado = `${escenario} ${pregunta}`;
-      return con(enunciado, sobreLista(RAMAS, enunciado, correctas, explicacion, tambien, PISTA_RAMAS));
+      return con(enunciado, sobreLista(RAMAS, enunciado, correctas, explicacion, tambien, PISTA_RAMAS, conSigla));
     },
     opcion: (...a: Parameters<typeof inciso.opcion>) => con(a[0], inciso.opcion(...a)),
     multi: (...a: Parameters<typeof inciso.multi>) => con(a[0], inciso.multi(...a)),
