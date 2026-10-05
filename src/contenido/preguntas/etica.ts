@@ -4,7 +4,7 @@ const P = preguntasDe('etica');
 const PRINCIPIOS = ['Finalidad', 'Proporcionalidad o minimización', 'Información', 'Seguridad', 'Derechos ARCO'];
 const ARCO = ['Acceso', 'Rectificación', 'Cancelación', 'Oposición'];
 
-export const PREGUNTAS_ETICA = [
+const TODAS_ETICA = [
   // ---------------------------------------------------------------
   // La secuencia y el caso de clase
   // ---------------------------------------------------------------
@@ -225,3 +225,9 @@ export const PREGUNTAS_ETICA = [
     'Es lo que se dijo al final de la clase, y conecta con el caso de las cámaras: bloquear una inscripción es una consecuencia importante decidida sin intervención humana.',
   ),
 ];
+
+// Las que parten de un caso concreto («el encargado se lleva los datos en una
+// USB… ¿qué riesgo es?») son como pregunta el profesor: van al simulacro.
+const DE_CASO = /¿Qué riesgo es\?$|¿Qué principio (de la ley )?se viola\?$|¿Qué derecho ARCO ejerzo\?$|¿Qué ley aplica\?$/;
+export const PREGUNTAS_ETICA = TODAS_ETICA.map((p) =>
+  'enunciado' in p && p.enunciado && DE_CASO.test(p.enunciado) ? { ...p, deCaso: true } : p);

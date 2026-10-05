@@ -13,7 +13,7 @@ export type Ruta =
   | { pagina: 'tema'; tema: IdTema; practicar: boolean }
   | { pagina: 'simulacro' }
   | { pagina: 'repaso' }
-  | { pagina: 'tablas'; vista: 'conectores' | 'resolver' | 'comprobar'; problema?: string };
+  | { pagina: 'tablas'; vista: 'conectores' | 'resolver' | 'enunciado' | 'comprobar'; problema?: string };
 
 const IDS = new Set(TEMAS.map((t) => t.id));
 let actual = location.hash.slice(1) || 'inicio';
@@ -38,6 +38,8 @@ export function interpretar(h: string): Ruta {
   if (h === 'tablas-comprobar') return { pagina: 'tablas', vista: 'comprobar' };
   if (h === 'tablas-resolver') return { pagina: 'tablas', vista: 'resolver' };
   if (h.startsWith('tablas-resolver-')) return { pagina: 'tablas', vista: 'resolver', problema: h.slice('tablas-resolver-'.length) };
+  if (h === 'tablas-enunciado') return { pagina: 'tablas', vista: 'enunciado' };
+  if (h.startsWith('tablas-enunciado-')) return { pagina: 'tablas', vista: 'enunciado', problema: h.slice('tablas-enunciado-'.length) };
   return { pagina: 'inicio' };
 }
 

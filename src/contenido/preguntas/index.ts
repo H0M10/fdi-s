@@ -1,6 +1,7 @@
 import type { IdTema, Pregunta } from '../../tipos';
 import { PREGUNTAS_CASOS } from './casos';
 import { PREGUNTAS_ENFOQUES } from './enfoques';
+import { PREGUNTAS_ENUNCIADOS } from './enunciados';
 import { PREGUNTAS_ETICA } from './etica';
 import {
   PREGUNTAS_APLICACIONES, PREGUNTAS_CONCEPTOS, PREGUNTAS_HISTORIA, PREGUNTAS_QUE_ES,
@@ -14,6 +15,7 @@ export const TODAS: Pregunta[] = [
   ...PREGUNTAS_ENFOQUES,
   ...PREGUNTAS_ETICA,
   ...PREGUNTAS_LOGICA,
+  ...PREGUNTAS_ENUNCIADOS,
   ...PREGUNTAS_CONCEPTOS,
   ...PREGUNTAS_QUE_ES,
   ...PREGUNTAS_HISTORIA,
@@ -26,3 +28,5 @@ export const porId = new Map(TODAS.map((p) => [p.id, p]));
 
 /** Cuántos incisos cuenta una pregunta: un caso vale por todos los suyos. */
 export const incisos = (p: Pregunta): number => (p.tipo === 'caso' ? p.incisos.length : 1);
+
+export { PREGUNTAS_ENUNCIADOS };

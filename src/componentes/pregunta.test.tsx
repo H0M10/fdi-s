@@ -53,6 +53,29 @@ describe('«también se vale»', () => {
   });
 });
 
+describe('simbolizar', () => {
+  const props: [string, string][] = [['p', 'estudio'], ['q', 'apruebo']];
+  const mp = inciso.simbolizar('Si estudio, apruebo; y estudio. Por lo tanto, apruebo.', props, '((p → q) ∧ p) → q');
+  const escribir = (f: string) => {
+    fireEvent.change(screen.getByLabelText('Fórmula'), { target: { value: f } });
+    clic('Revisar');
+  };
+
+  it('otra tautología con otras letras no cuenta, aunque dé la misma tabla', () => {
+    let nota = -1;
+    render(<Pregunta p={comoPregunta(mp)} onListo={(f) => { nota = f; }} />);
+    escribir('p ∨ ¬p');
+    expect(nota).toBe(0);
+  });
+
+  it('una fórmula equivalente con las mismas letras sí cuenta', () => {
+    let nota = -1;
+    render(<Pregunta p={comoPregunta(mp)} onListo={(f) => { nota = f; }} />);
+    escribir('(p ∧ (p → q)) → q');
+    expect(nota).toBe(1);
+  });
+});
+
 describe('justificar', () => {
   const riesgo = justificable(inciso.opcion('¿Qué riesgo es?', ['Privacidad', 'Error'], 0, 'Graba conversaciones que no necesita.'));
 

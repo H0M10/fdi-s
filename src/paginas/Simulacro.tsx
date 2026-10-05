@@ -11,18 +11,20 @@ import type { Pregunta as TPregunta } from '../tipos';
 
 const azar = <T,>(a: T[]) => a.map((x) => [Math.random(), x] as const).sort((x, y) => x[0] - y[0]).map(([, x]) => x);
 
-function armarExamen(): TPregunta[] {
-  // Las 8 de opción múltiple: «generales, de ramas, enfoques, las leyes».
-  // Entra también la selección múltiple, que es como van todas las de
-  // identificar enfoques.
-  const generales = azar(TODAS.filter((p) =>
-    (p.tipo === 'opcion' || p.tipo === 'vf' || p.tipo === 'multi')
-    && ['ramas', 'enfoques', 'etica', 'historia', 'que-es', 'conceptos'].includes(p.tema),
-  ));
-  // Los 10 casos: la mayoría de IA (rama, enfoque, ética) y algunos de lógica.
+/**
+ * Las 8 de opción múltiple («ramas, enfoques, las leyes»), pero como las
+ * hace el profesor: siempre a partir de un caso. Nada de definiciones ni
+ * flujos («¿a qué rama corresponde el flujo…?»): eso no lo pregunta.
+ * Tres de ramas, tres de enfoques y dos de ética o leyes.
+ */
+export function armarExamen(): TPregunta[] {
+  const deCaso = (tema: string) => azar(TODAS.filter((p) => p.deCaso && p.tema === tema));
+  const generales = azar([...deCaso('ramas').slice(0, 3), ...deCaso('enfoques').slice(0, 3), ...deCaso('etica').slice(0, 2)]);
+  // Los 10 casos con incisos: la mayoría de IA (ramas, enfoques, ética) y
+  // algunos de lógica (simbolizar, tablas, conclusiones).
   const casosIA = azar(TODAS.filter((p) => p.tipo === 'caso' && p.tema === 'casos'));
   const casosLogica = azar(TODAS.filter((p) => p.tipo === 'caso' && p.tema === 'logica'));
-  return [...generales.slice(0, 8), ...azar([...casosIA.slice(0, 7), ...casosLogica.slice(0, 3)])];
+  return [...generales, ...azar([...casosIA.slice(0, 7), ...casosLogica.slice(0, 3)])];
 }
 
 export function Simulacro() {
@@ -52,7 +54,7 @@ export function Simulacro() {
           <div className="examen-bloque">
             <div className="num">8</div>
             <div className="que">Opción múltiple</div>
-            <p>Ramas, enfoques, leyes e historia. «Esas están fáciles.»</p>
+            <p>Cada una parte de un caso: dices sus ramas, sus enfoques o su riesgo ético. Nada de definiciones.</p>
           </div>
           <div className="examen-bloque">
             <div className="num">10</div>

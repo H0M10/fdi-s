@@ -119,6 +119,11 @@ export interface PCaso {
   incisos: Inciso[];
 }
 
-export type Pregunta = { id: string; tema: IdTema } & (Inciso | PCaso);
+/**
+ * `deCaso`: la pregunta parte de un caso concreto («una app…, ¿qué rama o
+ * ramas?»), que es como pregunta el profesor. Las de definiciones o flujos
+ * no lo son. El simulacro solo usa las que sí.
+ */
+export type Pregunta = { id: string; tema: IdTema; deCaso?: boolean } & (Inciso | PCaso);
 
 export type Clase = 'tautologia' | 'contradiccion' | 'contingencia';

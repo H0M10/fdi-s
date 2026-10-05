@@ -15,7 +15,7 @@ import type {
   Clase, Inciso, PCaso, PClasificar, PConclusion, PMulti, POpcion,
   Pregunta as TPregunta, PSimbolizar, PTabla, PVF,
 } from '../tipos';
-import { ResolverTabla } from './ResolverTabla';
+import { ReglaClase, ResolverTabla } from './ResolverTabla';
 import { TablaVerdad } from './TablaVerdad';
 import { Texto } from './Texto';
 
@@ -267,7 +267,10 @@ function Simbolizar({ p, onListo }: { p: PSimbolizar; onListo: AlTerminar }) {
   const revisar = () => {
     try {
       const mio = analizar(texto);
-      const bien = equivalentes(mio, analizar(p.respuesta));
+      const correcta = analizar(p.respuesta);
+      // Misma tabla y mismas letras. Sin lo segundo, cualquier tautología
+      // (p ∨ ¬p) pasaría por cualquier otra, porque las dos dan todo V.
+      const bien = equivalentes(mio, correcta) && variables(mio).join() === variables(correcta).join();
       setResultado({ bien, mio: aTexto(mio) });
       setError('');
       onListo(bien ? 1 : 0);
@@ -426,6 +429,7 @@ function Clasificar({ p, onListo }: { p: PClasificar; onListo: AlTerminar }) {
           {armada && !listo && <p style={{ fontSize: 14, margin: '4px 0 0' }}>Con la tabla completa, contesta:</p>}
         </div>
       )}
+      {!listo && <ReglaClase />}
       <div className="opciones">
         {clases.map((c, pos) => {
           let clase = 'opcion';

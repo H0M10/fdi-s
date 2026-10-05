@@ -233,12 +233,14 @@ export function preguntasDe(tema: IdTema) {
     /** Escenario + «¿Qué enfoque o enfoques usa?», o la pregunta que se le pase. */
     enfoques: (escenario: string, correctas: Componente[], explicacion: string, pregunta = QUE_ENFOQUES, tambien: Componente[] = []) => {
       const enunciado = `${escenario} ${pregunta}`;
-      return con(enunciado, preguntaDeEnfoques(enunciado, correctas, explicacion, pregunta === QUE_ENFOQUES, tambien));
+      const completo = pregunta === QUE_ENFOQUES;
+      return { ...con(enunciado, preguntaDeEnfoques(enunciado, correctas, explicacion, completo, tambien)), ...(completo ? { deCaso: true } : {}) };
     },
     /** Escenario + «¿Qué rama o ramas intervienen?», o la pregunta que se le pase. */
     ramas: (escenario: string, correctas: Rama[], explicacion: string, pregunta = QUE_RAMAS, tambien: Rama[] = []) => {
       const enunciado = `${escenario} ${pregunta}`;
-      return con(enunciado, preguntaDeRamas(enunciado, correctas, explicacion, pregunta === QUE_RAMAS, tambien));
+      const completo = pregunta === QUE_RAMAS;
+      return { ...con(enunciado, preguntaDeRamas(enunciado, correctas, explicacion, completo, tambien)), ...(completo ? { deCaso: true } : {}) };
     },
     opcion: (...a: Parameters<typeof inciso.opcion>) => con(a[0], inciso.opcion(...a)),
     multi: (...a: Parameters<typeof inciso.multi>) => con(a[0], inciso.multi(...a)),

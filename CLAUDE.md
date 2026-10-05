@@ -79,6 +79,21 @@ justifica. En `casos.ts`, `justificable()` pide escribir el porqué antes de rev
 inciso de identificar, y muestra la guía de `CRITERIOS` (fabrica.ts) para compararla. No se
 califica la justificación: solo la selección.
 
+### Simulacro: siempre a partir de un caso
+
+Hanniel reportó que el profesor no pregunta definiciones ni flujos («¿a qué rama corresponde
+el flujo…?»): da un caso y se contesta sobre él. Las 8 de opción múltiple del simulacro salen
+solo de preguntas con `deCaso` (3 de ramas, 3 de enfoques, 2 de ética). `P.ramas` y
+`P.enfoques` lo ponen solos cuando usan la pregunta por el sistema completo; en `etica.ts` se
+marca por cómo termina el enunciado. Las de teoría siguen en la práctica de cada tema.
+
+### Tablas desde la frase
+
+`preguntas/enunciados.ts`: solo la frase; se sacan las proposiciones (selección múltiple con
+distractores en negativo o compuestos), se simboliza, se cuentan renglones y se clasifica.
+Simbolizar exige la misma tabla **y las mismas letras**: si no, cualquier tautología pasaría
+por cualquier otra.
+
 ### Ids de las preguntas
 
 Se derivan con un hash del enunciado (`src/contenido/fabrica.ts`), no de la posición. Se pueden
@@ -91,7 +106,7 @@ reinicia su progreso, y está bien.
 npx tsc --noEmit && npm test && npm run build
 ```
 
-Las 658 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
+Las 734 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
 que tiene dos respuestas válidas, es que una de las opciones «incorrectas» en realidad también
 se sigue de las premisas (pasa mucho con ¬p ∨ ¬q cuando la correcta es ¬p ∧ ¬q). Hay que
 cambiar esa opción, no la prueba.

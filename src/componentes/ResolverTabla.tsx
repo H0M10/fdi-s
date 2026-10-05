@@ -244,6 +244,20 @@ export function ResolverTabla({ formula, final = 'clasificar', alTerminar }: {
   );
 }
 
+/** Cómo se clasifica: solo se mira la última columna. */
+export function ReglaClase() {
+  const { simbolo } = useNotacion();
+  const V = simbolo(true), F = simbolo(false);
+  return (
+    <div className="regla-clase" role="note">
+      <span>Mira solo la <strong>última columna</strong>:</span>
+      <span>toda {V} → <strong>tautología</strong></span>
+      <span>toda {F} → <strong>contradicción</strong></span>
+      <span>{V} y {F} → <strong>contingencia</strong></span>
+    </div>
+  );
+}
+
 function Veredicto({ bien, children }: { bien: boolean; children: ReactNode }) {
   return (
     <div className={`retro ${bien ? 'bien' : 'mal'}`} role="status">
@@ -261,7 +275,7 @@ function PreguntaClase({ arbol, respuesta, alResponder }: {
   return (
     <div className="resolver-final">
       <p className="enunciado" style={{ marginBottom: 6 }}>¿Qué es <C>{aTexto(arbol)}</C>?</p>
-      <p style={{ fontSize: 13, color: 'var(--tinta-3)', margin: '0 0 12px' }}>Fíjate solo en la última columna.</p>
+      <ReglaClase />
       <div className="opciones">
         {clases.map((c) => {
           let clase = 'opcion';

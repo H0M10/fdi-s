@@ -1,14 +1,17 @@
 // Sección «Tablas»: aparte de las preguntas, para trabajar las tablas a
-// mano. Tres partes, en el orden en que se aprenden:
+// mano. Cuatro partes, en el orden en que se aprenden:
 //   1. Conectores: memorizar las cinco tablas base y una ronda rápida.
 //   2. Resolver: tablas completas columna por columna, con la regla a la vista.
-//   3. Comprobar: escribir cualquier fórmula y ver su tabla resuelta.
+//   3. Desde la frase: sacar las proposiciones, simbolizar, contar renglones,
+//      hacer la tabla y clasificar, como en el examen.
+//   4. Comprobar: escribir cualquier fórmula y ver su tabla resuelta.
 
 import { useState, useSyncExternalStore, type ReactNode } from 'react';
 import { Agregado } from '../componentes/Leccion';
-import { Teclado } from '../componentes/Pregunta';
-import { describirRenglon, reglaDe, ResolverTabla } from '../componentes/ResolverTabla';
+import { Pregunta, Teclado } from '../componentes/Pregunta';
+import { describirRenglon, ReglaClase, reglaDe, ResolverTabla } from '../componentes/ResolverTabla';
 import { TablaVerdad } from '../componentes/TablaVerdad';
+import { PREGUNTAS_ENUNCIADOS } from '../contenido/preguntas';
 import { GRUPOS, PROBLEMAS, type Problema } from '../contenido/problemasTablas';
 import {
   analizar, aTexto, clasificar, ErrorFormula, evaluar, filas, justificar, NOMBRE_CLASE, pasos, variables,
@@ -16,8 +19,9 @@ import {
 } from '../logica/motor';
 import { useNotacion } from '../notacion';
 import { ir } from '../rutas';
+import type { Pregunta as TPregunta } from '../tipos';
 
-export type VistaTablas = 'conectores' | 'resolver' | 'comprobar';
+export type VistaTablas = 'conectores' | 'resolver' | 'enunciado' | 'comprobar';
 
 const C = ({ children }: { children: ReactNode }) => <code className="simb">{children}</code>;
 
@@ -25,7 +29,8 @@ export function Tablas({ vista, problema }: { vista: VistaTablas; problema?: str
   const pestanas: [VistaTablas, string][] = [
     ['conectores', '1. Memorizar conectores'],
     ['resolver', '2. Resolver paso a paso'],
-    ['comprobar', '3. Comprobar'],
+    ['enunciado', '3. Desde la frase'],
+    ['comprobar', '4. Comprobar'],
   ];
   return (
     <div className="pagina angosta">
@@ -45,6 +50,7 @@ export function Tablas({ vista, problema }: { vista: VistaTablas; problema?: str
       </div>
       {vista === 'conectores' && <Conectores />}
       {vista === 'resolver' && <Resolver problema={problema} />}
+      {vista === 'enunciado' && <DesdeLaFrase problema={problema} />}
       {vista === 'comprobar' && <Comprobar />}
     </div>
   );
@@ -466,7 +472,78 @@ function UnProblema({ p }: { p: Problema }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* 3. Comprobar                                                       */
+/* 3. Desde la frase                                                  */
+/* ------------------------------------------------------------------ */
+type Caso = Extract<TPregunta, { tipo: 'caso' }>;
+const FRASES = PREGUNTAS_ENUNCIADOS.filter((p): p is Caso => p.tipo === 'caso');
+const fraseDe = (p: Caso) => p.escenario.match(/«(.*?)»/)?.[1] ?? p.titulo;
+
+function DesdeLaFrase({ problema }: { problema?: string }) {
+  const hechos = useResueltos();
+  const elegido = FRASES.find((p) => p.id === problema);
+  if (elegido) return <UnaFrase key={elegido.id} p={elegido} />;
+  const listos = FRASES.filter((p) => hechos.has(p.id)).length;
+
+  return (
+    <>
+      <p className="texto-seccion">
+        Como en el examen: te dan solo la frase y tú sacas todo. Cada problema va en el orden en que se hace a mano.
+        {listos > 0 && <> Llevas <strong>{listos} de {FRASES.length}</strong>.</>}
+      </p>
+      <div className="bloque ejemplo">
+        <span className="etiqueta">El método</span>
+        <ol className="metodo">
+          <li>
+            <strong>Separa la frase en proposiciones simples, en positivo.</strong> «No traigo paraguas» no es otra
+            proposición: la proposición es «traigo paraguas» y la negación se pone con ¬.
+          </li>
+          <li><strong>Ponle una letra a cada una:</strong> p, q, r…</li>
+          <li>
+            <strong>Cambia las palabras por conectores:</strong> «y», «pero», «además» → ∧ · «o» → ∨ · «si A,
+            entonces B» → A → B · «A si B» → B → A · «si y solo si» → ↔ · «no», «no es cierto que» → ¬ · «por lo
+            tanto» → la flecha principal.
+          </li>
+          <li><strong>Cuenta las letras distintas:</strong> la tabla lleva 2 elevado a esa cantidad de renglones.</li>
+          <li><strong>Haz la tabla de adentro hacia afuera</strong> y clasifícala viendo la última columna.</li>
+        </ol>
+        <ReglaClase />
+      </div>
+      <div className="problemas">
+        {FRASES.map((p) => (
+          <button key={p.id} className="problema frase" onClick={() => ir(`tablas-enunciado-${p.id}`)}>
+            <span>«{fraseDe(p)}»</span>
+            {hechos.has(p.id) && <span className="hecho" aria-label="Resuelto">✓</span>}
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function UnaFrase({ p }: { p: Caso }) {
+  const [vuelta, setVuelta] = useState(0);
+  const [terminado, setTerminado] = useState(false);
+  const i = FRASES.findIndex((x) => x.id === p.id);
+  const sig = FRASES[i + 1];
+  return (
+    <>
+      <button className="boton fant chico" onClick={() => ir('tablas-enunciado')}>← Todas las frases</button>
+      <div style={{ marginTop: 14 }}>
+        <Pregunta key={vuelta} p={p} onListo={() => { setTerminado(true); marcarResuelto(p.id); }} />
+      </div>
+      {terminado && (
+        <div className="fila" style={{ marginTop: 16 }}>
+          {sig && <button className="boton" onClick={() => ir(`tablas-enunciado-${sig.id}`)}>Siguiente frase →</button>}
+          <button className="boton sec" onClick={() => { setVuelta((x) => x + 1); setTerminado(false); }}>Hacerla otra vez</button>
+          <button className="boton fant" onClick={() => ir('tablas-enunciado')}>Todas las frases</button>
+        </div>
+      )}
+    </>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 4. Comprobar                                                       */
 /* ------------------------------------------------------------------ */
 const EJEMPLOS = [
   ['motor', '(p ∧ q) → r'],
