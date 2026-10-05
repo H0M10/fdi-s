@@ -223,7 +223,47 @@ export default function Ramas() {
             robótica y multiagente. Si te piden <strong>la</strong> rama, elige la que define el propósito del
             sistema. Si te piden <strong>las</strong> ramas, enlístalas todas.
           </p>
+          <p>
+            Por eso en la práctica todas las preguntas de ramas te dejan marcar varias, aunque la respuesta sea una
+            sola: tienes que decidir tú cuántas son.
+          </p>
         </Ojo>
+        <h3>Qué se marca y qué no</h3>
+        <ul>
+          <li>
+            Se marca lo que puedes <strong>señalar en el texto</strong>. Si el caso no dice cámaras, no marques
+            visión aunque te imagines que las tiene.
+          </li>
+          <li>
+            Si el sistema aplica una regla para decidir algo («si registra 3 faltas, bloquea»), esa parte es
+            <strong> representación del conocimiento y razonamiento</strong>: un hecho más una regla llevan a una
+            conclusión.
+          </li>
+          <li>
+            Si el caso dice que el modelo <strong>se entrenó</strong> con datos, también es
+            <strong> aprendizaje automático</strong>, aunque la tarea sea visión o PLN.
+          </li>
+          <li>
+            Lo que se puede deducir pero el caso no dice (un reconocimiento facial seguramente se entrenó con fotos)
+            aparece en ámbar como <strong>«también se vale»</strong>: marcarlo o no, no cuenta en contra.
+          </li>
+        </ul>
+        <h3>Cómo se justifica</h3>
+        <p>
+          En las preguntas avanzadas, cada rama que marcas se justifica. La forma es siempre la misma:{' '}
+          <strong>la rama + la parte del caso que la muestra</strong>.
+        </p>
+        <Ejemplo titulo="Cámaras de asistencia">
+          <p>
+            «Es <strong>visión por computadora</strong> porque reconoce rostros en las imágenes de las cámaras. Es{' '}
+            <strong>representación del conocimiento</strong> porque aplica la regla de que con 3 faltas se bloquea
+            la inscripción.»
+          </p>
+        </Ejemplo>
+        <p>
+          La tabla de arriba es justo eso: la palabra del caso que delata cada rama. En los casos tipo examen de la
+          práctica te pide escribir la justificación antes de revisar, y después te muestra qué tenía que decir.
+        </p>
         <Agregado>
           <p>
             Un truco para decidir la rama principal: pregúntate qué perdería el sistema si le quitaras esa parte.

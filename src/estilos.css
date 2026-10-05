@@ -606,6 +606,19 @@ table.tv td.futura { background: transparent; }
 .opcion.bien .letra-op { background: var(--bien); border-color: var(--bien); color: #fff; }
 .opcion.mal { border-color: var(--mal); background: var(--mal-fondo); }
 .opcion.mal .letra-op { background: var(--mal); border-color: var(--mal); color: #fff; }
+.opcion.neutra { border-color: var(--examen); background: var(--examen-fondo); }
+.opcion.neutra .letra-op { border-color: var(--examen); color: var(--examen); }
+/* Listas fijas largas (las once ramas): en dos columnas cuando cabe */
+.opciones.rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px; }
+.opciones.rejilla .opcion { padding: 9px 12px; font-size: 14px; }
+
+/* Justificar */
+.justif-campo { display: block; margin-top: 14px; }
+.justif-campo span { display: block; font-size: 13.5px; font-weight: 600; color: var(--tinta-2); margin-bottom: 6px; }
+.justif-campo textarea { font-family: var(--sans); font-size: 15px; line-height: 1.5; resize: vertical; min-height: 70px; }
+.justif { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--linea-fuerte); }
+.justif ul { margin: 4px 0 0; padding-left: 1.2em; }
+.justif li { margin-bottom: 4px; }
 .opcion:disabled { cursor: default; }
 
 .retro {

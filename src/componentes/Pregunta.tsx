@@ -49,12 +49,51 @@ function Retro({ bien, children }: { bien: boolean; children: React.ReactNode })
 }
 
 /* ------------------------------------------------------------------ */
+/* Justificar                                                         */
+/* ------------------------------------------------------------------ */
+// En las preguntas avanzadas del examen, cada respuesta (rama, enfoque,
+// riesgo) se justifica. Aquí se escribe antes de revisar y después se
+// compara con lo que debía decir. No se califica: es para practicar.
+
+function CampoJustificacion({ texto, alCambiar }: { texto: string; alCambiar: (t: string) => void }) {
+  return (
+    <label className="justif-campo">
+      <span>¿Por qué? Justifica cada respuesta como en el examen</span>
+      <textarea className="campo" rows={3} value={texto} onChange={(e) => alCambiar(e.target.value)}
+        placeholder="Es … porque en el caso …" />
+    </label>
+  );
+}
+
+function Justificacion({ propia, guia }: { propia?: string; guia?: string[] }) {
+  if (propia === undefined && !guia) return null;
+  return (
+    <div className="justif">
+      {propia !== undefined && (
+        propia.trim()
+          ? <p><strong>Tu justificación:</strong> {propia}</p>
+          : <p>No escribiste justificación. En el examen sí cuenta: intenta la próxima.</p>
+      )}
+      {guia && (
+        <>
+          <p><strong>{propia !== undefined ? 'Compárala. Tenía que decir qué parte del caso muestra:' : 'Para justificarlo, señala en el caso:'}</strong></p>
+          <ul>{guia.map((g) => <li key={g}><Texto>{g}</Texto></li>)}</ul>
+        </>
+      )}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /* Opción múltiple                                                    */
 /* ------------------------------------------------------------------ */
 function Opcion({ p, onListo, semilla }: { p: POpcion; onListo: AlTerminar; semilla: string }) {
   const [elegida, setElegida] = useState<number | null>(null);
+  const [seleccion, setSeleccion] = useState<number | null>(null);
+  const [texto, setTexto] = useState('');
   const orden = useOrden(p.opciones.length, semilla);
   const listo = elegida !== null;
+  const responder = (i: number) => { setElegida(i); onListo(i === p.correcta ? 1 : 0); };
 
   return (
     <>
@@ -65,18 +104,27 @@ function Opcion({ p, onListo, semilla }: { p: POpcion; onListo: AlTerminar; semi
           if (listo && i === p.correcta) clase += ' bien';
           else if (listo && i === elegida) clase += ' mal';
           return (
-            <button key={i} className={clase} disabled={listo}
-              onClick={() => { setElegida(i); onListo(i === p.correcta ? 1 : 0); }}>
+            <button key={i} className={clase} disabled={listo} aria-pressed={!listo && seleccion === i}
+              onClick={() => (p.justificar ? setSeleccion(i) : responder(i))}>
               <span className="letra-op">{LETRAS_OP[pos]}</span>
               <span><Texto>{p.opciones[i]}</Texto></span>
             </button>
           );
         })}
       </div>
+      {p.justificar && !listo && (
+        <>
+          <CampoJustificacion texto={texto} alCambiar={setTexto} />
+          <div className="fila" style={{ marginTop: 10 }}>
+            <button className="boton" disabled={seleccion === null} onClick={() => responder(seleccion!)}>Revisar</button>
+          </div>
+        </>
+      )}
       {listo && (
         <Retro bien={elegida === p.correcta}>
           {elegida !== p.correcta && <p>La respuesta es: <strong>{p.opciones[p.correcta]}</strong></p>}
           <p><Texto>{p.explicacion}</Texto></p>
+          <Justificacion propia={p.justificar ? texto : undefined} guia={p.guia} />
         </Retro>
       )}
     </>
@@ -89,10 +137,14 @@ function Opcion({ p, onListo, semilla }: { p: POpcion; onListo: AlTerminar; semi
 function Multi({ p, onListo, semilla }: { p: PMulti; onListo: AlTerminar; semilla: string }) {
   const [marcadas, setMarcadas] = useState<Set<number>>(new Set());
   const [listo, setListo] = useState(false);
+  const [texto, setTexto] = useState('');
   const barajado = useOrden(p.opciones.length, semilla);
   const orden = p.fijo ? p.opciones.map((_, i) => i) : barajado;
   const correctas = new Set(p.correctas);
-  const exacto = listo && marcadas.size === correctas.size && [...marcadas].every((i) => correctas.has(i));
+  const aceptables = new Set(p.aceptables ?? []);
+  // Bien = marcó todas las correctas y nada fuera de las correctas o las que también se valen.
+  const bien = (m: Set<number>) => [...correctas].every((i) => m.has(i)) && [...m].every((i) => correctas.has(i) || aceptables.has(i));
+  const exacto = listo && bien(marcadas);
 
   const alternar = (i: number) => {
     const s = new Set(marcadas);
@@ -103,28 +155,29 @@ function Multi({ p, onListo, semilla }: { p: PMulti; onListo: AlTerminar; semill
   return (
     <>
       <p className="enunciado"><Texto>{p.enunciado}</Texto></p>
-      <div className="opciones">
+      <div className={p.fijo && p.opciones.length > 6 ? 'opciones rejilla' : 'opciones'}>
         {orden.map((i) => {
           let clase = 'opcion multi';
           if (listo && correctas.has(i)) clase += ' bien';
+          else if (listo && aceptables.has(i)) clase += ' neutra';
           else if (listo && marcadas.has(i)) clase += ' mal';
+          const marca = listo
+            ? correctas.has(i) ? '✓' : aceptables.has(i) ? (marcadas.has(i) ? '✓' : '') : marcadas.has(i) ? '✕' : ''
+            : marcadas.has(i) ? '✓' : '';
           return (
             <button key={i} className={clase} disabled={listo} aria-pressed={!listo && marcadas.has(i)}
               onClick={() => alternar(i)}>
-              <span className="letra-op">{listo ? (correctas.has(i) ? '✓' : marcadas.has(i) ? '✕' : '') : marcadas.has(i) ? '✓' : ''}</span>
+              <span className="letra-op">{marca}</span>
               <span><Texto>{p.opciones[i]}</Texto></span>
             </button>
           );
         })}
       </div>
+      {p.justificar && !listo && <CampoJustificacion texto={texto} alCambiar={setTexto} />}
       {!listo && (
         <div className="fila" style={{ marginTop: 12 }}>
           <button className="boton" disabled={marcadas.size === 0}
-            onClick={() => {
-              setListo(true);
-              const ok = marcadas.size === correctas.size && [...marcadas].every((i) => correctas.has(i));
-              onListo(ok ? 1 : 0);
-            }}>
+            onClick={() => { setListo(true); onListo(bien(marcadas) ? 1 : 0); }}>
             Revisar
           </button>
           <span style={{ fontSize: 13, color: 'var(--tinta-3)' }}>
@@ -135,7 +188,15 @@ function Multi({ p, onListo, semilla }: { p: PMulti; onListo: AlTerminar; semill
       {listo && (
         <Retro bien={exacto}>
           {!exacto && <p>Las correctas están marcadas en verde.</p>}
+          {aceptables.size > 0 && (
+            <p>
+              En ámbar, {aceptables.size === 1 ? 'la que también se valía' : 'las que también se valían'}:{' '}
+              <strong>{[...aceptables].map((i) => p.opciones[i]).join(', ')}</strong>.{' '}
+              {aceptables.size === 1 ? 'Marcarla o no, da igual.' : 'Marcarlas o no, da igual.'}
+            </p>
+          )}
           <p><Texto>{p.explicacion}</Texto></p>
+          <Justificacion propia={p.justificar ? texto : undefined} guia={p.guia} />
         </Retro>
       )}
     </>

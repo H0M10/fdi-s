@@ -48,7 +48,7 @@ export const TEMAS: (Tema & { bloque: IdBloque })[] = [
     titulo: 'Enfoques de la IA',
     corto: 'Enfoques',
     resumen: 'Los cuatro cuadrantes y los enfoques técnicos: reglas, búsqueda, optimización, ML, DL e híbridos.',
-    enExamen: 'En los casos: «¿cuál es su enfoque?». También en opción múltiple.',
+    enExamen: 'Te dan un caso y dices qué enfoque o enfoques usa. También en opción múltiple.',
   },
   {
     id: 'logica',
@@ -64,7 +64,7 @@ export const TEMAS: (Tema & { bloque: IdBloque })[] = [
     titulo: 'Ramas de la IA',
     corto: 'Ramas',
     resumen: 'Las once ramas, cada una con su definición y su flujo de flechas.',
-    enExamen: 'En los casos: «¿a qué rama pertenece?». Es el inciso más repetido.',
+    enExamen: 'Te dan un ejemplo y dices qué rama o ramas son, todas las del caso. En las preguntas avanzadas, justificas cada una.',
   },
   {
     id: 'aplicaciones',
@@ -87,7 +87,7 @@ export const TEMAS: (Tema & { bloque: IdBloque })[] = [
     bloque: 'cierre',
     titulo: 'Casos tipo examen',
     corto: 'Casos',
-    resumen: 'Un caso real de IA con cuatro incisos: rama, enfoque, riesgo ético y mitigación. Junta todo lo anterior.',
+    resumen: 'Un caso real de IA con cuatro incisos: ramas, enfoques, riesgo ético y mitigación, cada uno justificado. Junta todo lo anterior.',
     enExamen: 'Son 10 de las 18 preguntas del examen.',
   },
 ];

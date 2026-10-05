@@ -8,7 +8,7 @@
 import { describe, expect, it } from 'vitest';
 import { analizar, opcionQueSeSigue, variables } from '../logica/motor';
 import type { Inciso, Pregunta } from '../tipos';
-import { COMPONENTES } from './fabrica';
+import { COMPONENTES, CRITERIOS, RAMAS } from './fabrica';
 import { TEMAS } from './temas';
 import { TODAS, deTema } from './preguntas';
 
@@ -111,6 +111,61 @@ describe('identificar enfoques: siempre el mismo formato', () => {
       expect(i.correctas.includes(dl) && i.correctas.includes(ml), 'deep learning se marca sin machine learning').toBe(false);
     });
   }
+});
+
+describe('identificar ramas: siempre el mismo formato', () => {
+  const nombres: readonly string[] = RAMAS;
+  const esDeRamas = (opciones: string[]) => opciones.filter((o) => nombres.includes(o)).length >= 3;
+
+  it('ninguna pregunta de ramas es de una sola respuesta, porque eso delata que es una sola', () => {
+    const sueltas = INCISOS.filter(([, i]) => i.tipo === 'opcion' && esDeRamas(i.opciones)).map(([n]) => n);
+    expect(sueltas).toEqual([]);
+  });
+
+  for (const [nombre, i] of INCISOS) {
+    if (i.tipo !== 'multi' || !esDeRamas(i.opciones)) continue;
+    it(nombre, () => {
+      expect(i.opciones, 'las once ramas').toEqual([...RAMAS]);
+      expect(i.fijo, 'en el mismo orden').toBe(true);
+      expect(i.enunciado, 'la misma pregunta').toMatch(/rama o ramas/);
+    });
+  }
+});
+
+describe('«también se vale»', () => {
+  for (const [nombre, i] of INCISOS) {
+    if (i.tipo !== 'multi' || !i.aceptables) continue;
+    it(nombre, () => {
+      for (const k of i.aceptables!) {
+        expect(k, 'dentro de las opciones').toBeGreaterThanOrEqual(0);
+        expect(k).toBeLessThan(i.opciones.length);
+        expect(i.correctas, 'una opción no puede ser correcta y opcional a la vez').not.toContain(k);
+      }
+      expect(i.explicacion, 'la explicación dice por qué también se vale').toMatch(/también se vale/);
+    });
+  }
+});
+
+describe('casos: justificar como en el examen', () => {
+  const incisosDeCasos = TODAS.filter((p) => p.tema === 'casos' && p.tipo === 'caso')
+    .flatMap((p) => (p.tipo === 'caso' ? p.incisos.map((i) => [p.titulo, i] as const) : []));
+
+  it('cada inciso de rama, enfoque o riesgo pide justificar y trae qué debía decir', () => {
+    const deIdentificar = (i: Inciso) =>
+      i.tipo === 'opcion' ? !!CRITERIOS[i.opciones[i.correcta]]
+        : i.tipo === 'multi' ? i.correctas.some((k) => CRITERIOS[i.opciones[k]]) : false;
+    const pide = (i: Inciso) => (i.tipo === 'opcion' || i.tipo === 'multi') && !!i.justificar && !!i.guia?.length;
+    const sinJustificar = incisosDeCasos
+      .filter(([, i]) => deIdentificar(i) && !pide(i))
+      .map(([t, i]) => `${t}: ${'enunciado' in i ? i.enunciado : ''}`);
+    expect(sinJustificar).toEqual([]);
+  });
+
+  it('cada caso pregunta las ramas', () => {
+    const casos = TODAS.filter((p) => p.tema === 'casos' && p.tipo === 'caso');
+    const sinRamas = casos.filter((p) => p.tipo === 'caso' && !p.incisos.some((i) => i.tipo === 'multi' && i.opciones.length === RAMAS.length));
+    expect(sinRamas.map((p) => p.id)).toEqual([]);
+  });
 });
 
 describe('simbolizar', () => {

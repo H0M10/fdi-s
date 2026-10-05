@@ -35,6 +35,10 @@ export interface POpcion {
   opciones: string[];
   correcta: number;
   explicacion: string;
+  /** Pide escribir por qué antes de revisar, como en el examen. */
+  justificar?: boolean;
+  /** Qué tiene que decir la justificación, una línea por respuesta. */
+  guia?: string[];
 }
 
 export interface PMulti {
@@ -43,10 +47,16 @@ export interface PMulti {
   opciones: string[];
   correctas: number[];
   explicacion: string;
+  /** Se valen marcadas o sin marcar: casos discutibles. */
+  aceptables?: number[];
   /** Opciones siempre en el mismo orden, sin barajar. */
   fijo?: boolean;
   /** Texto junto al botón «Revisar». */
   pista?: string;
+  /** Pide escribir por qué antes de revisar, como en el examen. */
+  justificar?: boolean;
+  /** Qué tiene que decir la justificación, una línea por respuesta. */
+  guia?: string[];
 }
 
 export interface PVF {

@@ -1,20 +1,27 @@
 // Casos tipo examen. Según los compañeros, son 10 de las 18 preguntas:
 // «te muestran un caso donde se implementa la IA y te piden los problemas
-// y daños éticos, la rama que se usa y el enfoque». Cada uno tiene cuatro
-// incisos en ese mismo orden.
+// y daños éticos, la rama que se usa y el enfoque».
+//
+// Las ramas y los enfoques van con selección múltiple sobre la lista
+// completa: en el examen se piden todas las ramas del caso. Y en las
+// preguntas avanzadas cada respuesta se justifica, así que todo inciso de
+// identificar (rama, enfoque, riesgo, principio) pide escribir el porqué.
 
-import { de, inciso as I, preguntasDe, RAMAS, RIESGOS } from '../fabrica';
+import { de, inciso as I, justificable, preguntasDe, RIESGOS } from '../fabrica';
+import type { Inciso } from '../../tipos';
 
 const P = preguntasDe('casos');
+const caso = (titulo: string, escenario: string, incisos: Inciso[]) => P.caso(titulo, escenario, incisos.map(justificable));
 const PRINCIPIOS = ['Finalidad', 'Proporcionalidad o minimización', 'Información', 'Seguridad', 'Derechos ARCO'];
 
 export const PREGUNTAS_CASOS = [
-  P.caso(
+  caso(
     'Cámaras de asistencia en la universidad',
     'Una universidad pública instala cámaras con reconocimiento facial en los salones para registrar la asistencia. Si el sistema registra 3 faltas, bloquea automáticamente la inscripción del alumno al siguiente cuatrimestre. El sistema tiene 99 % de efectividad.',
     [
-      I.opcion('¿Cuál es la rama principal?', ...de(RAMAS, ['Percepción computacional', 'Visión por computadora', 'Computación afectiva', 'Representación del conocimiento y razonamiento'], 'Visión por computadora'),
-        'Reconocer rostros en **imágenes** de cámaras es visión por computadora. Si fueran sensores de presencia sería percepción.'),
+      I.ramas(['Visión por computadora', 'Representación del conocimiento y razonamiento'],
+        'Reconocer rostros en las **imágenes** de las cámaras es **visión por computadora** (con sensores de presencia sería percepción). «Si registra 3 faltas, bloquea la inscripción» es una regla que lleva de un hecho a una conclusión: **representación del conocimiento y razonamiento**. Aprendizaje automático también se vale: el reconocimiento facial se entrena con fotos, aunque el caso no lo diga.',
+        undefined, ['Aprendizaje automático']),
       I.enfoques(['Deep learning', 'Reglas'],
         'Reconocer rostros con imágenes crudas y miles de ejemplos es **deep learning**. «Si registra 3 faltas, bloquea la inscripción» es una **regla** que escribió alguien, con un número fijo.'),
       I.opcion('El alumno bloqueado por error no tiene a quién reclamar, porque nadie revisa la decisión. ¿Qué riesgo describe mejor ese problema?', ...de(RIESGOS, ['Responsabilidad y gobernanza', 'Seguridad', 'Uso indebido', 'Sesgo y discriminación'], 'Responsabilidad y gobernanza'),
@@ -27,12 +34,12 @@ export const PREGUNTAS_CASOS = [
       ], 0, 'Ninguna efectividad llega a 100 %: con 10,000 registros diarios, el 1 % son 100 errores. La decisión no debe ser automática.'),
     ],
   ),
-  P.caso(
+  caso(
     'Reclutamiento automático',
     'Una empresa industrial entrena un sistema con los currículums y las contrataciones de los últimos 20 años para filtrar automáticamente a los nuevos candidatos. Hace 20 años casi no había mujeres en la industria.',
     [
-      I.multi('Selecciona **todas** las ramas que intervienen.', ['Aprendizaje automático', 'Procesamiento de lenguaje natural', 'Robótica y sistemas autónomos', 'Visión por computadora'], [0, 1],
-        'Aprende de **datos históricos** para predecir quién contratar (aprendizaje automático) y lee currículums escritos (PLN).'),
+      I.ramas(['Aprendizaje automático', 'Procesamiento de lenguaje natural'],
+        'Se **entrena** con los datos de 20 años para decidir a quién contratar: **aprendizaje automático**. Lee currículums escritos: **PLN**.'),
       I.enfoques(['Machine learning'],
         'Datos históricos con su resultado (contratado o no): aprendizaje supervisado. Nadie escribió la regla de a quién filtrar: el modelo la sacó de los datos, y por eso heredó el sesgo.'),
       I.opcion('¿Cuál es el principal riesgo ético?', ...de(RIESGOS, ['Sesgo y discriminación', 'Seguridad', 'Error', 'Dependencia y pérdida de juicio'], 'Sesgo y discriminación'),
@@ -45,17 +52,17 @@ export const PREGUNTAS_CASOS = [
       ], 0, 'Los datos reflejan condiciones del pasado que ya cambiaron.'),
     ],
   ),
-  P.caso(
+  caso(
     'Robots de almacén',
     'Un almacén de comercio electrónico tiene 40 robots que recorren los pasillos llevando estanterías a los empacadores. Calculan la ruta más corta y se coordinan entre ellos para no chocar.',
     [
-      I.opcion('¿Cuál es la rama que define al caso?', ...de(RAMAS, ['Robótica y sistemas autónomos', 'Sistemas multiagente', 'Visión por computadora', 'Aprendizaje automático'], 'Sistemas multiagente'),
-        'Es el ejemplo del profesor: no se programa cada robot por separado, sino como un sistema donde cada uno sabe dónde están los demás.'),
-      I.multi('¿Qué otras ramas intervienen?', ['Robótica y sistemas autónomos', 'Búsqueda y planificación', 'IA generativa', 'Computación afectiva'], [0, 1],
-        'Se mueven (robótica) y calculan rutas (búsqueda y planificación).'),
+      I.ramas(['Sistemas multiagente', 'Robótica y sistemas autónomos', 'Búsqueda y planificación'],
+        'Se coordinan entre ellos para no chocar: **multiagente**. Es el ejemplo del profesor: no se programa cada robot por separado, sino como un sistema donde cada uno sabe dónde están los demás. Recorren los pasillos: **robótica**. Calculan la ruta más corta: **búsqueda y planificación**.'),
       I.enfoques(['Búsqueda'],
         'Hay un estado inicial, una meta y acciones: es un problema de búsqueda. «Más corta» no la vuelve optimización: sigue siendo encontrar un camino de un punto a otro, y UCS encuentra el más corto.',
         '¿Con qué enfoque o enfoques calculan la ruta más corta?'),
+      I.opcion('Un robot calcula mal su posición y golpea a un trabajador. ¿Qué riesgo de la lista se materializó?', ...de(RIESGOS, ['Error', 'Seguridad', 'Uso indebido', 'Privacidad'], 'Error'),
+        'Ningún sistema es 100 % efectivo: se equivocó. Ojo: **seguridad**, en la lista del profesor, es que los **datos** estén protegidos, no la seguridad física.'),
       I.opcion('Un robot falla y golpea a un trabajador. Según lo visto, el riesgo es aproximadamente igual a…', [
         'La probabilidad de que ocurra por sus consecuencias',
         'El número de robots por el número de trabajadores',
@@ -64,26 +71,26 @@ export const PREGUNTAS_CASOS = [
       ], 0, 'Aunque la probabilidad sea baja, la consecuencia (lastimar a alguien) es grave.'),
     ],
   ),
-  P.caso(
+  caso(
     'Asistente de voz en casa',
     'Una bocina inteligente escucha todo el tiempo para detectar su palabra de activación. Al decirle «¿hay alguien en la puerta?», revisa la cámara de la entrada y responde en voz alta.',
     [
-      I.opcion('¿Qué rama permite entender la pregunta?', ...de(RAMAS, ['Procesamiento de lenguaje natural', 'Computación afectiva', 'IA generativa', 'Sistemas cognitivos'], 'Procesamiento de lenguaje natural'),
-        'La pregunta llega por voz: primero pasa por PLN.'),
-      I.opcion('¿Qué rama revisa la puerta?', ...de(RAMAS, ['Visión por computadora', 'Percepción computacional', 'Robótica y sistemas autónomos', 'Sistemas multiagente'], 'Visión por computadora'),
-        'Usa una **cámara**, así que es visión. Con un sensor de movimiento sería percepción.'),
+      I.ramas(['Procesamiento de lenguaje natural', 'Visión por computadora'],
+        'La pregunta llega por voz y la respuesta sale en voz: **PLN**. Revisar la puerta con una **cámara** es **visión** (con un sensor de movimiento sería percepción).'),
+      I.enfoques(['Deep learning'],
+        'Entender la voz y reconocer lo que hay en una imagen se hace con redes que aprenden de muchísimos datos crudos (audio, imágenes): **deep learning**.'),
       I.opcion('Escuchar todo el tiempo, ¿qué riesgo ético implica?', ...de(RIESGOS, ['Privacidad', 'Sesgo y discriminación', 'Error', 'Dependencia y pérdida de juicio'], 'Privacidad'),
         'Graba conversaciones que no son necesarias para su función.'),
       I.opcion('El fabricante no explica qué hace con el audio que graba. ¿Qué principio de la ley viola?', PRINCIPIOS, 2,
         '**Información**: hay que decir para qué se quieren los datos, con un aviso de privacidad.'),
     ],
   ),
-  P.caso(
+  caso(
     'Riego automático del invernadero',
     'Un invernadero tiene sensores de humedad en el suelo. Una regla escrita por el agrónomo dice: «si la humedad baja de 30 %, regar». Un día un sensor se desconecta y el sistema registra la humedad como 0 %.',
     [
-      I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Percepción computacional', 'Visión por computadora', 'Aprendizaje automático', 'Robótica y sistemas autónomos'], 'Percepción computacional'),
-        'La palabra clave es **sensores**.'),
+      I.ramas(['Percepción computacional', 'Representación del conocimiento y razonamiento'],
+        'La palabra clave es **sensores**: **percepción**. La regla del agrónomo («si la humedad baja de 30 %, regar») lleva de un hecho a una conclusión: **representación del conocimiento y razonamiento**.'),
       I.enfoques(['Reglas'],
         'La regla la escribió un experto («si baja de 30 %, regar») y no se aprende de datos. Los sensores son la rama (percepción), no un enfoque.'),
       I.opcion('El sensor desconectado se lee como 0 % y el sistema riega de más. ¿Qué riesgo se materializó?', ...de(RIESGOS, ['Error', 'Privacidad', 'Uso indebido', 'Sesgo y discriminación'], 'Error'),
@@ -96,26 +103,27 @@ export const PREGUNTAS_CASOS = [
       ], 0, 'El error está en tratar la ausencia de dato como un valor. Eso se corrige en el diseño, no comprando equipo.'),
     ],
   ),
-  P.caso(
+  caso(
     'Atención en el salón',
     'Una escuela instala cámaras que analizan la cara de cada alumno durante la clase para medir si está aburrido, distraído o interesado, y le manda un reporte al profesor.',
     [
-      I.opcion('¿Cuál es la rama principal?', ...de(RAMAS, ['Computación afectiva', 'Visión por computadora', 'Sistemas cognitivos', 'Percepción computacional'], 'Computación afectiva'),
-        'El propósito es reconocer **emociones**. La cámara es visión, pero lo que define al sistema es el análisis afectivo.'),
-      I.opcion('¿Qué otra rama interviene?', ...de(RAMAS, ['Visión por computadora', 'Búsqueda y planificación', 'Sistemas multiagente', 'Robótica y sistemas autónomos'], 'Visión por computadora'),
-        'Las expresiones se obtienen de las imágenes de las cámaras.'),
+      I.ramas(['Computación afectiva', 'Visión por computadora'],
+        'Lo que busca es reconocer **emociones** (aburrido, distraído, interesado): **computación afectiva**, que es la que define al sistema. Las saca de las **imágenes** de las cámaras: **visión**.'),
+      I.enfoques(['Deep learning'],
+        'Reconocer expresiones en video se hace con redes que aprenden de muchísimas imágenes de caras: **deep learning**.'),
       I.opcion('Para enseñar no hace falta registrar las emociones de cada alumno. ¿Qué principio de la ley se viola?', PRINCIPIOS, 1,
         '**Proporcionalidad o minimización**: se están pidiendo datos que no son necesarios para el fin.'),
       I.opcion('Las expresiones de aburrimiento varían entre personas y culturas, y el sistema podría marcar siempre a los mismos alumnos. ¿Qué riesgo es?', ...de(RIESGOS, ['Sesgo y discriminación', 'Seguridad', 'Uso indebido', 'Opacidad y explicabilidad'], 'Sesgo y discriminación'),
         'El modelo trata como universal algo que no lo es, y perjudica a un grupo.'),
     ],
   ),
-  P.caso(
+  caso(
     'Chatbot de un banco',
     'Un banco pone un chatbot que responde preguntas de los clientes redactando sus propias respuestas. También decide si se le aprueba un adelanto de nómina, sin intervención de un empleado.',
     [
-      I.multi('Selecciona **todas** las ramas que intervienen.', ['Procesamiento de lenguaje natural', 'IA generativa', 'Visión por computadora', 'Robótica y sistemas autónomos'], [0, 1],
-        'Entiende lo que escribe el cliente (PLN) y redacta respuestas nuevas (generativa).'),
+      I.ramas(['Procesamiento de lenguaje natural', 'IA generativa'],
+        'Entiende lo que escribe el cliente: **PLN**. Redacta respuestas nuevas: **IA generativa**. Aprobar el adelanto también es una decisión automática, pero el caso no dice cómo la toma: si la marcaste como aprendizaje automático o como reglas (representación del conocimiento), también se vale.',
+        undefined, ['Aprendizaje automático', 'Representación del conocimiento y razonamiento']),
       I.enfoques(['Deep learning'],
         'Los modelos de lenguaje que generan texto son redes neuronales profundas.',
         '¿Con qué enfoque o enfoques redacta el chatbot sus respuestas?'),
@@ -125,12 +133,12 @@ export const PREGUNTAS_CASOS = [
         'Tiene restricciones según lo visto en clase. La mitigación es que una persona revise esa decisión.'),
     ],
   ),
-  P.caso(
+  caso(
     'Rutas de reparto',
     'Una empresa de paquetería usa un sistema que, cada mañana, calcula el orden de entregas de cada repartidor para recorrer la menor distancia posible. Con los años, los repartidores ya no conocen la ciudad sin el sistema.',
     [
-      I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Búsqueda y planificación', 'Aprendizaje automático', 'Sistemas multiagente', 'Robótica y sistemas autónomos'], 'Búsqueda y planificación'),
-        'Estado inicial, meta y algo que minimizar.'),
+      I.ramas(['Búsqueda y planificación'],
+        'Hay un punto de partida, entregas que hacer y algo que **minimizar** (la distancia): **búsqueda y planificación**, que incluye la optimización. Los repartidores son personas, no agentes de IA: no es multiagente.'),
       I.enfoques(['Optimización'],
         'Lo que elige es un **orden** de entregas que **minimiza** la distancia: optimización. Si solo fuera ir de un punto a otro, sería búsqueda. La rama sí es búsqueda y planificación, porque ahí entra la optimización.'),
       I.opcion('¿Qué cuadrante del enfoque clásico corresponde?', ['Actuar racionalmente', 'Actuar como humano', 'Pensar como humano', 'Pensar racionalmente'], 0,
@@ -139,12 +147,12 @@ export const PREGUNTAS_CASOS = [
         'Se delegó tanto la decisión que se perdió la capacidad de decidir sin la herramienta.'),
     ],
   ),
-  P.caso(
+  caso(
     'Diagnóstico por radiografías',
     'Un hospital usa un sistema que analiza radiografías de tórax y marca las que tienen señales de neumonía. Se entrenó con 100,000 radiografías y acierta el 94 % de las veces.',
     [
-      I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Visión por computadora', 'Percepción computacional', 'Sistemas cognitivos', 'Representación del conocimiento y razonamiento'], 'Visión por computadora'),
-        'Analiza **imágenes** médicas.'),
+      I.ramas(['Visión por computadora', 'Aprendizaje automático'],
+        'Analiza **imágenes** médicas: **visión**. «Se entrenó con 100,000 radiografías»: aprende de datos, **aprendizaje automático** (el deep learning es una subrama suya).'),
       I.enfoques(['Deep learning'],
         'Muchísimas imágenes crudas (100,000) y la red aprende sola qué buscar.'),
       I.opcion('El médico necesita saber por qué el sistema marcó una radiografía antes de tratar al paciente. ¿Qué riesgo atiende esa necesidad?', ...de(RIESGOS, ['Opacidad y explicabilidad', 'Seguridad', 'Uso indebido', 'Dependencia y pérdida de juicio'], 'Opacidad y explicabilidad'),
@@ -153,12 +161,12 @@ export const PREGUNTAS_CASOS = [
         '**Finalidad**: los datos se dieron para el diagnóstico, no para venderse.'),
     ],
   ),
-  P.caso(
+  caso(
     'Soporte técnico con reglas',
     'Una mesa de ayuda usa un programa con reglas escritas por los técnicos más experimentados: «si el equipo no enciende y la luz de corriente parpadea, revisar la fuente de poder».',
     [
-      I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Representación del conocimiento y razonamiento', 'Aprendizaje automático', 'Sistemas cognitivos', 'Búsqueda y planificación'], 'Representación del conocimiento y razonamiento'),
-        'Hechos más reglas que pasan por un motor de inferencia.'),
+      I.ramas(['Representación del conocimiento y razonamiento'],
+        'Hechos (los síntomas) más reglas escritas por los técnicos, que pasan por un motor de inferencia: **representación del conocimiento y razonamiento**. No aprende de datos: no es aprendizaje automático.'),
       I.enfoques(['Reglas'],
         'El conocimiento lo escribieron los técnicos: «si no enciende y la luz parpadea, revisar la fuente».'),
       I.opcion('¿Cuál es el flujo de esta rama?', [
@@ -171,12 +179,12 @@ export const PREGUNTAS_CASOS = [
         'Los sistemas expertos codifican el conocimiento de un experto como reglas.'),
     ],
   ),
-  P.caso(
+  caso(
     'Imágenes para publicidad',
     'Una agencia usa una herramienta que crea fotografías realistas de personas que no existen para sus anuncios. Un empleado la usa para fabricar una foto falsa de un político en una situación comprometedora.',
     [
-      I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['IA generativa', 'Visión por computadora', 'Computación afectiva', 'Aprendizaje automático'], 'IA generativa'),
-        'Crea contenido sintético nuevo.'),
+      I.ramas(['IA generativa'],
+        'Crea fotografías de personas que **no existen**: contenido nuevo, **IA generativa**. No es visión: visión interpreta imágenes que ya existen; aquí se crean.'),
       I.enfoques(['Deep learning'],
         'Los generadores de imágenes son redes neuronales profundas entrenadas con millones de imágenes.'),
       I.opcion('Usar la herramienta para fabricar la foto falsa, ¿qué riesgo es?', ...de(RIESGOS, ['Uso indebido', 'Error', 'Sesgo y discriminación', 'Opacidad y explicabilidad'], 'Uso indebido'),
@@ -185,26 +193,28 @@ export const PREGUNTAS_CASOS = [
         '**Daño**: cómo vamos a afectar a las personas.'),
     ],
   ),
-  P.caso(
+  caso(
     'Auto autónomo',
     'Un auto autónomo usa cámaras para leer señales de tránsito, sensores de distancia para no chocar, calcula la ruta y conduce sin conductor. Atropella a un peatón en un cruce.',
     [
-      I.opcion('¿Cuál es la rama que define al sistema?', ...de(RAMAS, ['Robótica y sistemas autónomos', 'Visión por computadora', 'Percepción computacional', 'Búsqueda y planificación'], 'Robótica y sistemas autónomos'),
-        'Interactúa físicamente con el mundo y se mueve solo. Las demás ramas lo componen.'),
-      I.multi('¿Qué otras ramas intervienen?', ['Visión por computadora', 'Percepción computacional', 'Búsqueda y planificación', 'IA generativa'], [0, 1, 2],
-        'Cámaras → visión. Sensores → percepción. Ruta → búsqueda.'),
+      I.ramas(['Robótica y sistemas autónomos', 'Visión por computadora', 'Percepción computacional', 'Búsqueda y planificación'],
+        'Conduce solo: **robótica y sistemas autónomos**, la que define al sistema. Cámaras: **visión**. Sensores de distancia: **percepción**. Calcula la ruta: **búsqueda y planificación**. «Para no chocar» puede ser una regla, pero el caso no la escribe: representación del conocimiento también se vale.',
+        undefined, ['Representación del conocimiento y razonamiento']),
+      I.enfoques(['Deep learning', 'Búsqueda'],
+        'Leer señales en las imágenes de las cámaras es **deep learning**. Calcular la ruta es **búsqueda**. «Para no chocar» con los sensores puede ser una regla («si hay algo a menos de X metros, frenar»), pero el caso no la escribe: marcar reglas también se vale.',
+        undefined, ['Reglas']),
       I.opcion('Tras el accidente, no está claro si responde el fabricante, el programador o el dueño del auto. ¿Qué riesgo es?', ...de(RIESGOS, ['Responsabilidad y gobernanza', 'Privacidad', 'Uso indebido', 'Sesgo y discriminación'], 'Responsabilidad y gobernanza'),
         'Debe existir un responsable de cada parte de la cadena.'),
       I.opcion('¿Qué es este auto: IA débil o fuerte?', ['IA débil', 'IA fuerte'], 0,
         'Su propósito es específico: conducir. No siente ni piensa como humano.'),
     ],
   ),
-  P.caso(
+  caso(
     'Predicción de deserción',
     'Una universidad usa calificaciones, asistencia y nivel socioeconómico de sus alumnos para predecir quién abandonará la carrera. A quienes el modelo marca, se les retira la beca de forma preventiva.',
     [
-      I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Aprendizaje automático', 'Búsqueda y planificación', 'Sistemas cognitivos', 'Representación del conocimiento y razonamiento'], 'Aprendizaje automático'),
-        'Datos históricos para predecir.'),
+      I.ramas(['Aprendizaje automático', 'Representación del conocimiento y razonamiento'],
+        'Usar los datos de los alumnos para **predecir** quién abandonará: **aprendizaje automático**. «A quienes el modelo marca, se les retira la beca» es una regla que lleva de un hecho (lo marcó) a una conclusión (retirar la beca): **representación del conocimiento y razonamiento**.'),
       I.enfoques(['Machine learning'],
         'Se aprende de los alumnos que ya desertaron o no.',
         '¿Con qué enfoque o enfoques predice quién abandonará la carrera?'),
@@ -218,12 +228,13 @@ export const PREGUNTAS_CASOS = [
       ], 0, 'La predicción debe servir para ayudar, no para castigar de forma automática.'),
     ],
   ),
-  P.caso(
+  caso(
     'Moderación en una red social',
     'Una red social usa un modelo que lee las publicaciones y borra automáticamente las que considera ofensivas. Los usuarios de cierta región reportan que se les borran publicaciones normales escritas con su forma de hablar.',
     [
-      I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Procesamiento de lenguaje natural', 'Computación afectiva', 'IA generativa', 'Visión por computadora'], 'Procesamiento de lenguaje natural'),
-        'Interpreta texto escrito.'),
+      I.ramas(['Procesamiento de lenguaje natural'],
+        '**Lee** e interpreta publicaciones escritas: **PLN**. Como el modelo aprendió de publicaciones etiquetadas qué es ofensivo, aprendizaje automático también se vale. No es afectiva: no reconoce emociones, clasifica textos.',
+        undefined, ['Aprendizaje automático']),
       I.enfoques(['Machine learning'],
         'Aprende de publicaciones ya etiquetadas como ofensivas o no. Borrar lo que el modelo marca es la acción, no una regla aparte: nadie escribió una condición con un valor fijo.'),
       I.opcion('Que el modelo castigue la forma de hablar de una región, ¿qué riesgo es?', ...de(RIESGOS, ['Sesgo y discriminación', 'Error', 'Seguridad', 'Privacidad'], 'Sesgo y discriminación'),
@@ -232,12 +243,13 @@ export const PREGUNTAS_CASOS = [
         '**Rectificación**: corregir algo que está mal registrado sobre él.'),
     ],
   ),
-  P.caso(
+  caso(
     'Horario de la universidad',
     'La universidad quiere un sistema que pruebe miles de horarios para todos los grupos y se quede con el que deje menos horas libres entre clases a los alumnos. Nunca puede poner a un profesor en dos clases a la misma hora ni usar un salón dos veces al mismo tiempo.',
     [
-      I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Búsqueda y planificación', 'Aprendizaje automático', 'Sistemas multiagente', 'Sistemas cognitivos'], 'Búsqueda y planificación'),
-        'Es el ejemplo exacto del profesor.'),
+      I.ramas(['Búsqueda y planificación'],
+        'Es el ejemplo exacto del profesor: armar un horario es **búsqueda y planificación**, y quedarse con el mejor es optimización, que entra en esa rama. «Nunca dos clases a la misma hora» son restricciones; si las marcaste como representación del conocimiento, también se vale.',
+        undefined, ['Representación del conocimiento y razonamiento']),
       I.enfoques(['Optimización', 'Reglas'],
         'Quedarse con el horario que deje **menos** horas libres es **optimización**: se compara y se elige el mejor acomodo. «Nunca dos clases a la misma hora» son **reglas** que ponen límites, como los días inhábiles en el comedor. Dos enfoques: **híbrido**.'),
       I.opcion('¿Qué algoritmo de optimización se vio en clase?', ['Algoritmo evolutivo', 'Random forest', 'BFS', 'Red neuronal profunda'], 0,
@@ -246,12 +258,12 @@ export const PREGUNTAS_CASOS = [
         'Por eso entra en la rama de búsqueda y planificación.'),
     ],
   ),
-  P.caso(
+  caso(
     'Multas automáticas por placa',
     'Una ciudad instala cámaras que encuentran la placa de los autos que se pasan el alto, la leen y emiten la multa automáticamente al dueño registrado, sin que nadie revise la foto.',
     [
-      I.opcion('¿Cuál es la rama?', ...de(RAMAS, ['Visión por computadora', 'Percepción computacional', 'Robótica y sistemas autónomos', 'Aprendizaje automático'], 'Visión por computadora'),
-        'Trabaja con imágenes de cámaras.'),
+      I.ramas(['Visión por computadora', 'Representación del conocimiento y razonamiento'],
+        'Encontrar y leer la placa en las **imágenes** de las cámaras: **visión**. «Al que se pasa el alto, multa automática» es una regla que lleva de un hecho a una conclusión: **representación del conocimiento y razonamiento**.'),
       I.opcion('Aislar la placa del resto de la imagen es la tarea de…', ['Segmentar', 'Clasificar', 'Detectar', 'Seguimiento'], 0,
         'Es el ejemplo de la placa que dio el profesor.'),
       I.opcion('Una placa sucia se lee mal y se multa a otra persona. ¿Qué riesgo se materializó?', ...de(RIESGOS, ['Error', 'Privacidad', 'Uso indebido', 'Dependencia y pérdida de juicio'], 'Error'),
@@ -264,13 +276,13 @@ export const PREGUNTAS_CASOS = [
       ], 0, 'Es una consecuencia importante para una persona. Debe haber revisión humana.'),
     ],
   ),
-  P.caso(
+  caso(
     'Emociones en una app de citas',
     'Una app de citas analiza el tono de voz de los usuarios en las videollamadas para medir si están interesados en la otra persona, y vende esos datos a anunciantes.',
     [
-      I.opcion('¿Cuál es la rama principal?', ...de(RAMAS, ['Computación afectiva', 'Procesamiento de lenguaje natural', 'IA generativa', 'Sistemas multiagente'], 'Computación afectiva'),
-        'Reconoce emociones a partir de señales como el tono de voz.'),
-      I.opcion('¿Cuál es la palabra clave de esa rama?', ['Señales', 'Sensores', 'Imágenes', 'Agentes'], 0,
+      I.ramas(['Computación afectiva'],
+        'Mide si están interesados (una **emoción**) a partir de **señales** como el tono de voz: **computación afectiva**. No es PLN: no analiza **qué** dicen, sino **cómo** lo dicen.'),
+      I.opcion('¿Cuál es la palabra clave de la computación afectiva?', ['Señales', 'Sensores', 'Imágenes', 'Agentes'], 0,
         'Señales de emoción.'),
       I.opcion('Vender los datos a anunciantes, ¿qué principio de la ley viola?', PRINCIPIOS, 0,
         '**Finalidad**: los datos no se dieron para eso.'),
@@ -278,7 +290,7 @@ export const PREGUNTAS_CASOS = [
         '**Oposición**: negarse a un uso concreto de sus datos.'),
     ],
   ),
-  P.caso(
+  caso(
     'Control de un aerogenerador',
     'Un aerogenerador mantiene estable la velocidad de su rotor girando el ángulo de las aspas con un controlador PID. Cuando llegan ráfagas, el rotor se acelera antes de que el controlador alcance a corregir. La empresa agrega sensores de viento y un modelo de random forest que predice la ráfaga unos segundos antes.',
     [
@@ -290,8 +302,9 @@ export const PREGUNTAS_CASOS = [
         'Porque le falta el componente integral',
         'Porque los sensores no miden la velocidad',
       ], 0, 'El PID es reactivo. Para corregir antes hace falta predecir.'),
-      I.opcion('¿A qué rama pertenece el random forest que predice la ráfaga?', ...de(RAMAS, ['Aprendizaje automático', 'Percepción computacional', 'Robótica y sistemas autónomos', 'Sistemas cognitivos'], 'Aprendizaje automático'),
-        'Aprende de datos históricos del viento para predecir. Los sensores que le dan esos datos son percepción computacional.'),
+      I.ramas(['Aprendizaje automático'],
+        'Aprende de datos históricos del viento para **predecir**: aprendizaje automático. Los sensores que le dan esos datos son percepción computacional, pero la pregunta es solo por el random forest.',
+        '¿A qué rama o ramas pertenece el random forest que predice la ráfaga?'),
       I.opcion('¿Qué logra la empresa con la predicción?', [
         'Llegar a la inferencia antes que en tiempo real, para corregir antes de que llegue la ráfaga',
         'Eliminar el controlador PID',
@@ -300,12 +313,12 @@ export const PREGUNTAS_CASOS = [
       ], 0, 'Es la idea del estado del arte que dio el profesor. El PID se queda: es quien ejecuta la corrección.'),
     ],
   ),
-  P.caso(
+  caso(
     'Mantenimiento de aerogeneradores',
     'Un parque eólico pone sensores de vibración en sus aerogeneradores y usa un modelo que combina las ecuaciones físicas del rotor con los datos históricos de fallas para anticipar cuándo se va a dañar una pieza.',
     [
-      I.opcion('Los sensores de vibración pertenecen a la rama de…', ...de(RAMAS, ['Percepción computacional', 'Visión por computadora', 'Robótica y sistemas autónomos', 'Sistemas cognitivos'], 'Percepción computacional'),
-        'Palabra clave: sensores.'),
+      I.ramas(['Percepción computacional', 'Aprendizaje automático'],
+        'Sensores de vibración: **percepción**. Un modelo que usa los datos históricos de fallas para anticipar: **aprendizaje automático**. Que también use ecuaciones físicas no le quita lo de aprender de datos.'),
       I.opcion('Combinar ecuaciones físicas con datos es la técnica de…', ['PIML / PINN', 'Random forest', 'Control difuso', 'Algoritmo evolutivo'], 0,
         'Física más datos: modelos *data-driven* físicamente consistentes.'),
       I.opcion('Anticipar una falla antes de que ocurra se llama…', ['Mantenimiento predictivo', 'Control de pitch', 'Frontera del conocimiento', 'Sobreajuste'], 0,

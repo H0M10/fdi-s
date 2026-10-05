@@ -16,6 +16,33 @@ export function hash(s: string): string {
   return (h >>> 0).toString(36);
 }
 
+/** Opciones fijas que se repiten en muchas preguntas. */
+export const RAMAS = [
+  'Representación del conocimiento y razonamiento',
+  'Búsqueda y planificación',
+  'Aprendizaje automático',
+  'Percepción computacional',
+  'Visión por computadora',
+  'Procesamiento de lenguaje natural',
+  'Robótica y sistemas autónomos',
+  'Sistemas multiagente',
+  'IA generativa',
+  'Computación afectiva',
+  'Sistemas cognitivos',
+] as const;
+export type Rama = (typeof RAMAS)[number];
+
+export const RIESGOS = [
+  'Privacidad',
+  'Sesgo y discriminación',
+  'Error',
+  'Opacidad y explicabilidad',
+  'Seguridad',
+  'Responsabilidad y gobernanza',
+  'Uso indebido',
+  'Dependencia y pérdida de juicio',
+] as const;
+
 /**
  * Los enfoques que pueden formar un sistema. «Híbrido» no va aquí: es el
  * nombre de la combinación, no una pieza.
@@ -23,39 +50,119 @@ export function hash(s: string): string {
 export const COMPONENTES = ['Reglas', 'Búsqueda', 'Optimización', 'Machine learning', 'Deep learning'] as const;
 export type Componente = (typeof COMPONENTES)[number];
 
-/** La pregunta de siempre. Igual si la respuesta es uno o varios. */
-export const QUE_ENFOQUES = '¿Qué enfoque o enfoques usa?';
+/**
+ * Qué hay que señalar en el caso para justificar cada respuesta. Es la
+ * mitad de «justificar»; la otra mitad es decir qué parte del caso lo
+ * muestra, y eso va en la explicación de cada pregunta.
+ */
+export const CRITERIOS: Record<string, string> = {
+  // Ramas: la palabra clave de cada una.
+  'Representación del conocimiento y razonamiento': 'hay hechos y reglas «si… entonces» con las que se llega a una conclusión',
+  'Búsqueda y planificación': 'hay un estado inicial y una meta (una ruta, un horario, un plan) o algo que optimizar',
+  'Aprendizaje automático': 'aprende de datos (históricos, de entrenamiento) para predecir o clasificar',
+  'Percepción computacional': 'usa sensores para saber qué pasa en su entorno',
+  'Visión por computadora': 'interpreta imágenes o video de cámaras',
+  'Procesamiento de lenguaje natural': 'entiende o produce texto o voz',
+  'Robótica y sistemas autónomos': 'se mueve o mueve cosas en el mundo físico',
+  'Sistemas multiagente': 'hay varios agentes que se coordinan, cooperan o compiten',
+  'IA generativa': 'crea contenido nuevo: texto, imágenes, audio',
+  'Computación afectiva': 'reconoce emociones a partir de señales (rostro, tono de voz)',
+  'Sistemas cognitivos': 'percibe, recuerda, razona y decide imitando a una persona',
+  // Enfoques: la señal de cada uno.
+  'Reglas': 'una condición que escribió una persona («si…», «nunca», «no más de…»)',
+  'Búsqueda': 'hay un camino que encontrar, de un estado inicial a una meta',
+  'Optimización': 'se busca el mejor valor: lo más o lo menos posible',
+  'Machine learning': 'aprende de datos con su respuesta para predecir',
+  'Deep learning': 'una red aprende sola de muchísimos datos crudos (imágenes, audio, texto)',
+  // Riesgos: lo que dijo el profesor de cada uno.
+  'Privacidad': 'se piden o se guardan datos que no son necesarios',
+  'Sesgo y discriminación': 'los datos históricos reflejan una injusticia y el modelo perjudica a un grupo',
+  'Error': 'el modelo se equivoca, porque ninguno es 100 % efectivo',
+  'Opacidad y explicabilidad': 'no se puede explicar por qué decidió el modelo',
+  'Seguridad': 'los datos no están protegidos',
+  'Responsabilidad y gobernanza': 'nadie revisa la decisión ni responde por ella',
+  'Uso indebido': 'los datos o la herramienta se usan para algo distinto de lo autorizado',
+  'Dependencia y pérdida de juicio': 'se delega tanto que se deja de saber decidir sin la herramienta',
+  // Principios de la ley.
+  'Finalidad': 'los datos se usan para algo distinto de para lo que se pidieron',
+  'Proporcionalidad o minimización': 'se piden más datos de los necesarios para el fin',
+  'Información': 'no se avisa para qué se van a usar los datos',
+};
+
+/** «Visión por computadora → interpreta imágenes…», para cada respuesta que tenga criterio. */
+function guiaDe(respuestas: readonly string[]): string[] | undefined {
+  const g = respuestas.filter((r) => CRITERIOS[r]).map((r) => `**${r}** → ${CRITERIOS[r]}`);
+  return g.length ? g : undefined;
+}
 
 /**
- * Pregunta de identificar los enfoques de un caso. Siempre es selección
- * múltiple con las mismas cinco opciones en el mismo orden, sea uno o
- * varios los correctos, para que el formato no delate la respuesta.
- *
+ * Pide justificar una pregunta de identificar (rama, enfoque, riesgo,
+ * principio), como en las preguntas avanzadas del examen. Las demás
+ * quedan igual.
+ */
+export function justificable(i: Inciso): Inciso {
+  if (i.tipo === 'opcion') {
+    const guia = guiaDe([i.opciones[i.correcta]]);
+    return guia ? { ...i, justificar: true, guia } : i;
+  }
+  if (i.tipo === 'multi') {
+    const guia = i.guia ?? guiaDe(i.correctas.map((k) => i.opciones[k]));
+    return guia ? { ...i, justificar: true, guia } : i;
+  }
+  return i;
+}
+
+/** Las preguntas de siempre. Iguales si la respuesta es una o varias. */
+export const QUE_ENFOQUES = '¿Qué enfoque o enfoques usa?';
+export const QUE_RAMAS = '¿Qué rama o ramas intervienen?';
+
+/**
+ * Selección múltiple sobre una lista fija (las ramas o los enfoques). Siempre
+ * las mismas opciones en el mismo orden, sea una o varias las correctas,
+ * para que el formato no delate la respuesta. `tambien` son las que se valen
+ * pero no son obligatorias: marcarlas o no, da igual.
+ */
+function sobreLista<T extends string>(
+  lista: readonly T[], enunciado: string, correctas: T[], explicacion: string, tambien: T[], pista: string,
+): PMulti {
+  const idx = (xs: T[]) => xs.map((x) => lista.indexOf(x));
+  return {
+    tipo: 'multi',
+    enunciado,
+    opciones: [...lista],
+    correctas: idx(correctas),
+    ...(tambien.length ? { aceptables: idx(tambien) } : {}),
+    explicacion,
+    fijo: true,
+    pista,
+    guia: guiaDe(correctas),
+  };
+}
+
+/**
  * Si la pregunta es por el sistema completo, al final de la explicación se
  * dice si es híbrido o no. Si es por una sola parte («¿con qué se decide
  * cuánto cocinar?»), no: esa parte puede ser un solo enfoque dentro de un
  * sistema híbrido.
  */
-function preguntaDeEnfoques(enunciado: string, correctas: Componente[], explicacion: string, completo: boolean): PMulti {
+function preguntaDeEnfoques(enunciado: string, correctas: Componente[], explicacion: string, completo: boolean, tambien: Componente[] = []): PMulti {
   const cierre = !completo || /h[ií]brido/i.test(explicacion) ? ''
     : correctas.length === 1 ? ' Es un solo enfoque, así que **no es híbrido**.'
       : ` Son ${correctas.length} enfoques juntos, así que es **híbrido**.`;
-  return {
-    tipo: 'multi',
-    enunciado,
-    opciones: [...COMPONENTES],
-    correctas: correctas.map((c) => COMPONENTES.indexOf(c)),
-    explicacion: explicacion + cierre,
-    fijo: true,
-    pista: 'Puede ser uno o varios. Si es deep learning, no marques también machine learning.',
-  };
+  return sobreLista(COMPONENTES, enunciado, correctas, explicacion + cierre, tambien,
+    'Puede ser uno o varios. Si es deep learning, no marques también machine learning.');
 }
+
+const PISTA_RAMAS = 'Puede ser una o varias. Marca cada rama que puedas señalar en el texto del caso.';
 
 /** Incisos sueltos, para armar casos. */
 export const inciso = {
   /** Sin pregunta, usa «¿Qué enfoque o enfoques usa?». */
-  enfoques: (correctas: Componente[], explicacion: string, pregunta = QUE_ENFOQUES): PMulti =>
-    preguntaDeEnfoques(pregunta, correctas, explicacion, pregunta === QUE_ENFOQUES),
+  enfoques: (correctas: Componente[], explicacion: string, pregunta = QUE_ENFOQUES, tambien: Componente[] = []): PMulti =>
+    preguntaDeEnfoques(pregunta, correctas, explicacion, pregunta === QUE_ENFOQUES, tambien),
+  /** Sin pregunta, usa «¿Qué rama o ramas intervienen?». */
+  ramas: (correctas: Rama[], explicacion: string, pregunta = QUE_RAMAS, tambien: Rama[] = []): PMulti =>
+    sobreLista(RAMAS, pregunta, correctas, explicacion, tambien, PISTA_RAMAS),
   opcion: (enunciado: string, opciones: string[], correcta: number, explicacion: string): POpcion =>
     ({ tipo: 'opcion', enunciado, opciones, correcta, explicacion }),
   multi: (enunciado: string, opciones: string[], correctas: number[], explicacion: string): PMulti =>
@@ -85,9 +192,14 @@ export function preguntasDe(tema: IdTema) {
 
   return {
     /** Escenario + «¿Qué enfoque o enfoques usa?», o la pregunta que se le pase. */
-    enfoques: (escenario: string, correctas: Componente[], explicacion: string, pregunta = QUE_ENFOQUES) => {
+    enfoques: (escenario: string, correctas: Componente[], explicacion: string, pregunta = QUE_ENFOQUES, tambien: Componente[] = []) => {
       const enunciado = `${escenario} ${pregunta}`;
-      return con(enunciado, preguntaDeEnfoques(enunciado, correctas, explicacion, pregunta === QUE_ENFOQUES));
+      return con(enunciado, preguntaDeEnfoques(enunciado, correctas, explicacion, pregunta === QUE_ENFOQUES, tambien));
+    },
+    /** Escenario + «¿Qué rama o ramas intervienen?», o la pregunta que se le pase. */
+    ramas: (escenario: string, correctas: Rama[], explicacion: string, pregunta = QUE_RAMAS, tambien: Rama[] = []) => {
+      const enunciado = `${escenario} ${pregunta}`;
+      return con(enunciado, sobreLista(RAMAS, enunciado, correctas, explicacion, tambien, PISTA_RAMAS));
     },
     opcion: (...a: Parameters<typeof inciso.opcion>) => con(a[0], inciso.opcion(...a)),
     multi: (...a: Parameters<typeof inciso.multi>) => con(a[0], inciso.multi(...a)),
@@ -100,32 +212,6 @@ export function preguntasDe(tema: IdTema) {
       con(titulo, { tipo: 'caso', titulo, escenario, incisos } satisfies PCaso),
   };
 }
-
-/** Opciones fijas que se repiten en muchas preguntas. */
-export const RAMAS = [
-  'Representación del conocimiento y razonamiento',
-  'Búsqueda y planificación',
-  'Aprendizaje automático',
-  'Percepción computacional',
-  'Visión por computadora',
-  'Procesamiento de lenguaje natural',
-  'Robótica y sistemas autónomos',
-  'Sistemas multiagente',
-  'IA generativa',
-  'Computación afectiva',
-  'Sistemas cognitivos',
-] as const;
-
-export const RIESGOS = [
-  'Privacidad',
-  'Sesgo y discriminación',
-  'Error',
-  'Opacidad y explicabilidad',
-  'Seguridad',
-  'Responsabilidad y gobernanza',
-  'Uso indebido',
-  'Dependencia y pérdida de juicio',
-] as const;
 
 /** Elige opciones de una lista fija por nombre y devuelve el índice correcto. */
 export function de<T extends readonly string[]>(_lista: T, nombres: T[number][], correcta: T[number]): [string[], number] {

@@ -11,12 +11,19 @@ export default function Casos() {
         <Tabla
           cabeza={['Inciso', 'Qué te piden', 'Dónde estudiarlo']}
           filas={[
-            ['Rama', '¿A qué rama pertenece?', 'Ramas'],
-            ['Enfoque', '¿Cuál es su enfoque?', 'Enfoques'],
+            ['Rama', '¿Qué rama o ramas intervienen? Se enlistan todas', 'Ramas'],
+            ['Enfoque', '¿Cuál es su enfoque? Si son varios, todos', 'Enfoques'],
             ['Ética', '¿Qué problemas y daños éticos tiene?', 'Ética'],
             ['Mitigación o ley', 'Cómo reducirlo, o qué principio se viola', 'Ética'],
           ]}
         />
+        <Ojo titulo="En las preguntas avanzadas se justifica">
+          <p>
+            No basta con elegir: cada inciso pide <strong>justificar</strong> por qué esa rama, ese enfoque o ese
+            riesgo. En la práctica, los casos te piden escribir la justificación antes de revisar, y después te
+            muestran qué tenía que decir.
+          </p>
+        </Ojo>
       </Seccion>
 
       <Seccion titulo="El método para contestar cualquier caso">
@@ -45,6 +52,22 @@ export default function Casos() {
         </p>
       </Seccion>
 
+      <Seccion titulo="Cómo se justifica">
+        <p>
+          Siempre con la misma forma: <strong>la respuesta + la parte del caso que la muestra</strong>. Lo que hace
+          la justificación es señalar la palabra del caso que te llevó a la respuesta.
+        </p>
+        <Tabla
+          cabeza={['Inciso', 'Plantilla']}
+          filas={[
+            ['Rama', '«Es [rama] porque el sistema [lo que hace con qué: imágenes, sensores, texto…].»'],
+            ['Enfoque', '«Es [enfoque] porque [quién pone la lógica: una regla escrita, un camino, lo mejor posible, los datos].»'],
+            ['Riesgo', '«Es [riesgo] porque [qué puede salir mal y a quién afecta].»'],
+            ['Mitigación', '«[Qué se hace], porque así [se evita el daño].» Casi siempre: revisión humana.'],
+          ]}
+        />
+      </Seccion>
+
       <Seccion titulo="Un caso resuelto paso a paso">
         <Ejemplo titulo="Multas automáticas por placa">
           <p>
@@ -53,12 +76,12 @@ export default function Casos() {
           </p>
         </Ejemplo>
         <Tabla
-          cabeza={['Inciso', 'Respuesta', 'Cómo se llega']}
+          cabeza={['Inciso', 'Respuesta', 'Justificación (lo que escribes)']}
           filas={[
-            ['Rama', 'Visión por computadora', 'Entran imágenes de cámaras'],
-            ['Tarea de visión', 'Segmentar (y seguimiento)', 'Aísla la placa del resto de la imagen; es el ejemplo de clase'],
-            ['Riesgo', 'Error', 'Una placa sucia se lee mal y se multa a otra persona; ningún modelo es 100 % efectivo'],
-            ['Mitigación', 'Revisión humana antes de multar', 'Es una consecuencia importante decidida de forma automática'],
+            ['Ramas', 'Visión por computadora y representación del conocimiento', 'Es visión porque encuentra y lee la placa en las imágenes de las cámaras. Es representación del conocimiento porque aplica la regla «al que se pasa el alto, multa».'],
+            ['Enfoques', 'Deep learning y reglas', 'Leer placas en imágenes se aprende de muchísimas fotos: deep learning. Multar al que se pasa el alto es una regla escrita.'],
+            ['Riesgo', 'Error', 'Una placa sucia se lee mal y se multa a otra persona: ningún modelo es 100 % efectivo.'],
+            ['Mitigación', 'Revisión humana antes de multar', 'La multa es una consecuencia importante para una persona y hoy se decide sin que nadie revise.'],
           ]}
         />
       </Seccion>

@@ -58,6 +58,25 @@ Convención para que la selección múltiple sea justa:
   o un acomodo es **optimización**.
 - Deep learning se marca sin machine learning.
 
+### Preguntas de identificar ramas
+
+Igual que los enfoques: `P.ramas` / `inciso.ramas`, las once ramas en el mismo orden y «¿Qué
+rama o ramas…?». Hanniel recuerda que en el examen dan un ejemplo y se dicen todas las ramas.
+Convención:
+- Se marca lo que se puede señalar en el texto del caso.
+- Si el sistema aplica una regla para decidir («si registra 3 faltas, bloquea»), es también
+  representación del conocimiento y razonamiento.
+- Si dice que el modelo se entrenó con datos, también es aprendizaje automático.
+- Lo deducible pero no escrito va en `tambien` (se muestra en ámbar: marcarlo o no, da igual).
+  La explicación tiene que decir «también se vale»; una prueba lo exige.
+
+### Justificar
+
+Hanniel recuerda que en las preguntas avanzadas cada inciso (rama, enfoque, ética) se
+justifica. En `casos.ts`, `justificable()` pide escribir el porqué antes de revisar en todo
+inciso de identificar, y muestra la guía de `CRITERIOS` (fabrica.ts) para compararla. No se
+califica la justificación: solo la selección.
+
 ### Ids de las preguntas
 
 Se derivan con un hash del enunciado (`src/contenido/fabrica.ts`), no de la posición. Se pueden
@@ -70,7 +89,7 @@ reinicia su progreso, y está bien.
 npx tsc --noEmit && npm test && npm run build
 ```
 
-Las 526 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
+Las 607 pruebas tienen que pasar. Si se agrega una pregunta de conclusiones y la prueba dice
 que tiene dos respuestas válidas, es que una de las opciones «incorrectas» en realidad también
 se sigue de las premisas (pasa mucho con ¬p ∨ ¬q cuando la correcta es ¬p ∧ ¬q). Hay que
 cambiar esa opción, no la prueba.
