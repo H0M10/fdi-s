@@ -95,3 +95,29 @@ export function Tabla({ cabeza, filas }: { cabeza: string[]; filas: ReactNode[][
 export function S({ children }: { children: ReactNode }) {
   return <code className="simb">{children}</code>;
 }
+
+/** Bloque de código Python de los Colabs, listo para leer en el examen. */
+export function Codigo({ titulo, children }: { titulo?: string; children: string }) {
+  return (
+    <div style={{ margin: '0 0 18px', maxWidth: '68ch', border: '1px solid var(--linea)', borderRadius: 8, overflow: 'hidden', background: 'var(--superficie)' }}>
+      {titulo && (
+        <div style={{ padding: '6px 12px', background: 'var(--superficie-2)', borderBottom: '1px solid var(--linea)', fontSize: 12, fontFamily: 'var(--mono)', fontWeight: 600, color: 'var(--tinta-2)' }}>
+          {titulo}
+        </div>
+      )}
+      <pre style={{ margin: 0, padding: '12px 14px', overflowX: 'auto', fontFamily: 'var(--mono)', fontSize: 13, lineHeight: 1.5, color: 'var(--tinta)' }}>
+        <code>{children.trim()}</code>
+      </pre>
+    </div>
+  );
+}
+
+/** Parte del apunte pendiente de confirmar con las notas completas de clase. */
+export function Pendiente({ children, titulo = 'Pendiente de confirmar con el apunte completo' }: { children: ReactNode; titulo?: string }) {
+  return (
+    <div className="bloque ojo" style={{ borderLeftStyle: 'dashed' }}>
+      <span className="etiqueta">⏳ {titulo}</span>
+      {children}
+    </div>
+  );
+}

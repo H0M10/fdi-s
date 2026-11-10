@@ -8,6 +8,7 @@ import {
 } from './generales';
 import { PREGUNTAS_LOGICA } from './logica';
 import { PREGUNTAS_RAMAS } from './ramas';
+import { PREGUNTAS_U2 } from './u2';
 
 export const TODAS: Pregunta[] = [
   ...PREGUNTAS_CASOS,
@@ -20,6 +21,7 @@ export const TODAS: Pregunta[] = [
   ...PREGUNTAS_QUE_ES,
   ...PREGUNTAS_HISTORIA,
   ...PREGUNTAS_APLICACIONES,
+  ...PREGUNTAS_U2,
 ];
 
 export const deTema = (t: IdTema): Pregunta[] => TODAS.filter((p) => p.tema === t);

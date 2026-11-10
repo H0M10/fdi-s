@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
 import { analizar, opcionQueSeSigue, variables } from '../logica/motor';
 import type { Inciso, Pregunta } from '../tipos';
 import { COMPONENTES, conSigla, CRITERIOS, RAMAS } from './fabrica';
-import { TEMAS } from './temas';
+import { TEMAS, TEMAS_U2, TODOS_LOS_TEMAS } from './temas';
 import { TODAS, deTema } from './preguntas';
 
 /** Cada pregunta suelta y cada inciso de cada caso, con una etiqueta legible. */
@@ -31,8 +31,9 @@ describe('estructura del banco', () => {
     expect(repetidos).toEqual([]);
   });
 
-  it('todos los temas tienen preguntas', () => {
-    for (const t of TEMAS) expect(deTema(t.id).length, t.id).toBeGreaterThan(0);
+  it('todos los temas tienen preguntas (U1 y U2)', () => {
+    for (const t of TODOS_LOS_TEMAS) expect(deTema(t.id).length, t.id).toBeGreaterThan(0);
+    expect(TEMAS_U2.length).toBe(7);
   });
 
   it('todos los casos tienen al menos 3 incisos', () => {
@@ -220,12 +221,12 @@ describe('conclusiones: exactamente una opción se sigue de las premisas', () =>
 
 describe('resumen del banco', () => {
   it('imprime cuántas preguntas hay por tema', () => {
-    const filas = TEMAS.map((t) => {
+    const filas = TODOS_LOS_TEMAS.map((t) => {
       const ps = deTema(t.id);
       const n = ps.reduce((s, p: Pregunta) => s + (p.tipo === 'caso' ? p.incisos.length : 1), 0);
-      return `${t.corto.padEnd(14)} ${String(ps.length).padStart(3)} preguntas · ${String(n).padStart(3)} incisos`;
+      return `${t.corto.padEnd(18)} ${String(ps.length).padStart(3)} preguntas · ${String(n).padStart(3)} incisos`;
     });
-    console.log('\n' + filas.join('\n') + `\n${'TOTAL'.padEnd(14)} ${String(TODAS.length).padStart(3)} preguntas · ${INCISOS.length} incisos\n`);
+    console.log('\n' + filas.join('\n') + `\n${'TOTAL'.padEnd(18)} ${String(TODAS.length).padStart(3)} preguntas · ${INCISOS.length} incisos\n`);
     expect(TODAS.length).toBeGreaterThan(0);
   });
 });

@@ -16,7 +16,20 @@ clase, un banco de preguntas para practicar y un simulacro con el mismo formato 
 | ¿Qué es la IA? | 9 |
 | Antecedentes e historia | 25 |
 | Aplicaciones y estado del arte | 25 |
-| **Total** | **354 preguntas · 486 incisos** |
+| **Unidad 2 · 1. Problemas de búsqueda** | 8 |
+| **Unidad 2 · 2. Espacio de búsqueda y grafos** | 6 |
+| **Unidad 2 · 3. Búsqueda ciega: BFS y DFS** | 8 |
+| **Unidad 2 · 4. Búsqueda heurística: Greedy y A\*** | 7 |
+| **Unidad 2 · 5. Búsqueda local: HC y SA** | 9 |
+| **Unidad 2 · 6. Algoritmos genéticos (evolutivos)** | 10 |
+| **Unidad 2 · Casos y código Python (U2)** | 12 (48 incisos) |
+| **Total (U1 + U2)** | **414 preguntas · 582 incisos** |
+
+- **Análisis completo de la Unidad 2** en [`ANALISIS_UNIDAD_2.md`](./ANALISIS_UNIDAD_2.md): apuntes corregidos, desglose de los 6 temas oficiales, pendientes por confirmar del Tema 1 (esposos celosos / fases / jarras `[2,0]`) y diccionario de código Python de los 20 notebooks de Google Colab (`U2/*.ipynb`).
+- **Simuladores interactivos de la Unidad 2 (`#lab`)**:
+  - **Simulador de Grafos**: ejecuta paso a paso BFS (`deque.popleft`), DFS (`pop` + `reversed`), Greedy ($f(n)=h(n)$) y A\* ($f(n)=g(n)+h(n)$) sobre los 5 grafos de clase y permite **aislar nodos** con un clic.
+  - **Simulador de Búsqueda Local**: compara Hill Climbing y Simulated Annealing ($P = e^{\Delta/T}$) permitiendo cambiar $x_0$, $T_0$, $\alpha$, iteraciones y semilla.
+  - **Simulador de Algoritmos Genéticos**: gráfica interactiva de convergencia (`------`) cambiando población, generaciones, tasa de mutación, Torneo vs Ruleta y elitismo.
 
 - **Lecciones** por tema, separando lo que dijo el profesor, los errores del apunte corregidos
   y lo que se agregó.

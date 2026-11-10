@@ -5,7 +5,7 @@
 import { describe, expect, it } from 'vitest';
 import { PREGUNTAS_ENUNCIADOS, TODAS } from '../contenido/preguntas';
 import { analizar, clasificar } from '../logica/motor';
-import { armarExamen } from './Simulacro';
+import { armarExamen, armarExamenU2 } from './Simulacro';
 
 describe('simulacro', () => {
   it('18 preguntas: 8 de opción múltiple y 10 casos', () => {
@@ -35,6 +35,15 @@ describe('simulacro', () => {
   it('hay de dónde escoger en cada bloque', () => {
     for (const t of ['ramas', 'enfoques', 'etica']) {
       expect(TODAS.filter((p) => p.deCaso && p.tema === t).length, t).toBeGreaterThanOrEqual(8);
+    }
+  });
+
+  it('simulacro de Unidad 2: 18 preguntas (8 deCaso y 10 casos integradores de u2-casos)', () => {
+    for (let k = 0; k < 20; k++) {
+      const e = armarExamenU2();
+      expect(e).toHaveLength(18);
+      expect(e.slice(0, 8).every((p) => p.tipo !== 'caso' && p.deCaso && p.tema.startsWith('u2-'))).toBe(true);
+      expect(e.slice(8).every((p) => p.tipo === 'caso' && p.tema === 'u2-casos')).toBe(true);
     }
   });
 });

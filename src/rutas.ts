@@ -1,4 +1,4 @@
-// Navegación por el hash de la URL (#inicio, #tema-ramas, #simulacro, #tablas-resolver…).
+// Navegación por el hash de la URL (#inicio, #tema-u2-problemas, #simulacro, #lab, #tablas…).
 //
 // Sin librería: son pocas rutas. El hash funciona igual en GitHub Pages,
 // en Vercel y abriendo el archivo directo, porque no le pide nada al
@@ -6,16 +6,18 @@
 
 import { useSyncExternalStore } from 'react';
 import type { IdTema } from './tipos';
-import { TEMAS } from './contenido/temas';
+import { TODOS_LOS_TEMAS } from './contenido/temas';
 
 export type Ruta =
-  | { pagina: 'inicio' }
+  | { pagina: 'inicio'; unidad?: 1 | 2 }
   | { pagina: 'tema'; tema: IdTema; practicar: boolean }
-  | { pagina: 'simulacro' }
+  | { pagina: 'simulacro'; unidad?: 1 | 2 }
+  | { pagina: 'comparar' }
+  | { pagina: 'lab' }
   | { pagina: 'repaso' }
   | { pagina: 'tablas'; vista: 'conectores' | 'resolver' | 'enunciado' | 'comprobar'; problema?: string };
 
-const IDS = new Set(TEMAS.map((t) => t.id));
+const IDS = new Set(TODOS_LOS_TEMAS.map((t) => t.id));
 let actual = location.hash.slice(1) || 'inicio';
 const oyentes = new Set<() => void>();
 
@@ -30,9 +32,16 @@ export function ir(destino: string) {
 }
 
 export function interpretar(h: string): Ruta {
+  if (h === 'u1') return { pagina: 'inicio', unidad: 1 };
+  if (h === 'u2') return { pagina: 'inicio', unidad: 2 };
   if (h.startsWith('tema-') && IDS.has(h.slice(5) as IdTema)) return { pagina: 'tema', tema: h.slice(5) as IdTema, practicar: false };
   if (h.startsWith('practica-') && IDS.has(h.slice(9) as IdTema)) return { pagina: 'tema', tema: h.slice(9) as IdTema, practicar: true };
-  if (h === 'simulacro' || h === 'repaso') return { pagina: h };
+  if (h === 'simulacro') return { pagina: 'simulacro' };
+  if (h === 'simulacro-u1') return { pagina: 'simulacro', unidad: 1 };
+  if (h === 'simulacro-u2') return { pagina: 'simulacro', unidad: 2 };
+  if (h === 'comparar') return { pagina: 'comparar' };
+  if (h === 'lab') return { pagina: 'lab' };
+  if (h === 'repaso') return { pagina: 'repaso' };
   // Tablas: #tablas (conectores), #tablas-resolver, #tablas-resolver-<id>, #tablas-comprobar.
   if (h === 'tablas') return { pagina: 'tablas', vista: 'conectores' };
   if (h === 'tablas-comprobar') return { pagina: 'tablas', vista: 'comprobar' };

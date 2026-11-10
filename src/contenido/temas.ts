@@ -92,14 +92,88 @@ export const TEMAS: (Tema & { bloque: IdBloque })[] = [
   },
 ];
 
+export const BLOQUES_U2 = [
+  { id: 'u2-modelado', titulo: 'Modelar el problema y el mapa (Temas 1 y 2)', idea: 'Antes de buscar un camino hay que definir estados, acciones, restricciones y el grafo.' },
+  { id: 'u2-grafos', titulo: 'Recorrer un grafo (Temas 3 y 4)', idea: 'Búsqueda ciega (BFS y DFS) frente a búsqueda informada con heurísticas (Greedy y A*).' },
+  { id: 'u2-optimizacion', titulo: 'Mejorar soluciones y evolucionar poblaciones (Temas 5 y 6)', idea: 'Búsqueda local (Hill Climbing y Simulated Annealing) y Algoritmos Genéticos.' },
+  { id: 'u2-cierre', titulo: 'Código Python y casos tipo examen', idea: 'Lectura de código de los Colabs y casos integradores como los del examen.' },
+] as const;
+
+export type IdBloqueU2 = (typeof BLOQUES_U2)[number]['id'];
+
+export const TEMAS_U2: (Tema & { bloque: IdBloqueU2 })[] = [
+  {
+    id: 'u2-problemas',
+    bloque: 'u2-modelado',
+    titulo: '1. Problemas de búsqueda',
+    corto: 'Problemas',
+    resumen: 'Inicio, estados, acciones y meta (+ solución y restricciones). Cómo abstraer y codificar un problema (elevador, jarras, interruptores, esposos celosos).',
+    enExamen: 'Identificar los 4 elementos, restricciones y cómo se codifica un estado.',
+  },
+  {
+    id: 'u2-espacio',
+    bloque: 'u2-modelado',
+    titulo: '2. Espacio de búsqueda y grafos',
+    corto: 'Espacio',
+    resumen: 'Diferencia entre problema y espacio de búsqueda. Nodo (lugar) vs estado (información), trayectorias y nodos aislados por fallas en NetworkX.',
+    enExamen: 'Efecto de una restricción o nodo fuera de servicio en el diccionario grafo.',
+  },
+  {
+    id: 'u2-ciega',
+    bloque: 'u2-grafos',
+    titulo: '3. Búsqueda ciega: BFS y DFS',
+    corto: 'BFS y DFS',
+    resumen: 'Por qué es ciega. BFS por niveles con cola FIFO (deque.popleft) vs DFS por rama profunda con pila LIFO (pop y reversed). El conjunto visitados.',
+    enExamen: 'Comparar orden, camino, pasos (len(camino)-1), cola vs pila y cuándo devuelve None.',
+  },
+  {
+    id: 'u2-heuristica',
+    bloque: 'u2-grafos',
+    titulo: '4. Búsqueda heurística: Greedy y A*',
+    corto: 'Greedy y A*',
+    resumen: 'La heurística h(n) como estimación («corazonada»). Greedy solo mira h(n); A* equilibra f(n) = g(n) + h(n) con heapq y mejor_costo.',
+    enExamen: 'Calcular f(n) = g(n) + h(n), predecir qué nodo explora cada uno y qué pasa al cambiar costos o heurísticas.',
+  },
+  {
+    id: 'u2-local',
+    bloque: 'u2-optimizacion',
+    titulo: '5. Búsqueda local: Hill Climbing y Simulated Annealing',
+    corto: 'Búsqueda local',
+    resumen: 'Mejorar una solución revisando vecinos (Maps, horarios 2+2+1+1+0). Hill Climbing se atora en máximos locales; Simulated Annealing escapa con P = e^(Δ/T).',
+    enExamen: 'Efecto del punto inicial x0, temperatura T0, enfriamiento alpha, semilla y por qué guardar mejor aparte de actual.',
+  },
+  {
+    id: 'u2-geneticos',
+    bloque: 'u2-optimizacion',
+    titulo: '6. Algoritmos genéticos (evolutivos)',
+    corto: 'Alg. genéticos',
+    resumen: 'Población inicial, fitness, selección (Truncamiento, Torneo, Ruleta, Ranking), cruzamiento, mutación, elitismo y curvas de convergencia.',
+    enExamen: 'Interpretar curvas de convergencia (línea plana), costo poblacion×(gen+1), métodos de selección/cruza/mutación y efecto del elitismo.',
+  },
+  {
+    id: 'u2-casos',
+    bloque: 'u2-cierre',
+    titulo: 'Código Python y casos tipo examen (U2)',
+    corto: 'Casos y código U2',
+    resumen: 'Para qué sirve cada línea clave de los 20 Colabs y casos integradores con incisos de modelado, traza, parámetros y código.',
+    enExamen: 'El profesor dijo que no será de programar desde cero, sino teórico, de casos y de explicar qué hace o para qué sirve el código.',
+  },
+];
+
+export const TODOS_LOS_TEMAS = [...TEMAS, ...TEMAS_U2];
+
+export const esDeU2 = (id: IdTema) => id.startsWith('u2-');
+
+export const listaDeUnidad = (id: IdTema) => (esDeU2(id) ? TEMAS_U2 : TEMAS);
+
 export const tema = (id: IdTema) => {
-  const t = TEMAS.find((x) => x.id === id);
+  const t = TODOS_LOS_TEMAS.find((x) => x.id === id);
   if (!t) throw new Error(`Tema desconocido: ${id}`);
   return t;
 };
 
-/** Posición del tema en el orden de estudio, empezando en 1. */
-export const numero = (id: IdTema) => TEMAS.findIndex((t) => t.id === id) + 1;
+/** Posición del tema dentro de su unidad, empezando en 1. */
+export const numero = (id: IdTema) => listaDeUnidad(id).findIndex((t) => t.id === id) + 1;
 
-export const anterior = (id: IdTema) => TEMAS[numero(id) - 2];
-export const siguiente = (id: IdTema) => TEMAS[numero(id)];
+export const anterior = (id: IdTema) => listaDeUnidad(id)[numero(id) - 2];
+export const siguiente = (id: IdTema) => listaDeUnidad(id)[numero(id)];

@@ -15,7 +15,14 @@ export type IdTema =
   | 'aplicaciones'
   | 'etica'
   | 'logica'
-  | 'casos';
+  | 'casos'
+  | 'u2-problemas'
+  | 'u2-espacio'
+  | 'u2-ciega'
+  | 'u2-heuristica'
+  | 'u2-local'
+  | 'u2-geneticos'
+  | 'u2-casos';
 
 export interface Tema {
   id: IdTema;

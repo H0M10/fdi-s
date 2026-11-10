@@ -1,15 +1,17 @@
 import { useEffect } from 'react';
 import { cambiarNotacion, useNotacion } from './notacion';
-import { Inicio, PaginaTema, Repaso } from './paginas/Paginas';
+import { ComparadorU2, Inicio, LaboratorioU2, PaginaTema, Repaso } from './paginas/Paginas';
 import { Simulacro } from './paginas/Simulacro';
 import { Tablas } from './paginas/Tablas';
 import { ir, useRuta } from './rutas';
 
 const NAV = [
   ['inicio', 'Temas'],
+  ['comparar', 'Comparar U2'],
   ['simulacro', 'Simulacro'],
+  ['lab', 'Lab U2'],
   ['repaso', 'Repaso'],
-  ['tablas', 'Tablas'],
+  ['tablas', 'Tablas U1'],
 ] as const;
 
 export default function App() {
@@ -23,7 +25,7 @@ export default function App() {
     <>
       <header className="barra">
         <div className="barra-fila">
-          <button className="marca" onClick={() => ir('inicio')}>FDI Estudio <span>(p ∧ q) → r</span></button>
+          <button className="marca" onClick={() => ir('inicio')}>FDI Estudio <span>U1 · U2</span></button>
           <nav className="nav" aria-label="Secciones">
             {NAV.map(([id, nombre]) => (
               <button key={id} onClick={() => ir(id)}
@@ -40,9 +42,11 @@ export default function App() {
         </div>
       </header>
       <main>
-        {ruta.pagina === 'inicio' && <Inicio />}
+        {ruta.pagina === 'inicio' && <Inicio key={ruta.unidad ?? 2} unidadInicial={ruta.unidad ?? 2} />}
         {ruta.pagina === 'tema' && <PaginaTema key={ruta.tema} id={ruta.tema} practicar={ruta.practicar} />}
-        {ruta.pagina === 'simulacro' && <Simulacro />}
+        {ruta.pagina === 'comparar' && <ComparadorU2 />}
+        {ruta.pagina === 'simulacro' && <Simulacro key={ruta.unidad ?? 2} unidadInicial={ruta.unidad ?? 2} />}
+        {ruta.pagina === 'lab' && <LaboratorioU2 />}
         {ruta.pagina === 'repaso' && <Repaso />}
         {ruta.pagina === 'tablas' && <Tablas vista={ruta.vista} problema={ruta.problema} />}
       </main>

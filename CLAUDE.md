@@ -32,7 +32,12 @@ Correcciones importantes que ya están marcadas:
 - `src/componentes/Pregunta.tsx` — cómo se contesta cada tipo
 - `src/componentes/ResolverTabla.tsx` — resolver una tabla columna por columna (sección Tablas, preguntas de clasificar y lección)
 - `src/paginas/Tablas.tsx` y `src/contenido/problemasTablas.ts` — la sección Tablas y sus problemas
-- `src/rutas.ts` — navegación por hash (`#tema-ramas`, `#simulacro`, `#tablas-resolver-<id>`…)
+- `src/rutas.ts` — navegación por hash (`#tema-ramas`, `#tema-u2-problemas`, `#simulacro-u2`, `#lab`, `#tablas-resolver-<id>`…)
+- `ANALISIS_UNIDAD_2.md` — documento maestro de análisis de la Unidad 2 (apuntes, 6 temas, 20 Colabs y guía de lectura de código Python)
+- `src/busqueda/motor.ts` y `src/busqueda/motor.test.ts` — motor en TypeScript de BFS, DFS, Greedy, A*, `aislarNodo`, Hill Climbing, Simulated Annealing y Algoritmos Genéticos
+- `src/componentes/SimuladorGrafo.tsx` y `src/componentes/SimuladorOptimizacion.tsx` — simuladores interactivos de Unidad 2
+- `src/contenido/lecciones/u2/*.tsx` — las 7 lecciones de la Unidad 2 (`Problemas`, `Espacio`, `Ciega`, `Heuristica`, `Local`, `Geneticos`, `CasosU2`)
+- `src/contenido/preguntas/u2*.ts` — banco de preguntas y casos integradores de la Unidad 2
 
 ### La decisión que más importa
 
