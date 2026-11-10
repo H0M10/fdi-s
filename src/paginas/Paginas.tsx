@@ -250,8 +250,8 @@ export function ComparadorU2() {
       <p className="entrada">
         Aquí tienes absolutamente todo en orden del Tema 1 al Tema 6 sin salir de esta página: qué es cada concepto,
         representaciones gráficas de cómo se mueven BFS, DFS, Greedy, A*, Hill Climbing, Simulated Annealing y
-        Algoritmos Genéticos, qué es $g(n)$ y $h(n)$, óptimos locales vs globales, qué pasa al mover cada parámetro y
-        todas las preguntas de práctica abajo.
+        Algoritmos Genéticos, qué es <code>g(n)</code> y <code>h(n)</code>, óptimos locales vs globales, los 5 métodos
+        de cruzamiento y los 5 de mutación, qué pasa al mover cada parámetro y todas las preguntas de práctica abajo.
       </p>
       <div style={{ marginTop: 18 }}>
         <ComparadorAlgoritmos />

@@ -18,11 +18,11 @@ export type Ruta =
   | { pagina: 'tablas'; vista: 'conectores' | 'resolver' | 'enunciado' | 'comprobar'; problema?: string };
 
 const IDS = new Set(TODOS_LOS_TEMAS.map((t) => t.id));
-let actual = location.hash.slice(1) || 'inicio';
+let actual = location.hash.slice(1) || 'comparar';
 const oyentes = new Set<() => void>();
 
 window.addEventListener('hashchange', () => {
-  actual = location.hash.slice(1) || 'inicio';
+  actual = location.hash.slice(1) || 'comparar';
   oyentes.forEach((f) => f());
 });
 
@@ -32,6 +32,7 @@ export function ir(destino: string) {
 }
 
 export function interpretar(h: string): Ruta {
+  if (h === 'inicio') return { pagina: 'inicio' };
   if (h === 'u1') return { pagina: 'inicio', unidad: 1 };
   if (h === 'u2') return { pagina: 'inicio', unidad: 2 };
   if (h.startsWith('tema-') && IDS.has(h.slice(5) as IdTema)) return { pagina: 'tema', tema: h.slice(5) as IdTema, practicar: false };
@@ -49,7 +50,7 @@ export function interpretar(h: string): Ruta {
   if (h.startsWith('tablas-resolver-')) return { pagina: 'tablas', vista: 'resolver', problema: h.slice('tablas-resolver-'.length) };
   if (h === 'tablas-enunciado') return { pagina: 'tablas', vista: 'enunciado' };
   if (h.startsWith('tablas-enunciado-')) return { pagina: 'tablas', vista: 'enunciado', problema: h.slice('tablas-enunciado-'.length) };
-  return { pagina: 'inicio' };
+  return { pagina: 'comparar' };
 }
 
 export function useRuta(): Ruta {
